@@ -1,0 +1,11 @@
+/* Empty. Add your own CSS if you like */
+
+.platform-android .popover {
+  top: 90px !important;
+  max-height: 150px;
+}
+
+.platform-ios .popover {
+  max-height: 150px;
+}
+
