@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ngCordova', 'ionic-material', 'starter.controllers', 'starter.services'])
+var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic-material','ngToast', 'starter.controllers', 'starter.services', 'ionMdInput'])
 
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -41,6 +41,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-material', 'starter.cont
       }
     };
   })
+  .config(['ngToastProvider', function(ngToast) {
+    ngToast.configure({
+      verticalPosition: 'bottom',
+      horizontalPosition: 'center'
+    });
+  }])
   .config(function ($stateProvider, $urlRouterProvider) {
 
     // Ionic uses AngularUI Router which uses the concept of states
@@ -64,7 +70,16 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-material', 'starter.cont
           }
         }
       })
+      .state('app.nuevaCategoria', {
+        url: '/nuevaCategoria',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/nuevaCategoria.html',
+            controller: 'NuevaCategoriaCtrl'
+          }
 
+        }
+      })
       .state('app.categorias', {
         url: '/categorias',
         views: {
@@ -79,5 +94,24 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-material', 'starter.cont
     $urlRouterProvider.otherwise('/app/categorias');
 
   });
+
+app.factory('Categoria',function(){
+
+  function Categoria(p_nombre,p_cantidad,p_precio){
+    this.nombre = p_nombre;
+    this.precioUnitario =p_precio;
+    this.cantidad = p_cantidad;
+  }
+
+  Categoria.prototype ={
+   nombre: '',
+    precioUnitario:'',
+    canitdad:'',
+    getTotal: function() {
+      return this.precioUnitario * this.cantidad;
+    }
+  };
+    return(Categoria);
+});
 
 

@@ -1,34 +1,25 @@
 <ion-view view-title="Categorias">
-  <ion-content ng-class="{expanded:isExpanded}" class="animate-fade-slide-down">
-    <ion-list class="animate-fade-slide-in">
-      <div class="item item-input-inset" style="border:none; padding: 1em">
-        <label class="item-input-wrapper">
-          <input type="text" placeholder="Nombre" ng-model="nombre" select-on-click>
-        </label>
-        <button class="button button-small button-balanced-100 button-fab" ng-click="agregarCategoria(nombre)">
-          <i class="icon ion-plus"></i>
-        </button>
-      </div>
+  <ion-content ng-class="{expanded:isExpanded}">
 
-      <ion-item class="item card-item" ng-repeat="cat in categorias">
+    <ion-list>
+      <ion-item class="card-item " ng-repeat="cat in getCategorias()">
         <div ng-click="seleccionarCategoria(cat)" class="card stable-bg ink ink-dark">
           <div class="item item-text-wrap">
 
             <strong>{{cat.nombre}}</strong>
 
             <div class="card-footer text-right">
-              <i class="icon ion-chatbubble positive"></i> 2
-              <i class="icon ion-heart assertive"></i> 4
-              <div class="pull-left">
-                <i class="icon ion-clock"></i> 12 mins ago
-              </div>
+              <i class="icon ion-ios-cart positive"></i> {{cat.cantidad}}
+              <i class="icon ion-social-usd assertive"></i> {{cat.precioUnitario}}
+              <i class="icon ion-android-people balanced"></i> {{cat.precioUnitario}}
             </div>
           </div>
         </div>
 
-
       </ion-item>
+
     </ion-list>
 
   </ion-content>
+  <button id="fab-categoria-plus" ng-click="nuevaCategoria()" class="button button-fab button-fab-bottom-right expanded button-balanced-900 spin"><i class="icon ion-plus-round"></i></button>
 </ion-view>

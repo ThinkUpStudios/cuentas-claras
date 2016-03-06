@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
   .run(function ($rootScope, $cordovaSocialSharing, $ionicPopover) {
     $ionicPopover.fromTemplateUrl('templates/menu.html', {
@@ -15,7 +15,7 @@ angular.module('starter.controllers', [])
     };
 
   })
-  .controller('AppCtrl', function ($scope, $ionicModal, $ionicPopover, $timeout) {
+  .controller('AppCtrl', function ($scope, $ionicModal, $ionicPopover, $timeout, Categoria) {
     // Form data for the login modal
     $scope.loginData = {};
     $scope.isExpanded = false;
@@ -98,43 +98,108 @@ angular.module('starter.controllers', [])
       }
     };
   })
-  .controller('CategoriasCtrl', function ($scope, $location, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService) {
+  .controller('CategoriasCtrl', function ($scope, $location, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, Categoria) {
     $scope.$parent.showHeader();
-    $scope.$parent.clearFabs();
+
     $scope.isExpanded = true;
     $scope.$parent.setExpanded(true);
     $scope.$parent.setHeaderFab('right');
-    $scope.categorias = categoriasService.getAll();
-    $scope.nombre = "";
 
+    $scope.nombre = "";
+    $scope.getCategorias = function () {
+      return categoriasService.getAll();
+    };
+    $scope.nuevaCategoria = function(){
+      categoriasService.seleccionar(new Categoria("",0,0));
+      $location.path("/app/nuevaCategoria");
+    };
     $scope.seleccionarCategoria = function (categoria) {
       categoriasService.seleccionar(categoria);
-      $location.path("/app/detalleCategoria");
+      $location.path("/app/nuevaCategoria");
     };
-    $scope.agregarCategoria = function (nombre) {
-      categoriasService.add({'nombre': nombre});
-      $scope.categorias = categoriasService.getAll();
-      $scope.nombre = "";
-      $timeout(function () {
-        ionicMaterialMotion.fadeSlideInRight({
-          selector: '.animate-fade-slide-in .item'
-        });
-
-      }, 100);
-    };
-
-
+    ionicMaterialMotion.fadeSlideInRight({
+      selector: '.animate-fade-slide-in-right .card-item'
+    });
     $timeout(function () {
-      ionicMaterialMotion.fadeSlideInRight({
-        selector: '.animate-fade-slide-down .item'
-      });
 
+
+      document.getElementById('fab-categoria-plus').classList.toggle('on');
 
     }, 200);
 
 
     // Activate ink for controller
     ionicMaterialInk.displayEffect();
+
+  })
+
+  .controller('NuevaCategoriaCtrl', function ($scope, $location, ngToast,  ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, Categoria) {
+    $scope.$parent.showHeader();
+    $scope.isExpanded = true;
+    $scope.$parent.setExpanded(true);
+
+    $scope.nombre_cat = "";
+    $scope.precioUnitario_cat = 0;
+    $scope.cantidad_cat = 0;
+    var categoria = categoriasService.getSeleccionada();
+    if(categoria) {
+      $scope.data = categoria;
+    }else{
+      $scope.data =  new Categoria("",0,0);
+    }
+
+
+    $scope.guardarCategoria = function (c) {
+      categoriasService.add(c);
+    };
+
+    $scope.crearCategoria = function () {
+      if ($scope.data.nombre == "") {
+        ngToast.create({
+          className: 'error',
+          content: 'Complete el Nombre',
+          verticalPosition: 'bottom',
+          timeout: 1500,
+          horizontalPosition: 'center'
+
+        });
+
+      } else {
+        this.guardarCategoria($scope.data);
+        $location.path("/categorias");
+      }
+    };
+
+    $scope.agregarCategoria = function () {
+      if ($scope.data.nombre == "") {
+        ngToast.create({
+          className: 'error',
+          content: 'Complete el Nombre',
+          verticalPosition: 'bottom',
+          timeout: 1500,
+          horizontalPosition: 'center'
+
+        });
+
+      } else {
+        this.guardarCategoria($scope.data);
+        $scope.data = new Categoria("",0,0);
+        ngToast.create({
+          className: 'success',
+          content: 'Categoría agregada',
+          verticalPosition: 'bottom',
+          timeout: 1500,
+          horizontalPosition: 'center'
+
+        });
+      }
+    };
+
+    $timeout(function () {
+      document.getElementById('fab-nuevo').classList.toggle('on');
+      document.getElementById('fab-next').classList.toggle('on');
+    }, 100);
+
 
   })
   .controller('DetalleCategoriaCtrl', function ($scope, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService) {
