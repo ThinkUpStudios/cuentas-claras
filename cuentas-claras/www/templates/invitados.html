@@ -1,0 +1,24 @@
+<ion-view view-title="Invitados">
+  <ion-content ng-class="{expanded:isExpanded}">
+
+    <ion-list>
+      <ion-item class="card-item " ng-repeat="inv in getInvitados()">
+        <div ng-click="editarInvitado(inv)" class="card stable-bg ink ink-dark">
+          <div class="item item-text-wrap">
+
+            <strong>{{inv.nombre}}</strong>
+
+            <div class="card-footer text-right">
+              <i class="icon ion-social-usd assertive"></i> {{inv.aFavor}}
+
+            </div>
+          </div>
+        </div>
+
+      </ion-item>
+
+    </ion-list>
+
+  </ion-content>
+  <button id="fab-invitado-plus" ng-click="nuevoInvitado()" class="button button-fab button-fab-bottom-right expanded button-balanced-900 spin"><i class="icon ion-plus-round"></i></button>
+</ion-view>

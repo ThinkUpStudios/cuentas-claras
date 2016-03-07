@@ -1,5 +1,46 @@
 var app = angular.module('starter.services', [])
+  .factory('invitadosService', function () {
 
+    var invitados = [];
+    var invitadoSeleccionado;
+
+    return {
+      add: function (Invitado) {
+        if (!this.get(Invitado)) {
+          invitados.push(Invitado);
+        }
+      },
+      getSeleccionado: function () {
+        return invitadoSeleccionado;
+      },
+      seleccionar: function (invitado) {
+        invitadoSeleccionado = invitado;
+      },
+      getAll: function () {
+        return invitados;
+      },
+      remove: function (invitado) {
+        invitados.splice(invitados.indexOf(invitado), 1);
+      },
+      contarRegistradosEnCategoria: function(cat){
+        var count = 0;
+        invitados.forEach(function(e,i,a){
+          if(e.tieneCategoria(cat)){
+            count++;
+          }
+        });
+        return count;
+      },
+      get: function (invitado) {
+        for (var i = 0; i < invitados.length; i++) {
+          if (invitados[i].nombre == invitado.nombre) {
+            return invitados[i];
+          }
+        }
+        return null;
+      }
+    };
+  })
   .factory('categoriasService', function () {
 
     var categorias = [];

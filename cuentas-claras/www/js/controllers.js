@@ -98,14 +98,12 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       }
     };
   })
-  .controller('CategoriasCtrl', function ($scope, $location, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, Categoria) {
+  .controller('CategoriasCtrl', function ($scope, $location, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, invitadosService, Categoria) {
     $scope.$parent.showHeader();
 
     $scope.isExpanded = true;
     $scope.$parent.setExpanded(true);
     $scope.$parent.setHeaderFab('right');
-
-    $scope.nombre = "";
     $scope.getCategorias = function () {
       return categoriasService.getAll();
     };
@@ -117,6 +115,10 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       categoriasService.seleccionar(categoria);
       $location.path("/app/nuevaCategoria");
     };
+    $scope.calcularCantidad = function(cat){
+      return invitadosService.contarRegistradosEnCategoria(cat);
+    };
+
     ionicMaterialMotion.fadeSlideInRight({
       selector: '.animate-fade-slide-in-right .card-item'
     });
@@ -133,14 +135,111 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
   })
 
+  .controller('InvitadosCtrl', function ($scope, $location, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, invitadosService, Invitado) {
+    $scope.$parent.showHeader();
+    $scope.isExpanded = true;
+    $scope.$parent.setExpanded(true);
+    $scope.$parent.setHeaderFab('right');
+    $scope.getInvitados = function(){
+      return invitadosService.getAll();
+    };
+    $scope.nuevoInvitado = function(){
+      invitadosService.seleccionar(new Invitado(""));
+      $location.path("/app/nuevoInvitado");
+    };
+
+    $scope.editarInvitado = function(invitado){
+      invitadosService.seleccionar(invitado);
+      $location.path("/app/nuevoInvitado");
+    };
+    $timeout(function () {
+       document.getElementById('fab-invitado-plus').classList.toggle('on');
+    }, 200);
+
+
+    // Activate ink for controller
+    ionicMaterialInk.displayEffect();
+
+  })
+
+  .controller('NuevoInvitadoCtrl', function ($scope, $location, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, Invitado, invitadosService) {
+    $scope.$parent.showHeader();
+
+    $scope.isExpanded = true;
+    $scope.$parent.setExpanded(true);
+    $scope.$parent.setHeaderFab('right');
+    $scope.categoriasSeleccionadas =[];
+
+    function init(){
+      $scope.categoriasSeleccionadas = [];
+      var invitado = invitadosService.getSeleccionado();
+      if(invitado) {
+        $scope.invitado = invitado;
+      }else{
+        $scope.invitado =  new Invitado("");
+      }
+      var c;
+      for(var cat in categoriasService.getAll()){
+        c = categoriasService.getAll()[cat];
+        $scope.categoriasSeleccionadas.push({categoria:c, seleccionado: $scope.invitado.tieneCategoria(c)});
+      }
+    };
+
+    init();
+
+    $scope.getCategorias = function () {
+      return categoriasService.getAll();
+    };
+
+    $scope.getCategorias = function () {
+      return categoriasService.getAll();
+    };
+
+    $scope.quitarCategoria = function(categoria){
+      $scope.invitado.quitarCategoria(categoria);
+    };
+
+    $scope.guardarInvitado = function(){
+      var c;
+      for(var cat in $scope.categoriasSeleccionadas){
+        c = $scope.categoriasSeleccionadas[cat];
+        if(c.seleccionado){
+          $scope.invitado.agregarCategoria(c.categoria);
+        }
+      }
+      invitadosService.add($scope.invitado);
+    };
+
+    $scope.agregarNuevoInvitado = function(){
+      this.guardarInvitado();
+      invitadosService.seleccionar(new Invitado(""));
+      init();
+    };
+
+    $scope.crearInvitadoYVolver = function(){
+      this.guardarInvitado();
+      $location.path("/app/invitados");
+    };
+
+    $timeout(function () {
+      document.getElementById('fab-nuevoInvitado').classList.toggle('on');
+      document.getElementById('fab-nextInvitado').classList.toggle('on');
+    }, 100);
+
+    ionicMaterialMotion.fadeSlideInRight({
+      selector: '.animate-fade-slide-in-right .card-item'
+    });
+   // Activate ink for controller
+    ionicMaterialInk.displayEffect();
+
+  })
+
+
   .controller('NuevaCategoriaCtrl', function ($scope, $location, ngToast,  ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, Categoria) {
     $scope.$parent.showHeader();
     $scope.isExpanded = true;
     $scope.$parent.setExpanded(true);
 
-    $scope.nombre_cat = "";
-    $scope.precioUnitario_cat = 0;
-    $scope.cantidad_cat = 0;
     var categoria = categoriasService.getSeleccionada();
     if(categoria) {
       $scope.data = categoria;

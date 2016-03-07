@@ -80,6 +80,26 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic-material','ngT
 
         }
       })
+      .state('app.invitados', {
+        url: '/invitados',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/invitados.html',
+            controller: 'InvitadosCtrl'
+          }
+
+        }
+      })
+      .state('app.nuevoInvitado', {
+        url: '/nuevoInvitado',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/nuevoInvitado.html',
+            controller: 'NuevoInvitadoCtrl'
+          }
+
+        }
+      })
       .state('app.categorias', {
         url: '/categorias',
         views: {
@@ -114,4 +134,31 @@ app.factory('Categoria',function(){
     return(Categoria);
 });
 
+app.factory('Invitado',function(){
 
+  function Invitado(p_nombre){
+    this.nombre = p_nombre;
+    this.categorias = [];
+  }
+
+  Invitado.prototype ={
+    nombre: '',
+    categorias: [],
+    aFavor: 0,
+    agregarCategoria: function(categoria){
+      if(this.categorias.indexOf(categoria) == -1){
+        this.categorias.push(categoria);
+      }
+    },
+    quitarCategoria: function(categoria){
+      if(this.categorias.indexOf(categoria)){
+        this.categorias.splice(this.categorias.indexOf(categoria), 1);
+      }
+    },
+    tieneCategoria: function(categoria){
+      return this.categorias.indexOf(categoria)>-1;
+    }
+
+  };
+  return(Invitado);
+});
