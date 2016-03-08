@@ -151,6 +151,18 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     $scope.isExpanded = true;
     $scope.$parent.setExpanded(true);
     $scope.$parent.setHeaderFab('right');
+    $scope.totalCategorias = function(){
+      var total = 0;
+
+      categoriasService.getAll().forEach(function(cat,i,a){
+        total += cat.getTotal();
+      });
+      if(total == 0){
+        return "0,00"
+      }
+      return total;
+
+    };
     $scope.getInvitados = function(){
       return invitadosService.getAll();
     };
@@ -174,6 +186,20 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       invitadosService.seleccionar(invitado);
       $location.path("/app/nuevoInvitado");
     };
+
+    $scope.calcularTotal = function(){
+      var total = 0;
+
+      invitadosService.getAll().forEach(function(inv,i,a){
+        total += $scope.calcularSaldo(inv);
+      });
+      if(total == 0){
+        return "0,00"
+      }
+      return total;
+
+    };
+
     $timeout(function () {
        document.getElementById('fab-invitado-plus').classList.toggle('on');
     }, 200);

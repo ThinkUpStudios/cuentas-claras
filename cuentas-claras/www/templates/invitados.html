@@ -2,6 +2,19 @@
   <ion-content ng-class="{expanded:isExpanded}">
 
     <ion-list>
+      <ion-item >
+        <div class="card balanced-100-bg ink ink-dark" >
+          <div class="item item-text-wrap">
+
+            <strong>Total de gastos:</strong>
+
+            <div class="text-right">
+              <i class="icon ion-social-usd assertive"></i> {{totalCategorias()}}
+
+            </div>
+          </div>
+        </div>
+      </ion-item>
       <ion-item class="card-item " ng-repeat="inv in getInvitados()">
         <div ng-click="editarInvitado(inv)" class="card stable-bg ink ink-dark">
           <div class="item item-text-wrap">
@@ -16,7 +29,19 @@
         </div>
 
       </ion-item>
+      <ion-item >
+        <div class="card balanced-100-bg ink ink-dark" >
+          <div class="item item-text-wrap">
 
+            <strong>Total a recaudar:</strong>
+
+            <div class="text-right">
+              <i class="icon ion-social-usd assertive"></i> {{calcularTotal()}}
+
+            </div>
+          </div>
+        </div>
+      </ion-item>
     </ion-list>
 
   </ion-content>
