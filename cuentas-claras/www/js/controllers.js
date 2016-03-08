@@ -108,7 +108,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       return categoriasService.getAll();
     };
     $scope.nuevaCategoria = function(){
-      categoriasService.seleccionar(new Categoria("",0,0));
+      categoriasService.seleccionar(new Categoria("",1,0));
       $location.path("/app/nuevaCategoria");
     };
     $scope.seleccionarCategoria = function (categoria) {
@@ -118,7 +118,18 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     $scope.calcularCantidad = function(cat){
       return invitadosService.contarRegistradosEnCategoria(cat);
     };
+    $scope.calcularTotal = function(){
+      var total = 0;
 
+      categoriasService.getAll().forEach(function(cat,i,a){
+        total += cat.getTotal();
+      });
+      if(total == 0){
+        return "0,00"
+      }
+      return total;
+
+    };
     ionicMaterialMotion.fadeSlideInRight({
       selector: '.animate-fade-slide-in-right .card-item'
     });
@@ -147,7 +158,18 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       invitadosService.seleccionar(new Invitado(""));
       $location.path("/app/nuevoInvitado");
     };
+    $scope.calcularSaldo = function(invitado){
+      var total= 0;
+      var inscriptos = 0;
+      invitado.categorias.forEach(function(cat,i,a){
+        inscriptos = invitadosService.contarRegistradosEnCategoria(cat);
+        if(inscriptos > 0) {
+          total += cat.getTotal() / inscriptos;
+        }
+      });
+      return total - invitado.aFavor;
 
+    };
     $scope.editarInvitado = function(invitado){
       invitadosService.seleccionar(invitado);
       $location.path("/app/nuevoInvitado");
@@ -244,7 +266,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     if(categoria) {
       $scope.data = categoria;
     }else{
-      $scope.data =  new Categoria("",0,0);
+      $scope.data =  new Categoria("",1,0);
     }
 
 
@@ -282,7 +304,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
       } else {
         this.guardarCategoria($scope.data);
-        $scope.data = new Categoria("",0,0);
+        $scope.data = new Categoria("",1,0);
         ngToast.create({
           className: 'success',
           content: 'Categoría agregada',

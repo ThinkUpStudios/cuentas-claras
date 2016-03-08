@@ -125,8 +125,8 @@ app.factory('Categoria',function(){
 
   Categoria.prototype ={
    nombre: '',
-    precioUnitario:'',
-    canitdad:'',
+    precioUnitario:0,
+    canitdad:1,
     getTotal: function() {
       return this.precioUnitario * this.cantidad;
     }
