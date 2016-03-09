@@ -46,8 +46,8 @@
 
               <strong>{{inv.nombre}}</strong>
 
-              <div class="card-footer text-right" ng-class="{'dark':calcularSaldo(inv)==0, 'assertive-900':calcularSaldo(inv)<0, 'balanced-900':calcularSaldo(inv)>0}">
-               <strong> {{getSaldo(inv)}}</strong>
+              <div class="card-footer text-right " ng-class="{'dark':calcularSaldo(inv)==0, 'assertive-900':calcularSaldo(inv)<0, 'balanced-900':calcularSaldo(inv)>0}">
+               <strong>{{getSaldo(inv)}}</strong>
 
               </div>
             </div>
@@ -62,6 +62,7 @@
     </ion-list>
 
   </ion-content>
+  <toast></toast>
   <button id="fab-invitado-plus" ng-click="nuevoInvitado()"
           class="button button-fab button-fab-bottom-right expanded button-balanced-900 spin"><i
     class="icon ion-plus-round"></i></button>
