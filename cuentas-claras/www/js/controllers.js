@@ -119,13 +119,13 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       return invitadosService.contarRegistradosEnCategoria(cat);
     };
 
-    $scope.$on('$stateChangeSuccess', function(){
-      $timeout(function(){
+    $scope.$on('$stateChangeSuccess', function () {
+      $timeout(function () {
         ionicMaterialMotion.ripple({
           selector: '.animate-ripple .item'
         });
 
-      },100)
+      }, 100)
     });
     $scope.calcularTotal = function () {
       var total = 0;
@@ -160,14 +160,14 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     $scope.pagados = [];
 
 
-    $scope.getSaldo = function(inv){
-    var total = $scope.calcularSaldo(inv);
-      if(total == 0){
+    $scope.getSaldo = function (inv) {
+      var total = $scope.calcularSaldo(inv);
+      if (total == 0) {
         return "Salió hecho";
-      }else if( total > 0){
+      } else if (total > 0) {
         return "Debe $" + total;
 
-      }else{
+      } else {
         return "A su favor $" + (total * -1);
       }
     };
@@ -185,17 +185,17 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
     };
 
-    $scope.yaPago = function(invitado){
-      return $scope.pagados.indexOf(invitado) >=0;
+    $scope.yaPago = function (invitado) {
+      return $scope.pagados.indexOf(invitado) >= 0;
     };
 
-    $scope.pagar = function(invitado){
-      if(!$scope.yaPago(invitado)){
+    $scope.pagar = function (invitado) {
+      if (!$scope.yaPago(invitado)) {
         $scope.pagados.push(invitado);
-        $scope.recaudado += $scope.calcularSaldo(invitado);
-      }else{
-        $scope.pagados.splice($scope.pagados.indexOf(invitado),1);
-        $scope.recaudado -= $scope.calcularSaldo(invitado);
+        $scope.recaudado += parseFloat($scope.calcularSaldo(invitado));
+      } else {
+        $scope.pagados.splice($scope.pagados.indexOf(invitado), 1);
+        $scope.recaudado -= parseFloat($scope.calcularSaldo(invitado));
       }
     };
     $scope.getInvitados = function () {
@@ -215,7 +215,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
           total += cat.getTotal() / inscriptos;
         }
       });
-      return total - invitado.aFavor;
+      return (total - invitado.aFavor).toFixed(2);
 
     };
     $scope.editarInvitado = function (invitado) {
@@ -223,21 +223,21 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       $location.path("/app/nuevoInvitado");
     };
 
-    $scope.$on('$stateChangeSuccess', function(){
+    $scope.$on('$stateChangeSuccess', function () {
       $scope.balance = $scope.calcularBalance();
 
-      $timeout(function(){
+      $timeout(function () {
         ionicMaterialMotion.ripple({
           selector: '.animate-ripple .item'
         });
 
-      },100)
+      }, 100)
     });
 
-    $scope.calcularTotal = function(){
+    $scope.calcularTotal = function () {
       var total = 0;
 
-      invitadosService.getAll().forEach(function(inv,i,a){
+      invitadosService.getAll().forEach(function (inv, i, a) {
         total += $scope.calcularSaldo(inv);
       });
       return total;
@@ -271,7 +271,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
   })
 
-  .controller('NuevoInvitadoCtrl', function ($scope, $location, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, Invitado, invitadosService) {
+  .controller('NuevoInvitadoCtrl', function ($scope, $location, ngToast,ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, Invitado, invitadosService) {
     $scope.$parent.showHeader();
 
     $scope.isExpanded = true;
@@ -282,16 +282,22 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     function init() {
       $scope.categoriasSeleccionadas = [];
       var invitado = invitadosService.getSeleccionado();
+      var c;
+
       if (invitado) {
         $scope.invitado = invitado;
       } else {
         $scope.invitado = new Invitado("");
+
       }
-      var c;
-      for (var cat in categoriasService.getAll()) {
-        c = categoriasService.getAll()[cat];
-        $scope.categoriasSeleccionadas.push({categoria: c, seleccionado: $scope.invitado.tieneCategoria(c)});
-      }
+      categoriasService.getAll().forEach(function (cat, i, a) {
+
+        if ($scope.invitado.nombre == "") {
+          $scope.invitado.agregarCategoria(cat);
+        }
+        $scope.categoriasSeleccionadas.push({categoria: cat, seleccionado: $scope.invitado.tieneCategoria(cat)});
+      });
+
     };
 
     init();
@@ -314,7 +320,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
         c = $scope.categoriasSeleccionadas[cat];
         if (c.seleccionado) {
           $scope.invitado.agregarCategoria(c.categoria);
-        }else{
+        } else {
           $scope.invitado.quitarCategoria(c.categoria);
         }
       }
@@ -322,14 +328,44 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     };
 
     $scope.agregarNuevoInvitado = function () {
-      this.guardarInvitado();
-      invitadosService.seleccionar(new Invitado(""));
-      init();
+      if ($scope.invitado.nombre == "") {
+        ngToast.create({
+          className: 'error',
+          content: 'Complete el Nombre',
+          verticalPosition: 'bottom',
+          timeout: 1500,
+          horizontalPosition: 'center'
+
+        });
+      } else {
+        this.guardarInvitado();
+        invitadosService.seleccionar(new Invitado(""));
+        ngToast.create({
+          className: 'success',
+          content: 'Categoría agregada',
+          verticalPosition: 'bottom',
+          timeout: 1500,
+          horizontalPosition: 'center'
+
+        });
+        init();
+      }
     };
 
     $scope.crearInvitadoYVolver = function () {
-      this.guardarInvitado();
-      $location.path("/app/invitados");
+      if ($scope.invitado.nombre == "") {
+        ngToast.create({
+          className: 'error',
+          content: 'Complete el Nombre',
+          verticalPosition: 'bottom',
+          timeout: 1500,
+          horizontalPosition: 'center'
+
+        });
+      } else {
+        this.guardarInvitado();
+        $location.path("/app/invitados");
+      }
     };
 
     $timeout(function () {
