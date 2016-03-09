@@ -1,7 +1,20 @@
 <ion-view view-title="Categorias">
   <ion-content ng-class="{expanded:isExpanded}">
 
-    <ion-list>
+
+    <ion-list class="animate-ripple">
+      <ion-item class="item-totals">
+        <div class="card balanced-100-bg ink ink-dark">
+          <div class="row positive-900">
+            <div class="col">
+              <strong>Total Gastos</strong>
+            </div>
+            <div class="text-right col">
+              <i class="icon ion-social-usd assertive"></i> {{calcularTotal()}}
+            </div>
+          </div>
+        </div>
+      </ion-item>
       <ion-item class="card-item " ng-repeat="cat in getCategorias()">
         <div ng-click="seleccionarCategoria(cat)" class="card stable-bg ink ink-dark">
           <div class="item item-text-wrap">
@@ -9,7 +22,6 @@
             <strong>{{cat.nombre}}</strong>
 
             <div class="card-footer text-right">
-              <i class="icon ion-ios-cart positive"></i> {{cat.cantidad}}
               <i class="icon ion-social-usd assertive"></i> {{cat.getTotal()}}
               <i class="icon ion-android-people balanced"></i> {{calcularCantidad(cat)}}
             </div>
@@ -17,18 +29,9 @@
         </div>
 
       </ion-item>
-      <ion-item >
-        <div class="card balanced-100-bg ink ink-dark" >
-          <div class="item item-text-wrap">
 
-            <strong>Total:</strong>
+      <ion-item style="min-height: 2em" class="item-clear ">
 
-            <div class="text-right">
-              <i class="icon ion-social-usd assertive"></i> {{calcularTotal()}}
-
-            </div>
-          </div>
-        </div>
       </ion-item>
     </ion-list>
 

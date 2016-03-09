@@ -104,23 +104,17 @@
   transform: translate3d(0, 0, 0);
 }
 
-/* Bar - Header - Expanded
-==================================*/
-.expanded .bar.bar-header,
-.bar.bar-header.expanded {
-  height: 75px;
-}
 
 .expanded.bar.bar-header .title,
 .bar.bar-header.expanded .title {
-  bottom: 0;
+
   top: initial;
   padding-left: 16px;
 }
 
 .expanded .bar.bar-header .title.fab-left,
 .bar.bar-header.expanded .title.fab-left {
-  bottom: 0;
+
   left: 90px;
   position: absolute;
   right: initial;
@@ -129,7 +123,6 @@
 
 .expanded .bar.bar-header .title.fab-right,
 .bar.bar-header.expanded .title.fab-right {
-  bottom: 0;
   left: 4px;
   position: absolute;
   top: initial;
@@ -187,7 +180,6 @@
 }
 
 .expanded .bar.bar-header .title, .bar.bar-header.expanded .title {
-  bottom: 0;
   left: 42px !important;
   top: initial;
 }

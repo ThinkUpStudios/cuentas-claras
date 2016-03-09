@@ -1,5 +1,9 @@
 /* Empty. Add your own CSS if you like */
 
+ion-view{
+  background-color: rgb(245,245,245) !important;
+}
+
 .platform-android .popover {
   top: 90px !important;
   max-height: 150px;
@@ -45,4 +49,74 @@
 .alert.alert-error{
   color: white;
   background-color: indianred;
+}
+ion-item.item-totals{
+  padding: 0.5em;
+  border: none;
+}
+
+ion-item.item-sub-totals{
+  padding-right: 0.5em;
+  padding-top: 0.5em;
+  padding-left: 0.5em;
+  padding-bottom: 0;
+  margin-bottom: 0;
+
+}
+
+
+.item.item-totals{
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.button-unselected i{
+  color: rgba(0,0,0,0.1);
+}
+.button-balanced-100 i{
+  color: rgba(0,150,15,0.8) !important;
+}
+ion-item.item-sub-totals .card{
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 3em;
+
+}
+
+.item.item-invitado{
+  margin: auto  ;
+  padding-top: 0 ;
+  padding-bottom: 0;
+}
+ion-item.item-sub-totals .card span{
+  min-height: 3em;
+  vertical-align: middle;
+  margin: auto;
+
+}
+
+ion-item.item-sub-totals .card strong{
+  vertical-align: middle;
+}
+.item-totals .col{
+  vertical-align: middle;
+  margin: auto;
+}
+.bar.bar-header.expanded .title{
+  bottom: initial !important;
+}
+.expanded .bar.bar-header .title{
+  bottom: initial !important;
+}
+.has-header.expanded{
+  top:4em;
+}
+.bar.bar-header {
+  height: 2.5em !important;
+  bottom: initial !important;
+}
+
+.item-totals hr{
+  height: 0;
+  border: 1px solid rgba(19, 18, 228, 0.04);
+
 }

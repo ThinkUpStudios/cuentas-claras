@@ -117,18 +117,16 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic-material','ngT
 
 app.factory('Categoria',function(){
 
-  function Categoria(p_nombre,p_cantidad,p_precio){
+  function Categoria(p_nombre,p_precio){
     this.nombre = p_nombre;
     this.precioUnitario =p_precio;
-    this.cantidad = p_cantidad;
   }
 
   Categoria.prototype ={
    nombre: '',
     precioUnitario:0,
-    canitdad:1,
     getTotal: function() {
-      return this.precioUnitario * this.cantidad;
+      return this.precioUnitario;
     }
   };
     return(Categoria);
@@ -139,6 +137,7 @@ app.factory('Invitado',function(){
   function Invitado(p_nombre){
     this.nombre = p_nombre;
     this.categorias = [];
+    this.aFavor = 0;
   }
 
   Invitado.prototype ={
@@ -151,7 +150,7 @@ app.factory('Invitado',function(){
       }
     },
     quitarCategoria: function(categoria){
-      if(this.categorias.indexOf(categoria)){
+      if(this.tieneCategoria(categoria)){
         this.categorias.splice(this.categorias.indexOf(categoria), 1);
       }
     },

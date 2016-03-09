@@ -107,37 +107,40 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     $scope.getCategorias = function () {
       return categoriasService.getAll();
     };
-    $scope.nuevaCategoria = function(){
-      categoriasService.seleccionar(new Categoria("",1,0));
+    $scope.nuevaCategoria = function () {
+      categoriasService.seleccionar(new Categoria("", 0));
       $location.path("/app/nuevaCategoria");
     };
     $scope.seleccionarCategoria = function (categoria) {
       categoriasService.seleccionar(categoria);
       $location.path("/app/nuevaCategoria");
     };
-    $scope.calcularCantidad = function(cat){
+    $scope.calcularCantidad = function (cat) {
       return invitadosService.contarRegistradosEnCategoria(cat);
     };
-    $scope.calcularTotal = function(){
+
+    $scope.$on('$stateChangeSuccess', function(){
+      $timeout(function(){
+        ionicMaterialMotion.ripple({
+          selector: '.animate-ripple .item'
+        });
+
+      },100)
+    });
+    $scope.calcularTotal = function () {
       var total = 0;
 
-      categoriasService.getAll().forEach(function(cat,i,a){
+      categoriasService.getAll().forEach(function (cat, i, a) {
         total += cat.getTotal();
       });
-      if(total == 0){
-        return "0,00"
+      if (total == 0) {
+        return "0.00"
       }
       return total;
 
     };
-    ionicMaterialMotion.fadeSlideInRight({
-      selector: '.animate-fade-slide-in-right .card-item'
-    });
     $timeout(function () {
-
-
       document.getElementById('fab-categoria-plus').classList.toggle('on');
-
     }, 200);
 
 
@@ -151,41 +154,85 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     $scope.isExpanded = true;
     $scope.$parent.setExpanded(true);
     $scope.$parent.setHeaderFab('right');
-    $scope.totalCategorias = function(){
+    $scope.balance = "Cuentas Claras!";
+    $scope.showBalance = false;
+    $scope.recaudado = 0;
+    $scope.pagados = [];
+
+
+    $scope.getSaldo = function(inv){
+    var total = $scope.calcularSaldo(inv);
+      if(total == 0){
+        return "Salió hecho";
+      }else if( total > 0){
+        return "Debe $" + total;
+
+      }else{
+        return "A su favor $" + (total * -1);
+      }
+    };
+
+    $scope.totalCategorias = function () {
       var total = 0;
 
-      categoriasService.getAll().forEach(function(cat,i,a){
+      categoriasService.getAll().forEach(function (cat, i, a) {
         total += cat.getTotal();
       });
-      if(total == 0){
-        return "0,00"
+      if (total == 0) {
+        return "0.00"
       }
       return total;
 
     };
-    $scope.getInvitados = function(){
-      return invitadosService.getAll();
+
+    $scope.yaPago = function(invitado){
+      return $scope.pagados.indexOf(invitado) >=0;
     };
-    $scope.nuevoInvitado = function(){
+
+    $scope.pagar = function(invitado){
+      if(!$scope.yaPago(invitado)){
+        $scope.pagados.push(invitado);
+        $scope.recaudado += $scope.calcularSaldo(invitado);
+      }else{
+        $scope.pagados.splice($scope.pagados.indexOf(invitado),1);
+        $scope.recaudado -= $scope.calcularSaldo(invitado);
+      }
+    };
+    $scope.getInvitados = function () {
+      return invitadosService.getAll();
+
+    };
+    $scope.nuevoInvitado = function () {
       invitadosService.seleccionar(new Invitado(""));
       $location.path("/app/nuevoInvitado");
     };
-    $scope.calcularSaldo = function(invitado){
-      var total= 0;
+    $scope.calcularSaldo = function (invitado) {
+      var total = 0;
       var inscriptos = 0;
-      invitado.categorias.forEach(function(cat,i,a){
+      invitado.categorias.forEach(function (cat, i, a) {
         inscriptos = invitadosService.contarRegistradosEnCategoria(cat);
-        if(inscriptos > 0) {
+        if (inscriptos > 0) {
           total += cat.getTotal() / inscriptos;
         }
       });
       return total - invitado.aFavor;
 
     };
-    $scope.editarInvitado = function(invitado){
+    $scope.editarInvitado = function (invitado) {
       invitadosService.seleccionar(invitado);
       $location.path("/app/nuevoInvitado");
     };
+
+    $scope.$on('$stateChangeSuccess', function(){
+      $scope.balance = $scope.calcularBalance();
+
+      $timeout(function(){
+        ionicMaterialMotion.ripple({
+          selector: '.animate-ripple .item'
+        });
+
+      },100)
+    });
 
     $scope.calcularTotal = function(){
       var total = 0;
@@ -193,15 +240,29 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       invitadosService.getAll().forEach(function(inv,i,a){
         total += $scope.calcularSaldo(inv);
       });
-      if(total == 0){
-        return "0,00"
-      }
       return total;
 
     };
+    $scope.calcularBalance = function () {
+      var total = categoriasService.getTotalGastos() - invitadosService.getTotalAportado();
+
+
+      if (total == 0) {
+        $scope.showBalance = false;
+        return "Cuentas Claras!";
+      } else {
+        $scope.showBalance = true;
+        if (total < 0) {
+          return "Faltan asignar $ " + (total * -1) + " de gastos en las categorías";
+        } else {
+          return "Faltan asignar $ " + total + " a favor de los invitados";
+        }
+      }
+    };
 
     $timeout(function () {
-       document.getElementById('fab-invitado-plus').classList.toggle('on');
+
+      document.getElementById('fab-invitado-plus').classList.toggle('on');
     }, 200);
 
 
@@ -216,20 +277,20 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     $scope.isExpanded = true;
     $scope.$parent.setExpanded(true);
     $scope.$parent.setHeaderFab('right');
-    $scope.categoriasSeleccionadas =[];
+    $scope.categoriasSeleccionadas = [];
 
-    function init(){
+    function init() {
       $scope.categoriasSeleccionadas = [];
       var invitado = invitadosService.getSeleccionado();
-      if(invitado) {
+      if (invitado) {
         $scope.invitado = invitado;
-      }else{
-        $scope.invitado =  new Invitado("");
+      } else {
+        $scope.invitado = new Invitado("");
       }
       var c;
-      for(var cat in categoriasService.getAll()){
+      for (var cat in categoriasService.getAll()) {
         c = categoriasService.getAll()[cat];
-        $scope.categoriasSeleccionadas.push({categoria:c, seleccionado: $scope.invitado.tieneCategoria(c)});
+        $scope.categoriasSeleccionadas.push({categoria: c, seleccionado: $scope.invitado.tieneCategoria(c)});
       }
     };
 
@@ -243,28 +304,30 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       return categoriasService.getAll();
     };
 
-    $scope.quitarCategoria = function(categoria){
+    $scope.quitarCategoria = function (categoria) {
       $scope.invitado.quitarCategoria(categoria);
     };
 
-    $scope.guardarInvitado = function(){
+    $scope.guardarInvitado = function () {
       var c;
-      for(var cat in $scope.categoriasSeleccionadas){
+      for (var cat in $scope.categoriasSeleccionadas) {
         c = $scope.categoriasSeleccionadas[cat];
-        if(c.seleccionado){
+        if (c.seleccionado) {
           $scope.invitado.agregarCategoria(c.categoria);
+        }else{
+          $scope.invitado.quitarCategoria(c.categoria);
         }
       }
       invitadosService.add($scope.invitado);
     };
 
-    $scope.agregarNuevoInvitado = function(){
+    $scope.agregarNuevoInvitado = function () {
       this.guardarInvitado();
       invitadosService.seleccionar(new Invitado(""));
       init();
     };
 
-    $scope.crearInvitadoYVolver = function(){
+    $scope.crearInvitadoYVolver = function () {
       this.guardarInvitado();
       $location.path("/app/invitados");
     };
@@ -277,22 +340,22 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     ionicMaterialMotion.fadeSlideInRight({
       selector: '.animate-fade-slide-in-right .card-item'
     });
-   // Activate ink for controller
+    // Activate ink for controller
     ionicMaterialInk.displayEffect();
 
   })
 
 
-  .controller('NuevaCategoriaCtrl', function ($scope, $location, ngToast,  ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, Categoria) {
+  .controller('NuevaCategoriaCtrl', function ($scope, $location, ngToast, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, Categoria) {
     $scope.$parent.showHeader();
     $scope.isExpanded = true;
     $scope.$parent.setExpanded(true);
 
     var categoria = categoriasService.getSeleccionada();
-    if(categoria) {
+    if (categoria) {
       $scope.data = categoria;
-    }else{
-      $scope.data =  new Categoria("",1,0);
+    } else {
+      $scope.data = new Categoria("", 0);
     }
 
 
@@ -330,7 +393,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
       } else {
         this.guardarCategoria($scope.data);
-        $scope.data = new Categoria("",1,0);
+        $scope.data = new Categoria("", 0);
         ngToast.create({
           className: 'success',
           content: 'Categoría agregada',

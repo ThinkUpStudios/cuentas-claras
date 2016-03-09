@@ -22,6 +22,7 @@ var app = angular.module('starter.services', [])
       remove: function (invitado) {
         invitados.splice(invitados.indexOf(invitado), 1);
       },
+
       contarRegistradosEnCategoria: function(cat){
         var count = 0;
         invitados.forEach(function(e,i,a){
@@ -30,6 +31,13 @@ var app = angular.module('starter.services', [])
           }
         });
         return count;
+      },
+      getTotalAportado: function(){
+        var total = 0;
+        invitados.forEach(function(e,i,a){
+          total += e.aFavor;
+        });
+        return total;
       },
       get: function (invitado) {
         for (var i = 0; i < invitados.length; i++) {
@@ -63,6 +71,13 @@ var app = angular.module('starter.services', [])
       },
       remove: function (Categoria) {
         categorias.splice(categorias.indexOf(Categoria), 1);
+      },
+      getTotalGastos: function(){
+        var total =0;
+        categorias.forEach(function(e,i,a){
+          total +=e.getTotal();
+        })
+        return total;
       },
       get: function (Categoria) {
         for (var i = 0; i < categorias.length; i++) {

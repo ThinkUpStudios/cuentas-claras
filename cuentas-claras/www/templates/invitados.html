@@ -1,49 +1,68 @@
 <ion-view view-title="Invitados">
   <ion-content ng-class="{expanded:isExpanded}">
 
-    <ion-list>
-      <ion-item >
-        <div class="card balanced-100-bg ink ink-dark" >
-          <div class="item item-text-wrap">
-
-            <strong>Total de gastos:</strong>
-
-            <div class="text-right">
+    <ion-list class="animate-ripple">
+      <ion-item class="item-totals">
+        <div class="card balanced-100-bg ink ink-dark">
+          <div class="row positive-900">
+            <div class="col">
+              <strong>Total Gastos</strong>
+            </div>
+            <div class="text-right col">
               <i class="icon ion-social-usd assertive"></i> {{totalCategorias()}}
-
             </div>
           </div>
         </div>
       </ion-item>
-      <ion-item class="card-item " ng-repeat="inv in getInvitados()">
-        <div ng-click="editarInvitado(inv)" class="card stable-bg ink ink-dark">
-          <div class="item item-text-wrap">
+      <ion-item class="item-totals">
+        <div class="card balanced-100-bg ink ink-dark">
+          <div class="row positive-900">
+            <div class="col">
+              <strong>Recaudado</strong>
+            </div>
+            <div class="text-right col">
+              <i class="icon ion-social-usd assertive"></i> {{recaudado}}
+            </div>
+          </div>
+        </div>
+      </ion-item>
+      <ion-item class="item-sub-totals" ng-show="showBalance">
+        <div class="card assertive-900-bg ink ink-dark text-center item-text-wrap">
+          <span><strong> {{balance}}</strong></span>
 
-            <strong>{{inv.nombre}}</strong>
 
-            <div class="card-footer text-right">
-              <i class="icon ion-social-usd assertive"></i> {{calcularSaldo(inv)}}
+        </div>
 
+
+      </ion-item>
+
+      <ion-item class="item-invitado"  ng-repeat="inv in getInvitados()">
+        <div  class="card ink  " ng-class="{'balanced-100-bg': yaPago(inv)}">
+          <div class="row ">
+            <div class="col col-20">
+              <button class="button button-fab button-unselected " ng-show="calcularSaldo(inv) >0 " ng-click="pagar(inv)" ng-class="{'button-balanced-100': yaPago(inv)}"><i class="icon ion-checkmark"></i></button>
+            </div>
+            <div class="item item-text-wrap col item-data" ng-click="editarInvitado(inv)">
+
+              <strong>{{inv.nombre}}</strong>
+
+              <div class="card-footer text-right" ng-class="{'dark':calcularSaldo(inv)==0, 'assertive-900':calcularSaldo(inv)<0, 'balanced-900':calcularSaldo(inv)>0}">
+               <strong> {{getSaldo(inv)}}</strong>
+
+              </div>
             </div>
           </div>
         </div>
 
       </ion-item>
-      <ion-item >
-        <div class="card balanced-100-bg ink ink-dark" >
-          <div class="item item-text-wrap">
 
-            <strong>Total a recaudar:</strong>
+      <ion-item style="min-height: 2em" class="item-clear ">
 
-            <div class="text-right">
-              <i class="icon ion-social-usd assertive"></i> {{calcularTotal()}}
-
-            </div>
-          </div>
-        </div>
       </ion-item>
     </ion-list>
 
   </ion-content>
-  <button id="fab-invitado-plus" ng-click="nuevoInvitado()" class="button button-fab button-fab-bottom-right expanded button-balanced-900 spin"><i class="icon ion-plus-round"></i></button>
+  <button id="fab-invitado-plus" ng-click="nuevoInvitado()"
+          class="button button-fab button-fab-bottom-right expanded button-balanced-900 spin"><i
+    class="icon ion-plus-round"></i></button>
 </ion-view>
