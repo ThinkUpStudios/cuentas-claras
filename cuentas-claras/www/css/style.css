@@ -294,7 +294,8 @@ ion-item.item-sub-totals .card{
   padding-top: 0;
 }
 .card.item-invitado{
-  background-color: rgba(185,187,241,0.11);
+  background-color: rgba(255,255,255,0.7);
+
 }
 
 .item.item-data{
