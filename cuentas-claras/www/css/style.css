@@ -1,7 +1,135 @@
 /* Empty. Add your own CSS if you like */
 
+/*
+  Color definitions
+*/
+
+
+.rgba-primary-0 { color: rgba( 88,150,193,1) }	/* Main Primary color */
+.rgba-primary-1 { color: rgba(178,213,238,1) }
+.rgba-primary-2 { color: rgba(128,180,218,1) }
+.rgba-primary-3 { color: rgba( 57,121,166,1) }
+.rgba-primary-4 { color: rgba( 31,101,150,1) }
+
+.rgba-secondary-1-0 { color: rgba(102,105,203,1) }	/* Main Secondary color (1) */
+.rgba-secondary-1-1 { color: rgba(185,187,241,1) }
+.rgba-secondary-1-2 { color: rgba(139,141,223,1) }
+.rgba-secondary-1-3 { color: rgba( 72, 75,180,1) }
+.rgba-secondary-1-4 { color: rgba( 46, 49,163,1) }
+
+.rgba-secondary-2-0 { color: rgba( 84,202,148,1) }	/* Main Secondary color (2) */
+.rgba-secondary-2-1 { color: rgba(175,241,211,1) }
+.rgba-secondary-2-2 { color: rgba(125,223,178,1) }
+.rgba-secondary-2-3 { color: rgba( 53,178,121,1) }
+.rgba-secondary-2-4 { color: rgba( 25,161, 99,1) }
+
+
+.rgba-secondary-2-0-bg { background-color: rgba( 84,202,148,1) }	/* Main Secondary color (2) */
+.rgba-secondary-2-1-bg { background-color: rgba(175,241,211,1) }
+.rgba-secondary-2-2-bg { background-color: rgba(125,223,178,1) }
+.rgba-secondary-2-3-bg { background-color: rgba( 53,178,121,1) }
+.rgba-secondary-2-4-bg { background-color: rgba( 25,161, 99,1) }
+
+.animate-fade-in {
+  -webkit-transition: 1s linear all; /* Chrome */
+  transition: 300ms linear all;
+  opacity: 0;
+  display: block;
+}
+.ya-pago-bg{
+  background-color: rgb(201, 234, 219);
+}
+.item-invitado .card{
+  box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, .26);
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin: 5px;
+}
+.button-ya-pago{
+  background-color: rgba(125,223,178,1) ;
+  color: rgba(255,255,255,0.99);
+}
+.button-ya-pago i{
+
+  color: rgba(255,255,255,0.99);
+}
+.button-ya-pago:hover{
+
+  color: rgba(255,255,255,0.7);
+}
+.bar.bar-royal{
+  background-color: rgba( 31,101,150,1);
+  color:rgba(178,213,238,1));
+}
+
+.button-primary{
+  color:rgba(178,213,238,1));
+}
+
+.animate-fade-in.animate-fade-in-active{
+  opacity: 1;
+}
+
+.animate-expand {
+  height: 2em;
+}
+.animate-expand.ng-hide-add,
+.animate-expand.ng-hide-remove {
+  display: block !important;
+  left: 0;
+}
+
+.animate-expand.ng-hide-add {
+  -webkit-animation:1s hide;
+  animation:500ms hide;
+}
+
+@keyframes hide {
+  from { height: 2em; }
+  to { height: 0; }
+}
+
+@-webkit-keyframes hide {
+  from { height: 2em; }
+  to { height: 0; }
+}
+
+.animate-expand.ng-hide-remove {
+  -webkit-animation:500ms show;
+  animation:500ms show;
+
+}
+
+@keyframes show {
+  from { height: 0; }
+  to { height: 2em; }
+}
+
+@-webkit-keyframes show {
+  from { height: 0; }
+  to { height: 2em; }
+}
+ion-view:before{
+  content: ' ';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image: url("/img/background.png");
+
+  background-position: 50% 0;
+
+  opacity: 0.15;
+
+}
+
 ion-view{
   background-color: rgb(245,245,245) !important;
+opacity: 1;
+
 }
 
 .platform-android .popover {
@@ -12,13 +140,67 @@ ion-view{
 .platform-ios .popover {
   max-height: 150px;
 }
+.item-totals .error{
+  border-radius: 5px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  background-color: rgba( 88,150,193,1) ;
+}
 
 .item-md-label .input-label{
   color: rgba(0,0,0,0.7);
 
 }
 
+.categorias-subtotales{
+  width: 100%;
+  z-index: 4;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+  margin-top: 0;
+  padding: 10px;
+  position: absolute;
+  color: rgba(178,213,238,1);
+  background-color: rgba( 57,121,166,1);
+}
+.categorias-subtotales div{
+  color:white;
+}
 
+.invitados-subtotales{
+  width: 100%;
+  z-index: 4;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+  margin-top: 0;
+  padding: 10px;
+  position: absolute;
+  color: rgba(178,213,238,1);
+  background-color: rgba( 57,121,166,1);
+}
+.invitados-subtotales div{
+  color:white;
+}
+.has-subtotales{
+  margin-top: 6em;
+}
+
+.has-subtotales.error{
+  margin-top: 8em;
+}
+.has-categorias-subtotales{
+  margin-top: 2em;
+}
+.tutorial{
+  position: fixed;
+  bottom: 6em;
+  left: 1em;
+  background-color: rgb(231, 238, 243);
+  color: rgb(31, 101, 150);
+  padding: 10px;
+  border-radius: 2px;
+  text-align: center;
+  display: block;
+  box-shadow: 10px 10px 10px 0px rgba(0, 0, 0, .26);
+}
 .item-md-label input{
   background-color: transparent;
   border: 0;
@@ -46,6 +228,34 @@ ion-view{
   background-color: limegreen;
   }
 
+.button-fab-small i{
+  font-size: 1.5em !important;
+}
+.button-fab-small{
+
+  width: 20px !important;
+  height: 20px !important;
+}
+.button-green:hover{
+  color:white;
+}
+
+.button-green i{
+  color:white !important;
+}
+.button-green{
+  background-color: rgba( 25,161, 99,1);
+  color:white !important;
+}
+
+.button-violeta:hover{
+  color:white;
+}
+.button-violeta{
+  background-color: rgba( 46, 49,163,1);
+  color:white;
+}
+
 .alert.alert-error{
   color: white;
   background-color: indianred;
@@ -72,9 +282,7 @@ ion-item.item-sub-totals{
 .button-unselected i{
   color: rgba(0,0,0,0.1);
 }
-.button-balanced-100 i{
-  color: rgba(0,150,15,0.8) !important;
-}
+
 ion-item.item-sub-totals .card{
   margin-top: 0;
   margin-bottom: 0;
@@ -86,9 +294,26 @@ ion-item.item-sub-totals .card{
   margin: auto  ;
   padding-top: 0 ;
   padding-bottom: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+
+
+}
+.card .card-footer{
+  padding-top: 0;
+}
+.card.item-invitado{
+  background-color: rgba(185,187,241,0.11);
+}
+
+.item.item-data{
+  color:rgba(102,105,203,1);
+  padding-top: 5px;
+  padding-bottom: 5px;
+
 }
 ion-item.item-sub-totals .card span{
-  min-height: 3em;
+  min-height: 2em;
   vertical-align: middle;
   margin: auto;
 

@@ -1,53 +1,59 @@
 <ion-view view-title="Quiénes somos?">
-  <ion-content ng-class="{expanded:isExpanded}">
-
-    <ion-list class="animate-ripple">
-      <ion-item class="item-totals">
-        <div class="card balanced-100-bg ink ink-dark">
-          <div class="row positive-900">
-            <div class="col">
-              <strong>Total Gastos</strong>
-            </div>
-            <div class="text-right col">
-              <i class="icon ion-social-usd assertive"></i> {{totalCategorias()}}
-            </div>
+  <div class="animate-ripple invitados-subtotales has-header">
+    <ion-item class="item-totals">
+      <div class="ink ink-dark">
+        <div class="row ">
+          <div class="col">
+            Total Gastos
+          </div>
+          <div class="text-right col">
+            <i class="icon ion-social-usd"></i> {{totalCategorias()}}
           </div>
         </div>
-      </ion-item>
-      <ion-item class="item-totals">
-        <div class="card balanced-100-bg ink ink-dark">
-          <div class="row positive-900">
-            <div class="col">
-              <strong>Recaudado</strong>
-            </div>
-            <div class="text-right col">
-              <i class="icon ion-social-usd assertive"></i> {{recaudado}}
-            </div>
+      </div>
+    </ion-item>
+    <ion-item class="item-totals">
+      <div class="ink ink-dark">
+        <div class="row ">
+          <div class="col">
+            Recaudado
+          </div>
+          <div class="text-right col">
+            <i class="icon ion-social-usd "></i> {{recaudado}}
           </div>
         </div>
-      </ion-item>
-      <ion-item class="item-sub-totals" ng-show="showBalance">
-        <div class="card assertive-900-bg ink ink-dark text-center item-text-wrap">
-          <span><strong> {{balance}}</strong></span>
+      </div>
+    </ion-item>
+    <ion-item class="item-totals animate-expand" ng-show="showBalance" >
+      <div class="ink calm-900-bg ink-dark text-center item-text-wrap error">
+        <span>{{balance}}</span>
 
 
-        </div>
+      </div>
 
 
-      </ion-item>
+    </ion-item>
+  </div>
+  <ion-content ng-class="{expanded:isExpanded, error:!showBalance}" class="has-subtotales animate-ripple">
 
-      <ion-item class="item-invitado"  ng-repeat="inv in getInvitados()">
-        <div  class="card ink  " ng-class="{'balanced-100-bg': yaPago(inv)}">
+    <ion-list>
+
+
+      <ion-item class="item-invitado" ng-repeat="inv in getInvitados()">
+        <div class="card ink light-bg" >
           <div class="row ">
             <div class="col col-20">
-              <button class="button button-fab button-unselected " ng-show="calcularSaldo(inv) >0 " ng-click="pagar(inv)" ng-class="{'button-balanced-100': yaPago(inv)}"><i class="icon ion-checkmark"></i></button>
+              <button class="button button-fab button-fab-small" ng-show="calcularSaldo(inv) >0 "
+                      ng-click="pagar(inv)" ng-class="{'button-ya-pago': yaPago(inv)}"><i
+                class="icon ion-checkmark"></i></button>
             </div>
             <div class="item item-text-wrap col item-data" ng-click="editarInvitado(inv)">
 
               <strong>{{inv.nombre}}</strong>
 
-              <div class="card-footer text-right " ng-class="{'dark':calcularSaldo(inv)==0, 'assertive-900':calcularSaldo(inv)<0, 'balanced-900':calcularSaldo(inv)>0}">
-               <strong>{{getSaldo(inv)}}</strong>
+              <div class="card-footer text-right "
+                   ng-class="{'dark':calcularSaldo(inv)==0, 'assertive-900':calcularSaldo(inv)<0, 'balanced-900':calcularSaldo(inv)>0}">
+                {{getSaldo(inv)}}
 
               </div>
             </div>
@@ -63,11 +69,11 @@
 
   </ion-content>
   <toast></toast>
-  <div class="balanced-900 card tutorial" style="position: fixed; bottom: 6em; left: 1em; padding: 1em"
-       ng-show="getInvitados().length == 0">
-    <strong> Hacé click en el <i class="icon ion-plus-circled"></i> para agregar una invitados </strong>
+  <div ng-show="getInvitados().length == 0" class="tutorial animate-fade-in">
+     Hacé click en el <strong><i class="icon ion-plus-circled"></i></strong> para agregar in invitado
   </div>
+
   <button id="fab-invitado-plus" ng-click="nuevoInvitado()"
-          class="button button-fab button-fab-bottom-right expanded button-balanced-900 spin"><i
+          class="button button-fab button-fab-bottom-right expanded button-green spin"><i
     class="icon ion-plus-round"></i></button>
 </ion-view>

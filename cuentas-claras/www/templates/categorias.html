@@ -1,29 +1,29 @@
 <ion-view view-title="Qué compramos?">
-  <ion-content ng-class="{expanded:isExpanded}">
-
-
-    <ion-list class="animate-ripple">
-      <ion-item class="item-totals">
-        <div class="card balanced-100-bg ink ink-dark">
-          <div class="row positive-900">
-            <div class="col">
-              <strong>Total Gastos</strong>
-            </div>
-            <div class="text-right col">
-              <i class="icon ion-social-usd assertive"></i> {{calcularTotal()}}
-            </div>
-          </div>
+  <div class="categorias-subtotales has-header">
+  <ion-item class="item-totals">
+    <div class="ink ink-dark">
+      <div class="row">
+        <div class="col">
+          Total Gastos
         </div>
-      </ion-item>
-      <ion-item class="card-item " ng-repeat="cat in getCategorias()">
+        <div class="text-right col">
+          <i class="icon ion-social-usd"></i> {{calcularTotal()}}
+        </div>
+      </div>
+    </div>
+  </ion-item>
+  </div>
+  <ion-content ng-class="{expanded:isExpanded}" class="has-categorias-subtotales">
+    <ion-list class="animate-ripple ">
+      <ion-item class="card-item item-invitado" ng-repeat="cat in getCategorias()">
         <div ng-click="seleccionarCategoria(cat)" class="card ink ink-dark">
-          <div class="item item-text-wrap">
+          <div class="item item-text-wrap item-data">
 
             <strong>{{cat.nombre}}</strong>
 
-            <div class="card-footer text-right">
-              <i class="icon ion-social-usd assertive"></i> {{cat.getTotal()}}
-              <i class="icon ion-android-people balanced"></i> {{calcularCantidad(cat)}}
+            <div class="card-footer text-right rgba-secondary-2-4">
+              <i class="icon ion-social-usd"></i> {{cat.getTotal()}}
+              <i class="icon ion-android-people"></i> {{calcularCantidad(cat)}}
             </div>
           </div>
         </div>
@@ -37,13 +37,14 @@
 
   </ion-content>
 
-  <div class="balanced-900 card tutorial" style="position: fixed; bottom: 6em; left: 1em; padding: 1em"
-       ng-show="getCategorias().length == 0">
-    <strong> Hacé click en el <i class="icon ion-plus-circled"></i> para agregar una categoría </strong>
 
-  </div>
+
+    <div  ng-show="getCategorias().length == 0" class="tutorial animate-fade-in " >
+      Hacé click en el <strong><i class="icon ion-plus-circled"></i></strong> para agregar una categoría
+    </div>
+
   <button id="fab-categoria-plus" ng-click="nuevaCategoria()"
-          class="button button-fab button-fab-bottom-right expanded button-balanced-900 spin"><i
+          class="button button-fab button-fab-bottom-right expanded button-green spin"><i
     class="icon ion-plus-round"></i></button>
 
 </ion-view>

@@ -98,7 +98,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       }
     };
   })
-  .controller('CategoriasCtrl', function ($scope, $location, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, invitadosService, Categoria) {
+  .controller('CategoriasCtrl', function ($scope, $location, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, $document, invitadosService, Categoria) {
     $scope.$parent.showHeader();
 
     $scope.isExpanded = true;
@@ -120,6 +120,13 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     };
 
     $scope.$on('$stateChangeSuccess', function () {
+      if($scope.getCategorias().length >0){
+        $timeout(function () {
+          var elements =document.getElementsByClassName('tutorial');
+          for(var i=0; i <elements.length; i++){elements[i].classList.toggle('animate-fade-in-active')}
+        },200);
+      };
+
       $timeout(function () {
         ionicMaterialMotion.ripple({
           selector: '.animate-ripple .item'
@@ -140,8 +147,13 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
     };
     $timeout(function () {
+      var elements =document.getElementsByClassName('tutorial');
+      for(var i=0; i <elements.length; i++){elements[i].classList.toggle('animate-fade-in-active')};
+    }, 800);
+
+    $timeout(function () {
       document.getElementById('fab-categoria-plus').classList.toggle('on');
-      document.getElementsByClassName('.tutorial').classList.toggle('on');
+
 
     }, 200);
 
@@ -226,13 +238,30 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
     $scope.$on('$stateChangeSuccess', function () {
       $scope.balance = $scope.calcularBalance();
+      $timeout(function () {
+        if($scope.showBalance){
+          if(!document.getElementsByClassName('has-subtotales')[0].classList.contains('error')){
+            document.getElementsByClassName('has-subtotales')[0].classList.add('error');
+          }
+        }else{
+          document.getElementsByClassName('has-subtotales')[0].classList.remove('error');
+        }
+
+      }, 200);
+
+      if($scope.getInvitados().length >0){
+        $timeout(function () {
+          var elements =document.getElementsByClassName('tutorial');
+          for(var i=0; i <elements.length; i++){elements[i].classList.toggle('animate-fade-in-active')}
+        },200);
+      }
 
       $timeout(function () {
         ionicMaterialMotion.ripple({
           selector: '.animate-ripple .item'
         });
 
-      }, 100)
+      }, 200)
     });
 
     $scope.calcularTotal = function () {
@@ -244,8 +273,11 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       return total;
 
     };
+    function getTotalNeto(){
+      return  categoriasService.getTotalGastos() - invitadosService.getTotalAportado();
+    }
     $scope.calcularBalance = function () {
-      var total = categoriasService.getTotalGastos() - invitadosService.getTotalAportado();
+      var total = getTotalNeto();
 
 
       if (total == 0) {
@@ -266,7 +298,10 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       document.getElementById('fab-invitado-plus').classList.toggle('on');
     }, 200);
 
-
+    $timeout(function () {
+      var elements =document.getElementsByClassName('tutorial');
+      for(var i=0; i <elements.length; i++){elements[i].classList.toggle('animate-fade-in-active')};
+    }, 800);
     // Activate ink for controller
     ionicMaterialInk.displayEffect();
 
