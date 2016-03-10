@@ -1,4 +1,4 @@
-<ion-view view-title="Categorias">
+<ion-view view-title="Qué compramos?">
   <ion-content ng-class="{expanded:isExpanded}">
 
 
@@ -36,6 +36,12 @@
     </ion-list>
 
   </ion-content>
+
+  <div class="balanced-900 card tutorial" style="position: fixed; bottom: 6em; left: 1em; padding: 1em"
+       ng-show="getCategorias().length == 0">
+    <strong> Hacé click en el <i class="icon ion-plus-circled"></i> para agregar una categoría </strong>
+
+  </div>
   <button id="fab-categoria-plus" ng-click="nuevaCategoria()"
           class="button button-fab button-fab-bottom-right expanded button-balanced-900 spin"><i
     class="icon ion-plus-round"></i></button>

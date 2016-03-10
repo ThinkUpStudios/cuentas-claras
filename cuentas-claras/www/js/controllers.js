@@ -141,8 +141,9 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     };
     $timeout(function () {
       document.getElementById('fab-categoria-plus').classList.toggle('on');
-    }, 200);
+      document.getElementsByClassName('.tutorial').classList.toggle('on');
 
+    }, 200);
 
     // Activate ink for controller
     ionicMaterialInk.displayEffect();
