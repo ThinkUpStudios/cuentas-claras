@@ -1,10 +1,10 @@
 <ion-view view-title="Qué compramos?">
-  <div class="categorias-subtotales has-header">
+  <div class="categorias-subtotales has-header animate-ripple">
   <ion-item class="item-totals">
     <div class="ink ink-dark">
       <div class="row">
         <div class="col">
-          Total Gastos
+          Total gastado
         </div>
         <div class="text-right col">
           <i class="icon ion-social-usd"></i> {{calcularTotal()}}
@@ -38,10 +38,8 @@
   </ion-content>
 
 
+    <img src="img/tutorial 1.png" class="tutorial"  ng-show="getCategorias().length == 0">
 
-    <div  ng-show="getCategorias().length == 0" class="tutorial animate-fade-in " >
-      Hacé click en el <strong><i class="icon ion-plus-circled"></i></strong> para agregar una categoría
-    </div>
 
   <button id="fab-categoria-plus" ng-click="nuevaCategoria()"
           class="button button-fab button-fab-bottom-right expanded button-green spin"><i

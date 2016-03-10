@@ -4,7 +4,7 @@
       <div class="ink ink-dark">
         <div class="row ">
           <div class="col">
-            Total Gastos
+            Total gastado
           </div>
           <div class="text-right col">
             <i class="icon ion-social-usd"></i> {{totalCategorias()}}
@@ -16,7 +16,7 @@
       <div class="ink ink-dark">
         <div class="row ">
           <div class="col">
-            Recaudado
+            Ya me pagaron
           </div>
           <div class="text-right col">
             <i class="icon ion-social-usd "></i> {{recaudado}}
@@ -69,9 +69,7 @@
 
   </ion-content>
   <toast></toast>
-  <div ng-show="getInvitados().length == 0" class="tutorial animate-fade-in">
-     Hacé click en el <strong><i class="icon ion-plus-circled"></i></strong> para agregar in invitado
-  </div>
+  <img src="img/tutorial2.png" class="tutorial" ng-show="getInvitados().length == 0">
 
   <button id="fab-invitado-plus" ng-click="nuevoInvitado()"
           class="button button-fab button-fab-bottom-right expanded button-green spin"><i

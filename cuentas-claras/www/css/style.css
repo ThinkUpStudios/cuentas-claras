@@ -109,7 +109,8 @@
   from { height: 0; }
   to { height: 2em; }
 }
-ion-view:before{
+
+.scroll-content{
   content: ' ';
   display: block;
   position: absolute;
@@ -121,14 +122,8 @@ ion-view:before{
   background-image: url("/img/background.png");
 
   background-position: 50% 0;
-
-  opacity: 0.15;
-
-}
-
-ion-view{
   background-color: rgb(245,245,245) !important;
-opacity: 1;
+
 
 }
 
@@ -191,15 +186,11 @@ opacity: 1;
 }
 .tutorial{
   position: fixed;
-  bottom: 6em;
-  left: 1em;
-  background-color: rgb(231, 238, 243);
-  color: rgb(31, 101, 150);
+  bottom: 1em;
+  right: 4em;
   padding: 10px;
-  border-radius: 2px;
-  text-align: center;
   display: block;
-  box-shadow: 10px 10px 10px 0px rgba(0, 0, 0, .26);
+
 }
 .item-md-label input{
   background-color: transparent;
