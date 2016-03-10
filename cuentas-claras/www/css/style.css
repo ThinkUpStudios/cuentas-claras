@@ -120,7 +120,9 @@
   height: 100%;
   z-index: -1;
   background-image: url("/img/background.png");
-
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
   background-position: 50% 0;
   background-color: rgb(245,245,245) !important;
 
