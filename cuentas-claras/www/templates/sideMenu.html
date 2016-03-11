@@ -1,44 +1,51 @@
 <ion-side-menus enable-menu-with-back-views="true">
   <ion-side-menu-content>
     <ion-nav-bar class="bar-royal"
-                 ng-class="{expanded: isExpanded, 'has-header-fab-left': hasHeaderFabLeft, 'has-header-fab-right': hasHeaderFabRight}"
+                 ng-class="{ 'has-header-fab-left': hasHeaderFabLeft, 'has-header-fab-right': hasHeaderFabRight}"
                  align-title="left">
       <ion-nav-back-button class="no-text">
       </ion-nav-back-button>
-      <ion-nav-buttons side="right">
-        <button class="button button-icon button-clear ion-android-more-vertical" menu-toggle="right">
+      <ion-nav-buttons side="{{getMenuSide()}}">
+        <button class="button button-icon button-clear ion-navicon-round" menu-toggle="{{getMenuSide()}}">
         </button>
       </ion-nav-buttons>
     </ion-nav-bar>
     <ion-nav-view name="fabContent"></ion-nav-view>
     <ion-nav-view name="menuContent" ng-class="{expanded: isExpanded}"></ion-nav-view>
   </ion-side-menu-content>
-  <ion-side-menu side="right">
-    <ion-header-bar class="expanded">
+  <ion-side-menu side="{{getMenuSide()}}">
+    <ion-header-bar class="bar-header-nav">
       <span class="avatar" style="background: url('img/icon.png'); background-size: cover"></span>
     </ion-header-bar>
-    <ion-content class="rgba-secondary-2-1-bg has-expanded-header">
+    <ion-content class="has-header menu-content-nav">
       <ion-list>
-        <ion-item nav-clear menu-close ng-click="goto('/app/categorias')" class="item item-icon-right">
+        <ion-item nav-clear menu-close ng-click="goto('/app/categorias')" class="item-icon-left">
           Categorias
-          <i class="icon "></i>
+          <i class="icon ion-pricetag"></i>
         </ion-item>
-        <ion-item nav-clear menu-close  ng-click="goto('/app/invitados')" class="item item-icon-right">
+        <ion-item nav-clear menu-close  ng-click="goto('/app/invitados')" class="item-icon-left">
           Invitados
+          <i class="icon ion-ios-people"></i>
         </ion-item>
-        <ion-item nav-clear menu-close ng-click="nuevoEvento()" class="item item-icon-right">
+        <ion-item nav-clear menu-close ng-click="nuevoEvento()" class="item-icon-left">
           Nuevo Evento
+          <i class="icon ion-calendar"></i>
         </ion-item>
-      </ion-list>
-      <ion-item nav-clear menu-close ui-sref="app.categorias" class="item item-icon-right">
-        Compartí la aplicación
-        <i class="icon ion-android-share-alt"></i>
-      </ion-item>
+        <div class="menu-footer-nav">
+          <ion-item nav-clear menu-close ui-sref="app.categorias" class="item-icon-left">
+            Compartí la aplicación
+            <i class="icon ion-android-share-alt"></i>
+          </ion-item>
 
-      <ion-item nav-clear menu-close ui-sref="app.categorias" class="item item-icon-right">
-        Danos tu opinión
-        <i class="icon ion-android-chat"></i>
-      </ion-item>
+          <ion-item nav-clear menu-close ui-sref="app.categorias" class="item-icon-left">
+            Danos tu opinión
+            <i class="icon ion-android-chat"></i>
+          </ion-item>
+        </div>
+      </ion-list>
+
     </ion-content>
+
   </ion-side-menu>
+
 </ion-side-menus>

@@ -29,6 +29,13 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       });
     }
 
+    $scope.getMenuSide = function(){
+        if(ionic.Platform.isIOS()){
+          return "right";
+        }else{
+          return "left";
+        }
+    };
     ////////////////////////////////////////
     // Layout Methods
     ////////////////////////////////////////

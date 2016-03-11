@@ -1,17 +1,15 @@
 <ion-view view-title="Nuevo Invitado">
-  <ion-content ng-class="{expanded:isExpanded}">
+  <ion-content >
+      <div class="form-card">
+            <ion-md-input ng-model="invitado.nombre" name="nombre" placeholder="Nombre"
+                          highlight-color="balanced"
+                          type="text"></ion-md-input>
 
-    <form class="list-borderless" style="margin-right: 4em">
+            <ion-md-input ng-model="invitado.aFavor" name="aFavor" placeholder="Dinero a favor"
+                          highlight-color="balanced"
+                          type="number"></ion-md-input>
 
-      <ion-md-input class="item-clear" ng-model="invitado.nombre" name="nombre" placeholder="Nombre"
-                    highlight-color="balanced"
-                    type="text"></ion-md-input>
-
-      <ion-md-input class="item-clear" ng-model="invitado.aFavor" name="aFavor" placeholder="Dinero a favor"
-                    highlight-color="balanced"
-                    type="number"></ion-md-input>
-
-    </form>
+      </div>
     <ion-list >
       <ion-checkbox class="" ng-repeat="cat in categoriasSeleccionadas" ng-model="cat.seleccionado">{{cat.categoria.nombre}}</ion-checkbox>
     </ion-list>

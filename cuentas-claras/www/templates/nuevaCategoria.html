@@ -1,22 +1,24 @@
 <ion-view view-title="Nueva categoría">
-  <ion-content ng-class="{expanded:isExpanded}">
+  <ion-content ng-class="">
 
-    <form class="list-borderless" style="margin-right: 4em">
+    <div class="form-card">
 
-      <ion-md-input class="item-clear" ng-model="data.nombre" name="nombre" placeholder="Nombre"
+      <ion-md-input class="item-clear" ng-model="data.nombre" name="nombre" placeholder="Que compramos?"
                     highlight-color="balanced"
                     type="text"></ion-md-input>
       <ion-md-input class="item-clear" ng-model="data.precioUnitario" name="precio"
-                    placeholder="Precio"
+                    placeholder="Cuanto salió?"
                     highlight-color="energized"
+                    onfocus="this.select();"
+                    select-on-click
                     type="number"></ion-md-input>
-    </form>
+    </div>
 
 
   </ion-content>
   <div class="hide-on-keyboard-open">
     <button id="fab-nuevo" ng-click="agregarCategoria()"
-            class="button button-fab button-fab-bottom-left expanded button-balanced-900 spin"><i
+            class="button button-fab button-fab-bottom-left expanded button-green spin"><i
       class="icon ion-plus-round"></i>
     </button>
     <button id="fab-next" ng-click="crearCategoria()"
