@@ -1,93 +1,170 @@
 var app = angular.module('starter.services', [])
-  .factory('invitadosService', function () {
 
-    var invitados = [];
-    var invitadoSeleccionado;
+  .factory('$localstorage', ['$window', function ($window) {
+    return {
+      set: function (key, value) {
+        $window.localStorage[key] = value;
+      },
+      get: function (key, defaultValue) {
+        return $window.localStorage[key] || defaultValue;
+      },
+      setObject: function (key, value) {
+        $window.localStorage[key] = JSON.stringify(value);
+      },
+      getObject: function (key) {
+        return JSON.parse($window.localStorage[key] || '{}');
+      },
 
+    }
+  }])
+
+
+  .factory('invitadosService', ['$localstorage', '$rootScope','Invitado', 'Categoria', function ($localstorage, $rootScope, Invitado, Categoria ) {
+    var invitadosContent = {
+      invitados: [],
+      invitadoSeleccionado: new Invitado("")
+    };
+    var data = $localstorage.getObject("invitadosContent");
+    if (!data.invitados) {
+      $localstorage.setObject("invitadosContent", invitadosContent);
+    } else {
+
+      data.invitados.forEach(function (e, i, a) {
+        e.__proto__ = Invitado.prototype;
+        e.categorias.forEach(function (ee, ii, aa) {
+          ee.__proto__ = Categoria.prototype;
+        })
+        invitadosContent.invitados.push(e);
+      });
+      invitadosContent.invitadoSeleccionado = data.invitadoSeleccionado;
+      invitadosContent.invitadoSeleccionado.__proto__ = Invitado.prototype;
+
+    }
+    $rootScope.$on("nuevoEvento", function(){
+      invitadosContent = {
+        invitados: [],
+        invitadoSeleccionado: new Invitado("")
+      };
+      $localstorage.setObject("invitadosContent", invitadosContent);
+    });
     return {
       add: function (Invitado) {
-        if (!this.get(Invitado)) {
-          invitados.push(Invitado);
+
+        if (invitadosContent && !this.get(Invitado)) {
+          invitadosContent.invitados.push(Invitado);
+          this.save();
         }
       },
       getSeleccionado: function () {
-        return invitadoSeleccionado;
+        return invitadosContent.invitadoSeleccionado;
       },
       seleccionar: function (invitado) {
-        invitadoSeleccionado = invitado;
+
+        invitadosContent.invitadoSeleccionado = invitado;
+        this.save();
       },
       getAll: function () {
-        return invitados;
+        return invitadosContent.invitados;
       },
       remove: function (invitado) {
-        invitados.splice(invitados.indexOf(invitado), 1);
+        this.getAll().splice(this.getAll().indexOf(invitado), 1);
+        this.save();
       },
-
-      contarRegistradosEnCategoria: function(cat){
+      save: function () {
+        $localstorage.setObject("invitadosContent", invitadosContent);
+      },
+      contarRegistradosEnCategoria: function (cat) {
         var count = 0;
-        invitados.forEach(function(e,i,a){
-          if(e.tieneCategoria(cat)){
+        this.getAll().forEach(function (e, i, a) {
+          if (e.tieneCategoria(cat)) {
             count++;
           }
         });
         return count;
       },
-      getTotalAportado: function(){
+      getTotalAportado: function () {
         var total = 0;
-        invitados.forEach(function(e,i,a){
+        this.getAll().forEach(function (e, i, a) {
           total += e.aFavor;
         });
         return total;
       },
       get: function (invitado) {
-        for (var i = 0; i < invitados.length; i++) {
-          if (invitados[i].nombre == invitado.nombre) {
-            return invitados[i];
+
+        this.getAll().forEach(function (e, i, a) {
+          if (e.nombre == invitado.nombre) {
+            return e;
           }
-        }
+        });
         return null;
       }
     };
-  })
-  .factory('categoriasService', function () {
+  }])
+  .factory('categoriasService', ['$localstorage','$rootScope', 'Categoria', function ($localstorage, $rootScope, Categoria ) {
 
-    var categorias = [];
-    var categoriaSeleccionada;
+    var categoriasContent = {
+      categorias: [],
+      categoriaSeleccionada: new Categoria("", 0)
+    };
 
+    var data = $localstorage.getObject("catContent")
+    if (!data.categorias) {
+      $localstorage.setObject("catContent", categoriasContent);
+    } else {
+      data.categorias.forEach(function (e, i, a) {
+        e.__proto__ = Categoria.prototype;
+        categoriasContent.categorias.push(e);
+      })
+      categoriasContent.categoriaSeleccionada = data.categoriaSeleccionada;
+      categoriasContent.categoriaSeleccionada.__proto__ = Categoria.prototype;
+    }
+    $rootScope.$on("nuevoEvento", function(){
+      categoriasContent = {
+        categorias: [],
+        categoriaSeleccionada: new Categoria("", 0)
+      };
+      $localstorage.setObject("catContent", categoriasContent);
+    });
     return {
       add: function (Categoria) {
         if (!this.get(Categoria)) {
-          categorias.push(Categoria);
+          categoriasContent.categorias.push(Categoria);
+          this.save();
         }
       },
       getSeleccionada: function () {
-        return categoriaSeleccionada;
+        return categoriasContent.categoriaSeleccionada;
       },
       seleccionar: function (categoria) {
-        categoriaSeleccionada = categoria;
+        categoriasContent.categoriaSeleccionada = categoria;
+        this.save();
       },
       getAll: function () {
-        return categorias;
+        return categoriasContent.categorias;
       },
       remove: function (Categoria) {
-        categorias.splice(categorias.indexOf(Categoria), 1);
+        categoriasContent.categorias.splice(categoriasContent.categorias.indexOf(Categoria), 1);
+        this.save();
       },
-      getTotalGastos: function(){
-        var total =0;
-        categorias.forEach(function(e,i,a){
-          total +=e.getTotal();
+      getTotalGastos: function () {
+        var total = 0;
+        categoriasContent.categorias.forEach(function (e, i, a) {
+          total += e.getTotal();
         })
         return total;
       },
+      save: function () {
+        $localstorage.setObject("catContent", categoriasContent);
+      },
       get: function (Categoria) {
-        for (var i = 0; i < categorias.length; i++) {
-          if (categorias[i].nombre == Categoria.nombre) {
-            return categorias[i];
+        for (var i = 0; i < categoriasContent.categorias.length; i++) {
+          if (categoriasContent.categorias[i].nombre == Categoria.nombre) {
+            return categoriasContent.categorias[i];
           }
         }
         return null;
       }
     };
-  });
+  }]);
 
 

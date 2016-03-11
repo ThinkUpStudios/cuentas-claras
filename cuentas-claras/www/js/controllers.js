@@ -15,7 +15,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     };
 
   })
-  .controller('AppCtrl', function ($scope, $ionicModal, $ionicPopover, $timeout, Categoria) {
+  .controller('AppCtrl', function ($scope, $ionicModal, $ionicPopover, $timeout, Categoria, $rootScope, $location) {
     // Form data for the login modal
     $scope.loginData = {};
     $scope.isExpanded = false;
@@ -53,7 +53,15 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     $scope.setExpanded = function (bool) {
       $scope.isExpanded = bool;
     };
+    $scope.nuevoEvento = function(){
+      $rootScope.$broadcast("nuevoEvento");
+      $location.path("/app/categorias")
 
+    };
+
+    $scope.goto = function(path){
+      $location.path(path);
+    };
     $scope.setHeaderFab = function (location) {
       var hasHeaderFabLeft = false;
       var hasHeaderFabRight = false;
@@ -124,7 +132,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
         $timeout(function () {
           var elements =document.getElementsByClassName('tutorial');
           for(var i=0; i <elements.length; i++){elements[i].classList.toggle('animate-fade-in-active')}
-        },200);
+        },800);
       };
 
       $timeout(function () {
@@ -253,7 +261,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
         $timeout(function () {
           var elements =document.getElementsByClassName('tutorial');
           for(var i=0; i <elements.length; i++){elements[i].classList.toggle('animate-fade-in-active')}
-        },200);
+        },800);
       }
 
       $timeout(function () {
@@ -505,6 +513,9 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     ionicMaterialInk.displayEffect();
 
   });
+
+
+
 
 
 

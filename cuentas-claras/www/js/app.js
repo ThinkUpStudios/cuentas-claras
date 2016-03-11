@@ -5,9 +5,13 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic-material','ngToast', 'starter.controllers', 'starter.services', 'ionMdInput'])
+var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic-material', 'ngToast', 'starter.controllers', 'starter.services', 'ionMdInput'])
 
-  .run(function ($ionicPlatform) {
+  .run(function ($ionicPlatform, $state, $timeout, invitadosService, categoriasService) {
+
+  })
+
+  .run(function ($ionicPlatform, invitadosService,categoriasService, $rootScope) {
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -20,6 +24,16 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic-material','ngT
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
+      document.addEventListener("deviceready", function(event){
+        document.addEventListener("pause", function(event){
+          invitadosService.save();
+          categoriasService.save();
+          console.log('PAUSA!!!');
+        });
+
+      }, false);
+
+
     });
   })
   .directive('selectOnClick', function () {
@@ -41,7 +55,7 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic-material','ngT
       }
     };
   })
-  .config(['ngToastProvider', function(ngToast) {
+  .config(['ngToastProvider', function (ngToast) {
     ngToast.configure({
       verticalPosition: 'bottom',
       horizontalPosition: 'center'
@@ -115,49 +129,49 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic-material','ngT
 
   });
 
-app.factory('Categoria',function(){
+app.factory('Categoria', function () {
 
-  function Categoria(p_nombre,p_precio){
+  function Categoria(p_nombre, p_precio) {
     this.nombre = p_nombre;
-    this.precioUnitario =p_precio;
+    this.precioUnitario = p_precio;
   }
 
-  Categoria.prototype ={
-   nombre: '',
-    precioUnitario:0,
-    getTotal: function() {
+  Categoria.prototype = {
+    nombre: '',
+    precioUnitario: 0,
+    getTotal: function () {
       return this.precioUnitario;
     }
   };
-    return(Categoria);
+  return (Categoria);
 });
 
-app.factory('Invitado',function(){
+app.factory('Invitado', function () {
 
-  function Invitado(p_nombre){
+  function Invitado(p_nombre) {
     this.nombre = p_nombre;
     this.categorias = [];
     this.aFavor = 0;
   }
 
-  Invitado.prototype ={
+  Invitado.prototype = {
     nombre: '',
     categorias: [],
     aFavor: 0,
-    agregarCategoria: function(categoria){
-      if(this.categorias.indexOf(categoria) == -1){
+    agregarCategoria: function (categoria) {
+      if (this.categorias.indexOf(categoria) == -1) {
         this.categorias.push(categoria);
       }
     },
-    quitarCategoria: function(categoria){
-      if(this.tieneCategoria(categoria)){
+    quitarCategoria: function (categoria) {
+      if (this.tieneCategoria(categoria)) {
         this.categorias.splice(this.categorias.indexOf(categoria), 1);
       }
     },
-    tieneCategoria: function(categoria){
-      return this.categorias.indexOf(categoria)>-1;
+    tieneCategoria: function (categoria) {
+      return this.categorias.indexOf(categoria) > -1;
     }
 
   };
-  return(Invitado);
+  return (Invitado);
 });
