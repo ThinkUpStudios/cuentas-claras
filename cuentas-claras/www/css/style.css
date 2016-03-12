@@ -73,6 +73,7 @@ div.form-input {
   max-height: 5em;
   /* right: 65px; */
   left: 0px;
+  padding-bottom: 5px;
 }
 
 .item-totals.input-form {
@@ -136,7 +137,7 @@ div.form-input {
   padding-top: 2px;
   padding-bottom: 2px;
   margin: 5px;
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(255, 255, 255, 0.80);
 }
 .button-ya-pago{
   background-color: rgba(125,223,178,1) ;
@@ -167,13 +168,26 @@ div.form-input {
   max-height: 0em;
   top: -20px;
 
+}
 
+.button-fab.spin.ng-hide {
+  opacity: 0;
+}
+
+.button-fab.spin {
+  opacity: 1;
+}
+
+.button-fab.spin.ng-hide-add, .button-fab.spin.ng-hide-remove {
+  transition-property: all;
+  transition-timing-function: linear;
+  transition-duration: 0.2s;
 }
 
 .animate-expand.ng-hide-add, .animate-expand.ng-hide-remove {
   transition-property: all;
   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-  transition-duration: 0.4s;
+  transition-duration: 0.6s;
 }
 
 .animate-expand {
@@ -295,6 +309,14 @@ div.button-close-form {
   position: absolute;
   right: 10px;
 }
+
+.icon-delete {
+  font-size: 1em;
+  color: rgba(72, 75, 180, 1);
+  bottom: 10px;
+  position: absolute;
+  right: 10px;
+}
 .has-categorias-subtotales{
   padding-top: 5em;
   transition-property: all;
@@ -356,6 +378,11 @@ div.button-close-form {
   color:white !important;
 }
 
+.button-fab.spin {
+  transition-duration: 0.4s;
+  transition-property: all;
+  transition-timing-function: linear;
+}
 .button-violeta:hover{
   color:white;
 }

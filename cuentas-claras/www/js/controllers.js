@@ -113,12 +113,13 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       }
     };
   })
-  .controller('CategoriasCtrl', function ($rootScope, $scope, $location, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, $document, invitadosService, Categoria) {
+  .controller('CategoriasCtrl', function ($rootScope, $scope, $location, $ionicPopup, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, $document, invitadosService, Categoria) {
     $scope.$parent.showHeader();
     $scope.mostrarFormulario = false;
     $scope.isExpanded = true;
     $scope.categoria = new Categoria("", 0);
     $scope.$parent.setExpanded(true);
+    $scope.editando = false;
     $scope.$parent.setHeaderFab('right');
     $scope.mostrarBotonEditar = true;
 
@@ -130,16 +131,42 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     });
     $scope.categorias = categoriasService.getAll();
 
-    $scope.closeForm = function () {
+    function init() {
       $scope.mostrarFormulario = false;
       $scope.mostrarBotonEditar = true;
       $scope.categoria = new Categoria("", 0);
+      $scope.editando = false;
+
+    }
+
+    $scope.closeForm = function () {
+      init();
     };
     $scope.getCategorias = function () {
       return categoriasService.getAll();
     };
 
+
+    $scope.borrarCategoria = function (cat) {
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Borrar Categoría?',
+        cancelText: 'No',
+        okText: 'Si'
+      });
+
+      confirmPopup.then(function (res) {
+        if (res) {
+          categoriasService.remove(cat);
+          update();
+          init();
+        }
+      });
+
+    };
+
     $scope.editarCategoria = function (cat) {
+      init();
+      $scope.editando = true;
       $scope.mostrarFormulario = true;
       $scope.mostrarBotonEditar = false;
       $scope.categoria = cat;
@@ -153,6 +180,9 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
     $scope.agregarCategoria = function () {
       categoriasService.add($scope.categoria);
+      update();
+    };
+    function update() {
       $scope.categoria = new Categoria("", 0);
       $scope.$broadcast("$stateChangeSuccess");
       $timeout(function () {
@@ -161,12 +191,10 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
         });
 
       }, 100);
-
-
-    };
+    }
     $scope.seleccionarCategoria = function (categoria) {
-      categoriasService.seleccionar(categoria);
-      $location.path("/app/nuevaCategoria");
+
+
     };
     $scope.calcularCantidad = function (cat) {
       return invitadosService.contarRegistradosEnCategoria(cat);
@@ -194,6 +222,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
     $timeout(function () {
       document.getElementById('fab-categoria-plus').classList.toggle('on');
+
       ionicMaterialMotion.ripple({
         selector: '.animate-ripple .item '
       });
