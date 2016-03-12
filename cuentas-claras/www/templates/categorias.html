@@ -1,21 +1,46 @@
 <ion-view view-title="Qué compramos?">
   <div class="categorias-subtotales has-header animate-ripple">
-  <ion-item class="item-totals">
-    <div class="ink ink-dark">
-      <div class="row">
-        <div class="col">
-          Total gastado
-        </div>
-        <div class="text-right col">
-          <i class="icon ion-social-usd"></i> {{calcularTotal()}}
+    <ion-item class="item-totals">
+      <div class="ink ink-dark">
+        <div class="row">
+          <div class="col">
+            Total gastado
+          </div>
+          <div class="text-right col">
+            <i class="icon ion-social-usd"></i> {{calcularTotal()}}
+          </div>
         </div>
       </div>
+    </ion-item>
+
+  </div>
+  <div class="form-input animate-expand " ng-show="mostrarFormulario">
+    <ion-item class="item-totals input-form">
+      <div class="row">
+        <div class="col-75">
+          <div class="item-input">
+            <i class="icon icon-left ion-pricetags stable"></i>
+            <input placeholder="Nombre" type="text" ng-model="categoria.nombre">
+        </div>
+          <div class="item-input">
+            <i class="icon icon-left ion-social-usd stable"></i>
+            <input placeholder="Precio" type="number" ng-model="categoria.precioUnitario" select-on-click>
+          </div>
+      </div>
+        <div class="col-20 button-col">
+          <button class="ink" ng-click="agregarCategoria()">
+            <i class="icon ion-android-add-circle icon-right"></i>
+          </button>
+        </div>
+        <div class="button-close-form" ng-click="closeForm()">
+          <i class="icon ion-close icon-close"></i>
+        </div>
     </div>
   </ion-item>
   </div>
-  <ion-content ng-class="{expanded:isExpanded}" class="has-categorias-subtotales">
+  <ion-content ng-class="{expanded:mostrarFormulario}" class="has-categorias-subtotales" ng-click="closeForm()">
     <ion-list class="animate-ripple ">
-      <ion-item class="card-item item-invitado" ng-repeat="cat in getCategorias()">
+      <ion-item class="card-item item-invitado" ng-repeat="cat in categorias track by cat.nombre">
         <div ng-click="seleccionarCategoria(cat)" class="card ink ink-dark">
           <div class="item item-text-wrap item-data">
 
@@ -41,7 +66,7 @@
   <img src="img/tutorial 1.png" class="tutorial animate-fade-in" ng-show="getCategorias().length == 0">
 
 
-  <button id="fab-categoria-plus" ng-click="nuevaCategoria()"
+  <button id="fab-categoria-plus" ng-click="nuevaCategoria()" ng-show="mostrarBotonEditar"
           class="button button-fab button-fab-bottom-right expanded button-green spin"><i
     class="icon ion-plus-round"></i></button>
 

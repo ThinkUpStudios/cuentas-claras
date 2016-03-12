@@ -29,12 +29,12 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       });
     }
 
-    $scope.getMenuSide = function(){
-        if(ionic.Platform.isIOS()){
-          return "right";
-        }else{
-          return "left";
-        }
+    $scope.getMenuSide = function () {
+      if (ionic.Platform.isIOS()) {
+        return "right";
+      } else {
+        return "left";
+      }
     };
     ////////////////////////////////////////
     // Layout Methods
@@ -60,13 +60,13 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     $scope.setExpanded = function (bool) {
       $scope.isExpanded = bool;
     };
-    $scope.nuevoEvento = function(){
+    $scope.nuevoEvento = function () {
       $rootScope.$broadcast("nuevoEvento");
       $location.path("/app/categorias")
 
     };
 
-    $scope.goto = function(path){
+    $scope.goto = function (path) {
       $location.path(path);
     };
     $scope.setHeaderFab = function (location) {
@@ -113,18 +113,56 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       }
     };
   })
-  .controller('CategoriasCtrl', function ($scope, $location, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, $document, invitadosService, Categoria) {
+  .controller('CategoriasCtrl', function ($rootScope, $scope, $location, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, $document, invitadosService, Categoria) {
     $scope.$parent.showHeader();
-
+    $scope.mostrarFormulario = false;
     $scope.isExpanded = true;
+    $scope.categoria = new Categoria("", 0);
     $scope.$parent.setExpanded(true);
     $scope.$parent.setHeaderFab('right');
+    $scope.mostrarBotonEditar = true;
+
+    $rootScope.$on("nuevoEvento", function () {
+      $scope.mostrarFormulario = false;
+      $scope.mostrarBotonEditar = true;
+      $scope.categorias = categoriasService.getAll();
+
+    });
+    $scope.categorias = categoriasService.getAll();
+
+    $scope.closeForm = function () {
+      $scope.mostrarFormulario = false;
+      $scope.mostrarBotonEditar = true;
+      $scope.categoria = new Categoria("", 0);
+    };
     $scope.getCategorias = function () {
       return categoriasService.getAll();
     };
+
+    $scope.editarCategoria = function (cat) {
+      $scope.mostrarFormulario = true;
+      $scope.mostrarBotonEditar = false;
+      $scope.categoria = cat;
+    };
     $scope.nuevaCategoria = function () {
-      categoriasService.seleccionar(new Categoria("", 0));
-      $location.path("/app/nuevaCategoria");
+      $scope.mostrarFormulario = true;
+      $scope.mostrarBotonEditar = false;
+      $scope.categoria = new Categoria("", 0);
+
+    };
+
+    $scope.agregarCategoria = function () {
+      categoriasService.add($scope.categoria);
+      $scope.categoria = new Categoria("", 0);
+      $scope.$broadcast("$stateChangeSuccess");
+      $timeout(function () {
+        ionicMaterialMotion.ripple({
+          selector: '.animate-ripple .item '
+        });
+
+      }, 100);
+
+
     };
     $scope.seleccionarCategoria = function (categoria) {
       categoriasService.seleccionar(categoria);
@@ -134,21 +172,6 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       return invitadosService.contarRegistradosEnCategoria(cat);
     };
 
-    $scope.$on('$stateChangeSuccess', function () {
-      if($scope.getCategorias().length >0){
-        $timeout(function () {
-          var elements =document.getElementsByClassName('tutorial');
-          for(var i=0; i <elements.length; i++){elements[i].classList.toggle('animate-fade-in-active')}
-        },800);
-      };
-
-      $timeout(function () {
-        ionicMaterialMotion.ripple({
-          selector: '.animate-ripple .item'
-        });
-
-      }, 100)
-    });
     $scope.calcularTotal = function () {
       var total = 0;
 
@@ -162,13 +185,18 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
     };
     $timeout(function () {
-      var elements =document.getElementsByClassName('tutorial');
-      for(var i=0; i <elements.length; i++){elements[i].classList.toggle('animate-fade-in-active')};
+      var elements = document.getElementsByClassName('tutorial');
+      for (var i = 0; i < elements.length; i++) {
+        elements[i].classList.toggle('animate-fade-in-active')
+      }
+      ;
     }, 800);
 
     $timeout(function () {
       document.getElementById('fab-categoria-plus').classList.toggle('on');
-
+      ionicMaterialMotion.ripple({
+        selector: '.animate-ripple .item '
+      });
 
     }, 200);
 
@@ -254,21 +282,23 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     $scope.$on('$stateChangeSuccess', function () {
       $scope.balance = $scope.calcularBalance();
       $timeout(function () {
-        if($scope.showBalance){
-          if(!document.getElementsByClassName('has-subtotales')[0].classList.contains('error')){
+        if ($scope.showBalance) {
+          if (!document.getElementsByClassName('has-subtotales')[0].classList.contains('error')) {
             document.getElementsByClassName('has-subtotales')[0].classList.add('error');
           }
-        }else{
+        } else {
           document.getElementsByClassName('has-subtotales')[0].classList.remove('error');
         }
 
       }, 200);
 
-      if($scope.getInvitados().length >0){
+      if ($scope.getInvitados().length > 0) {
         $timeout(function () {
-          var elements =document.getElementsByClassName('tutorial');
-          for(var i=0; i <elements.length; i++){elements[i].classList.toggle('animate-fade-in-active')}
-        },800);
+          var elements = document.getElementsByClassName('tutorial');
+          for (var i = 0; i < elements.length; i++) {
+            elements[i].classList.toggle('animate-fade-in-active')
+          }
+        }, 800);
       }
 
       $timeout(function () {
@@ -288,9 +318,10 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       return total;
 
     };
-    function getTotalNeto(){
-      return  categoriasService.getTotalGastos() - invitadosService.getTotalAportado();
+    function getTotalNeto() {
+      return categoriasService.getTotalGastos() - invitadosService.getTotalAportado();
     }
+
     $scope.calcularBalance = function () {
       var total = getTotalNeto();
 
@@ -314,15 +345,18 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     }, 200);
 
     $timeout(function () {
-      var elements =document.getElementsByClassName('tutorial');
-      for(var i=0; i <elements.length; i++){elements[i].classList.toggle('animate-fade-in-active')};
+      var elements = document.getElementsByClassName('tutorial');
+      for (var i = 0; i < elements.length; i++) {
+        elements[i].classList.toggle('animate-fade-in-active')
+      }
+      ;
     }, 800);
     // Activate ink for controller
     ionicMaterialInk.displayEffect();
 
   })
 
-  .controller('NuevoInvitadoCtrl', function ($scope, $location, ngToast,ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, Invitado, invitadosService) {
+  .controller('NuevoInvitadoCtrl', function ($scope, $location, ngToast, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, Invitado, invitadosService) {
     $scope.$parent.showHeader();
 
     $scope.isExpanded = true;
@@ -445,52 +479,6 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       $scope.data = new Categoria("", 0);
     }
 
-
-    $scope.guardarCategoria = function (c) {
-      categoriasService.add(c);
-    };
-
-    $scope.crearCategoria = function () {
-      if ($scope.data.nombre == "") {
-        ngToast.create({
-          className: 'error',
-          content: 'Complete el Nombre',
-          verticalPosition: 'bottom',
-          timeout: 1500,
-          horizontalPosition: 'center'
-
-        });
-
-      } else {
-        this.guardarCategoria($scope.data);
-        $location.path("/categorias");
-      }
-    };
-
-    $scope.agregarCategoria = function () {
-      if ($scope.data.nombre == "") {
-        ngToast.create({
-          className: 'error',
-          content: 'Complete el Nombre',
-          verticalPosition: 'bottom',
-          timeout: 1500,
-          horizontalPosition: 'center'
-
-        });
-
-      } else {
-        this.guardarCategoria($scope.data);
-        $scope.data = new Categoria("", 0);
-        ngToast.create({
-          className: 'success',
-          content: 'Categoría agregada',
-          verticalPosition: 'bottom',
-          timeout: 1500,
-          horizontalPosition: 'center'
-
-        });
-      }
-    };
 
     $timeout(function () {
       document.getElementById('fab-nuevo').classList.toggle('on');
