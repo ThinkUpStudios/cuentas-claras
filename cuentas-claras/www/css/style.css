@@ -169,8 +169,7 @@ div.form-input {
   color: rgba(255,255,255,0.99);
 }
 .button-ya-pago i{
-
-  color: rgba(255,255,255,0.99);
+  color: rgba(255, 255, 255, 0.99) !important;
 }
 .button-ya-pago:hover{
 
@@ -404,7 +403,9 @@ div.button-close-form {
 
 .button-fab-small i{
   font-size: 1.5em !important;
+  color: rgba(0, 0, 0, 0.12);
 }
+
 .button-fab-small{
 
   width: 20px !important;

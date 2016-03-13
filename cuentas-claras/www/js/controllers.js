@@ -116,7 +116,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
   .controller('CategoriasCtrl', function ($rootScope, $scope, $location, $ionicPopup, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, $document, invitadosService, Categoria) {
     $scope.$parent.showHeader();
     $scope.isExpanded = true;
-    $scope.categoria = new Categoria("", 0);
+    $scope.categoria = new Categoria("", null);
     $scope.$parent.setExpanded(true);
     $scope.editando = false;
     $scope.mostrarFormulario = false;
@@ -138,7 +138,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       $scope.mostrarFormulario = false;
       $scope.mostrarBotonEditar = true;
 
-      $scope.categoria = new Categoria("", 0);
+      $scope.categoria = new Categoria("", null);
       $scope.editando = false;
 
 
@@ -187,7 +187,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
     $scope.agregarCategoria = function () {
       if ($scope.categoria.nombre) {
-        if (categoriasService.existe($scope.categoria)) {
+        if (!$scope.editando && categoriasService.existe($scope.categoria)) {
           document.getElementById("CAT_" + $scope.categoria.nombre).classList.add("error");
           $timeout(function () {
             document.getElementById("CAT_" + $scope.categoria.nombre).classList.remove("error");
@@ -204,7 +204,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       }
     };
     function update() {
-      $scope.categoria = new Categoria("", 0);
+      $scope.categoria = new Categoria("", null);
       $scope.$broadcast("$stateChangeSuccess");
       $timeout(function () {
         ionicMaterialMotion.ripple({
@@ -589,7 +589,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     if (categoria) {
       $scope.data = categoria;
     } else {
-      $scope.data = new Categoria("", 0);
+      $scope.data = new Categoria("", null);
     }
 
 
