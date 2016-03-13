@@ -72,7 +72,7 @@
 
     <ion-list>
       <ion-item class="item-invitado" ng-repeat="inv in invitados track by inv.nombre">
-        <div class="card ink" id="{{'ID_'+inv.nombre}}">
+        <div class="card ink" id="{{'INV_'+inv.nombre}}">
           <div class="row ">
             <div class="col col-20">
               <button class="button button-fab button-fab-small" ng-show="calcularSaldo(inv) >0 "

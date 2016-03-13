@@ -188,9 +188,9 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     $scope.agregarCategoria = function () {
       if ($scope.categoria.nombre) {
         if (categoriasService.existe($scope.categoria)) {
-          document.getElementById("ID_" + $scope.categoria.nombre).classList.add("error");
+          document.getElementById("CAT_" + $scope.categoria.nombre).classList.add("error");
           $timeout(function () {
-            document.getElementById("ID_" + $scope.categoria.nombre).classList.remove("error");
+            document.getElementById("CAT_" + $scope.categoria.nombre).classList.remove("error");
           }, 700)
         } else {
           categoriasService.add($scope.categoria);
@@ -321,9 +321,9 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
           }, 100);
         } else {
-          document.getElementById("ID_" + $scope.invitado.nombre).classList.add("error");
+          document.getElementById("INV_" + $scope.invitado.nombre).classList.add("error");
           $timeout(function () {
-            document.getElementById("ID_" + $scope.invitado.nombre).classList.remove("error");
+            document.getElementById("INV_" + $scope.invitado.nombre).classList.remove("error");
           }, 700)
         }
 

@@ -50,7 +50,7 @@
   <ion-content ng-class="{expanded:mostrarFormulario}" class="has-categorias-subtotales">
     <ion-list class="animate-ripple ">
       <ion-item class="card-item item-invitado" can-swipe="true" ng-repeat="cat in categorias track by cat.nombre">
-        <div ng-click="editarCategoria(cat)" class="card ink ink-dark" id="{{'ID_'+cat.nombre}}">
+        <div ng-click="editarCategoria(cat)" class="card ink ink-dark" id="{{'CAT_'+cat.nombre}}">
           <div class="item item-text-wrap item-data">
 
             <strong>{{cat.nombre}}</strong>
