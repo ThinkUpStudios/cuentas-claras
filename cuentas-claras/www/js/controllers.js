@@ -15,7 +15,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     };
 
   })
-  .controller('AppCtrl', function ($scope, $ionicModal, $ionicPopover, $timeout, Categoria, $rootScope, $location) {
+  .controller('AppCtrl', function ($scope, $ionicModal, $ionicPopover, $ionicPopup, $timeout, Categoria, $rootScope, $location, $ionicNavBarDelegate) {
     // Form data for the login modal
     $scope.loginData = {};
     $scope.isExpanded = false;
@@ -31,8 +31,10 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
     $scope.getMenuSide = function () {
       if (ionic.Platform.isIOS()) {
+        $ionicNavBarDelegate.showBackButton(false);
         return "right";
       } else {
+        $ionicNavBarDelegate.showBackButton(true);
         return "left";
       }
     };
@@ -61,8 +63,21 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       $scope.isExpanded = bool;
     };
     $scope.nuevoEvento = function () {
-      $rootScope.$broadcast("nuevoEvento");
-      $location.path("/app/categorias")
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Nuevo Evento',
+        template: 'Se perderá todo lo cargado. Desea continuar?',
+        cancelText: 'No',
+        okText: 'Si'
+      });
+
+      confirmPopup.then(function (res) {
+        if (res) {
+          $rootScope.$broadcast("nuevoEvento");
+          $location.path("/app/categorias");
+        }
+      });
+
+
 
     };
 
@@ -122,7 +137,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     $scope.mostrarFormulario = false;
     $scope.mostrarBotonEditar = true;
     $scope.$parent.setHeaderFab('right');
-
+    $scope.categoriaEditada = new Categoria("", null);
 
     $rootScope.$on("nuevoEvento", function () {
       $scope.mostrarFormulario = false;
@@ -172,6 +187,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     };
 
     $scope.editarCategoria = function (cat) {
+      $scope.categoriaEditada = new Categoria(cat.nombre, cat.precioUnitario);
       init();
       $scope.editando = true;
       $scope.mostrarFormulario = true;
@@ -182,29 +198,46 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       $scope.mostrarFormulario = true;
       $scope.mostrarBotonEditar = false;
       $scope.editando = false;
-      $scope.categoria = new Categoria("", null);
+      $scope.categoriaEditada = new Categoria("", null);
 
     };
 
     $scope.agregarCategoria = function () {
-      if ($scope.categoria.nombre) {
-        if (!$scope.editando && categoriasService.existe($scope.categoria)) {
-          document.getElementById("CAT_" + $scope.categoria.nombre).classList.add("error");
-          $timeout(function () {
-            document.getElementById("CAT_" + $scope.categoria.nombre).classList.remove("error");
-          }, 700)
+      if ($scope.categoriaEditada.nombre) {
+        if ($scope.editando) {
+          if ($scope.categoriaEditada.nombre == $scope.categoria.nombre) {
+            $scope.categoria.precioUnitario = $scope.categoriaEditada.precioUnitario;
+            update();
+            $scope.closeForm();
+          } else if (categoriasService.existe($scope.categoriaEditada)) {
+            document.getElementById("CAT_" + $scope.categoriaEditada.nombre).classList.add("error");
+            $timeout(function () {
+              document.getElementById("CAT_" + $scope.categoriaEditada.nombre).classList.remove("error");
+            }, 700);
+          } else {
+            $scope.categoria.precioUnitario = $scope.categoriaEditada.precioUnitario;
+            $scope.categoria.nombre = $scope.categoriaEditada.nombre;
+            update();
+            $scope.closeForm();
+          }
         } else {
-          categoriasService.add($scope.categoria);
-          update();
+          if (categoriasService.existe($scope.categoriaEditada)) {
+            document.getElementById("CAT_" + $scope.categoriaEditada.nombre).classList.add("error");
+            $timeout(function () {
+              document.getElementById("CAT_" + $scope.categoriaEditada.nombre).classList.remove("error");
+            }, 700);
+          } else {
+            $scope.categoria.precioUnitario = $scope.categoriaEditada.precioUnitario;
+            $scope.categoria.nombre = $scope.categoriaEditada.nombre;
+            categoriasService.add($scope.categoria);
+            update();
+          }
         }
-      } else {
-        document.getElementById("nombreCategoria").classList.add("error");
-        $timeout(function () {
-          document.getElementById("nombreCategoria").classList.remove("error");
-        }, 800);
+
       }
     };
     function update() {
+      $scope.categoriaEditada = new Categoria("", null);
       $scope.categoria = new Categoria("", null);
       $scope.$broadcast("$stateChangeSuccess");
       $timeout(function () {
@@ -214,10 +247,6 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
       }, 100);
     }
-    $scope.seleccionarCategoria = function (categoria) {
-
-
-    };
     $scope.calcularCantidad = function (cat) {
       return invitadosService.contarRegistradosEnCategoria(cat);
     };
@@ -239,7 +268,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       for (var i = 0; i < elements.length; i++) {
         elements[i].classList.toggle('animate-fade-in-active')
       }
-      ;
+
     }, 800);
 
     $timeout(function () {
@@ -387,6 +416,8 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     };
     $scope.editarInvitado = function (invitado) {
       invitadosService.seleccionar(invitado);
+      $scope.mostrarBotonEditar = true;
+      $scope.mostrarFormulario = false;
       $location.path("/app/nuevoInvitado");
     };
 

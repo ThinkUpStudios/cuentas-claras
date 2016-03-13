@@ -20,11 +20,11 @@
         <div class="col-75">
           <div class="item-input" id="nombreCategoria">
             <i class="icon icon-left ion-pricetags stable"></i>
-            <input placeholder="Nombre" type="text" ng-model="categoria.nombre">
+            <input placeholder="Nombre" type="text" ng-model="categoriaEditada.nombre">
           </div>
           <div class="item-input">
             <i class="icon icon-left ion-social-usd stable"></i>
-            <input placeholder="Precio" type="number" ng-model="categoria.precioUnitario" select-on-click>
+            <input placeholder="Precio" type="number" ng-model="categoriaEditada.precioUnitario" select-on-click>
           </div>
         </div>
         <div class="col-20 button-col" ng-show="editando == false">
@@ -33,7 +33,7 @@
           </button>
         </div>
         <div class="col-20 button-col" ng-show="editando == true">
-          <button class="ink" ng-click="agregarCategoria();closeForm()">
+          <button class="ink" ng-click="agregarCategoria()">
             <i class="icon ion-checkmark-circled icon-right"></i>
           </button>
         </div>

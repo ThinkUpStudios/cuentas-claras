@@ -149,7 +149,11 @@ div.form-input {
 
 .bar-header-nav{
   height: 5em !important;
-  background-color: rgba( 57,121,166,1);
+  background-image: url("../img/menu_panel.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
 }
 .menu-content-nav .item{
   border-bottom: 1px solid rgb(240,240,240);
@@ -179,22 +183,43 @@ div.form-input {
 
 }
 
+.invitado-header .item-totals span {
+  color: white;
+  margin: auto;
+  font-size: 1em;
+}
+
+.invitado-header .item-totals input {
+  color: rgba(31, 101, 150, 1);
+  font-size: 1em;
+}
+
+.invitado-header .item-totals input::after {
+  content: "$";
+  color: black;
+  font-size: 1em;
+}
+
+.invitado-header .item-totals .item-input {
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
 .invitado-header span {
 
   color: white;
   margin: auto;
-  font-size: 1.6em;
+  font-size: 1.2em;
 }
 
 .invitado-header .nombre {
-  padding: 10px;
+  padding: 7px;
   text-align: left;
 
 }
 
 .invitado-header .nombre span {
   vertical-align: middle;
-  font-size: 1.6em;
+  font-size: 1.2em;
 }
 
 .invitado-header span.valores {
@@ -324,6 +349,7 @@ ion-view {
   max-height: 150px;
 }
 
+
 .platform-ios .popover {
   max-height: 150px;
 }
@@ -380,7 +406,7 @@ ion-view {
 
 }
 .has-subtotales{
-  padding-top: 7em;
+  padding-top: 7.5em;
   transition-property: all;
   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
   transition-duration: 0.6s;
@@ -423,7 +449,7 @@ i.icon-delete {
   right: 10px;
 }
 .has-categorias-subtotales{
-  padding-top: 5em;
+  padding-top: 3.5em;
   transition-property: all;
   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
   transition-duration: 0.6s;
