@@ -1,12 +1,33 @@
 <ion-view view-title="Nuevo Invitado">
-  <ion-content >
-    <div class="invitado-header">
-      {{invitado.nombre}}
+  <div class="animate-ripple invitados-subtotales has-header invitado-header" style="z-index:6">
+    <div class="nombre">
+      <span>{{invitado.nombre}}</span>
     </div>
-    <ion-list >
-      <ion-toggle class="" ng-repeat="cat in categoriasSeleccionadas" ng-model="cat.seleccionado">
-        {{cat.categoria.nombre}}
-      </ion-toggle>
+  </div>
+  <div class="card" style="background-color: rgba(255,255,255,0.9);z-index:3;margin-top: 8em;">
+    <div class="row item-totals">
+      <div class="col col-20" style="margin: auto; padding-left: 20px"><span>Puso</span></div>
+      <div class="col col-70 item-input" style="background-color: rgba(240,240,240,0.9)">
+        <input placeholder="Puso"
+               select-on-click
+               type="number"
+               ng-model="invitado.aFavor"
+               style="text-align: right; background: none">
+      </div>
+      <div class="col col-10"></div>
+    </div>
+
+  </div>
+  <ion-content style="padding-top: 10em">
+    <ion-list style="z-index:2">
+      <ion-item class="item-categoria" ng-repeat="cat in categoriasSeleccionadas">
+        <div class="card">
+          <ion-toggle class="rgba-secondary-1-0" ng-model="cat.seleccionado">
+            {{cat.categoria.nombre}}
+          </ion-toggle>
+        </div>
+      </ion-item>
+      <ion-item style="height: 2em"></ion-item>
     </ion-list>
 
   </ion-content>
@@ -14,6 +35,10 @@
     <button id="fab-nextInvitado" ng-click="guardarInvitado()"
             class="button button-fab button-fab-bottom-right expanded button-violeta spin"><i
       class="icon ion-checkmark-round"></i>
+    </button>
+    <button id="fab-borrarInvitado" ng-click="borrarInvitado()"
+            class="button button-fab button-fab-bottom-left expanded button-assertive-900 spin"><i
+      class="icon ion-trash-b"></i>
     </button>
   </div>
   <toast style="margin-bottom:50%"></toast>

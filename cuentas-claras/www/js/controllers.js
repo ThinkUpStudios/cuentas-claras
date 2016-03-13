@@ -153,7 +153,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     };
 
 
-    $scope.borrarCategoria = function (cat) {
+    $scope.borrarCategoria = function () {
       var confirmPopup = $ionicPopup.confirm({
         title: 'Borrar Categoría?',
         cancelText: 'No',
@@ -162,7 +162,8 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
       confirmPopup.then(function (res) {
         if (res) {
-          categoriasService.remove(cat);
+          categoriasService.remove($scope.categoria);
+          invitadosService.eliminarCategoria($scope.categoria);
           update();
           init();
         }
@@ -466,7 +467,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
   })
 
-  .controller('NuevoInvitadoCtrl', function ($scope, $location, ngToast, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, Invitado, invitadosService) {
+  .controller('NuevoInvitadoCtrl', function ($scope, $location, ngToast, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, Invitado, invitadosService, $ionicPopup) {
     $scope.$parent.showHeader();
 
     $scope.isExpanded = true;
@@ -474,17 +475,13 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     $scope.$parent.setHeaderFab('right');
     $scope.categoriasSeleccionadas = [];
 
+
     function init() {
       $scope.categoriasSeleccionadas = [];
-      var invitado = invitadosService.getSeleccionado();
+      $scope.invitado = invitadosService.getSeleccionado();
+
       var c;
 
-      if (invitado) {
-        $scope.invitado = invitado;
-      } else {
-        $scope.invitado = new Invitado("", null);
-
-      }
       categoriasService.getAll().forEach(function (cat, i, a) {
 
         if ($scope.invitado.nombre == "") {
@@ -509,6 +506,22 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       $scope.invitado.quitarCategoria(categoria);
     };
 
+    $scope.borrarInvitado = function () {
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Borrar Invitado?',
+        cancelText: 'No',
+        okText: 'Si'
+      });
+
+      confirmPopup.then(function (res) {
+        if (res) {
+          invitadosService.remove($scope.invitado);
+          $location.path("/app/invitados")
+
+        }
+      });
+
+    };
     $scope.guardarInvitado = function () {
       var c;
       for (var cat in $scope.categoriasSeleccionadas) {
@@ -569,6 +582,8 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
     $timeout(function () {
       document.getElementById('fab-nextInvitado').classList.toggle('on');
+      document.getElementById('fab-borrarInvitado').classList.toggle('on');
+
     }, 100);
 
     ionicMaterialMotion.fadeSlideInRight({

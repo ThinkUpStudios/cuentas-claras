@@ -82,6 +82,7 @@ var app = angular.module('starter.services', [])
       save: function () {
         $localstorage.setObject("invitadosContent", invitadosContent);
       },
+
       contarRegistradosEnCategoria: function (cat) {
         var count = 0;
         this.getAll().forEach(function (e, i, a) {
@@ -97,6 +98,11 @@ var app = angular.module('starter.services', [])
           total += e.aFavor;
         });
         return total;
+      },
+      eliminarCategoria: function (cat) {
+        invitadosContent.invitados.forEach(function (e, i, a) {
+          e.quitarCategoria(cat);
+        });
       },
       get: function (invitado) {
         return invitadosContent.invitados.filter(function (e, i, a) {

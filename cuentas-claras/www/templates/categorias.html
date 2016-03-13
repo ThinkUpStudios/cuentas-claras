@@ -21,12 +21,12 @@
           <div class="item-input" id="nombreCategoria">
             <i class="icon icon-left ion-pricetags stable"></i>
             <input placeholder="Nombre" type="text" ng-model="categoria.nombre">
-        </div>
+          </div>
           <div class="item-input">
             <i class="icon icon-left ion-social-usd stable"></i>
             <input placeholder="Precio" type="number" ng-model="categoria.precioUnitario" select-on-click>
           </div>
-      </div>
+        </div>
         <div class="col-20 button-col" ng-show="editando == false">
           <button class="ink" ng-click="agregarCategoria()">
             <i class="icon ion-android-add-circle icon-right"></i>
@@ -37,15 +37,16 @@
             <i class="icon ion-checkmark-circled icon-right"></i>
           </button>
         </div>
-
-        <div class="button-close-form" ng-click="closeForm()">
-          <i class="icon ion-close icon-close"></i>
+        <div class="col-10">
+          <div class="button-close-form icon-close" ng-click="closeForm()">
+            <i class="icon ion-close icon-close"></i>
+          </div>
+          <div class="button-close-form" ng-click="borrarCategoria()" ng-show="editando">
+            <i class="icon ion-trash-b icon-delete"></i>
+          </div>
         </div>
-        <div class="button-close-form" ng-click="borrarCategoria()" ng-show="editando">
-          <i class="icon ion-trash-b icon-delete"></i>
-        </div>
-    </div>
-  </ion-item>
+      </div>
+    </ion-item>
   </div>
   <ion-content ng-class="{expanded:mostrarFormulario}" class="has-categorias-subtotales">
     <ion-list class="animate-ripple ">
