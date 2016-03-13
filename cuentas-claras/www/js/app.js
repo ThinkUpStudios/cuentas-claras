@@ -148,10 +148,10 @@ app.factory('Categoria', function () {
 
 app.factory('Invitado', function () {
 
-  function Invitado(p_nombre) {
+  function Invitado(p_nombre, p_aFavor) {
     this.nombre = p_nombre;
     this.categorias = [];
-    this.aFavor = 0;
+    this.aFavor = p_aFavor;
   }
 
   Invitado.prototype = {

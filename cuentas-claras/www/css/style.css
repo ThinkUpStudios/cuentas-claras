@@ -56,6 +56,7 @@
   width: 100%;
   background: none;
   border: none;
+
 }
 
 .item-totals .button-col {
@@ -74,6 +75,7 @@ div.form-input {
   /* right: 65px; */
   left: 0px;
   padding-bottom: 5px;
+
 }
 
 .item-totals.input-form {
@@ -95,11 +97,34 @@ div.form-input {
   padding-top: 11em;
 }
 
+.form-input .item-input.error {
+  background-color: rgba(255, 87, 0, 0.07);
+  color: white;
+}
+
+.form-input .item-input.error input {
+  color: white;
+}
+
+.item-invitado .card.error {
+  background-color: rgba(5, 91, 120, 0.85);
+  color: white;
+}
+
+.item-invitado .card.error strong {
+  color: white;
+}
+
+.item-invitado .card strong {
+  transition: 0.2s all linear;
+}
 .item-totals .item-input {
   padding: 2px;
   border-radius: 4px;
   margin-bottom: 10px;
+  transition: 0.2s all linear;
 }
+
 
 .item-totals button i:before {
   font-size: 3em !important;
@@ -164,11 +189,7 @@ div.form-input {
   opacity: 1;
 }
 
-.animate-expand.ng-hide {
-  max-height: 0em;
-  top: -20px;
 
-}
 
 .button-fab.spin.ng-hide {
   opacity: 0;
@@ -188,6 +209,12 @@ div.form-input {
   transition-property: all;
   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
   transition-duration: 0.6s;
+}
+
+.animate-expand.ng-hide {
+  max-height: 0em;
+  top: -20px;
+
 }
 
 .animate-expand {
@@ -211,11 +238,6 @@ div.form-input {
   to { height: 0; }
 }
 
-.animate-expand.ng-hide-remove {
-  -webkit-animation:500ms show;
-  animation:500ms show;
-
-}
 
 @keyframes show {
   from { height: 0; }
@@ -283,17 +305,39 @@ ion-view {
   position: absolute;
   color: rgba(178,213,238,1);
   background-color: rgba( 57,121,166,1);
+  transition: 0.2s all linear;
+  transition-property: all;
+
 }
 .invitados-subtotales div{
   color:white;
 }
+
+.invitados-subtotales.contraido.error {
+  top: -2em;
+
+}
+
+.invitados-subtotales.contraido {
+  top: 0em;
+
+}
 .has-subtotales{
-  margin-top: 6em;
+  padding-top: 7em;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  transition-duration: 0.6s;
 }
 
 .has-subtotales.error{
-  margin-top: 8em;
+  padding-top: 9em;
 }
+
+.has-subtotales.expanded {
+  padding-top: 12em;
+}
+
+
 
 div.button-close-form {
   border: none;

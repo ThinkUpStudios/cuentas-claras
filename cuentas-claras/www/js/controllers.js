@@ -115,13 +115,14 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
   })
   .controller('CategoriasCtrl', function ($rootScope, $scope, $location, $ionicPopup, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, $document, invitadosService, Categoria) {
     $scope.$parent.showHeader();
-    $scope.mostrarFormulario = false;
     $scope.isExpanded = true;
     $scope.categoria = new Categoria("", 0);
     $scope.$parent.setExpanded(true);
     $scope.editando = false;
-    $scope.$parent.setHeaderFab('right');
+    $scope.mostrarFormulario = false;
     $scope.mostrarBotonEditar = true;
+    $scope.$parent.setHeaderFab('right');
+
 
     $rootScope.$on("nuevoEvento", function () {
       $scope.mostrarFormulario = false;
@@ -129,13 +130,18 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       $scope.categorias = categoriasService.getAll();
 
     });
+
+
     $scope.categorias = categoriasService.getAll();
 
     function init() {
       $scope.mostrarFormulario = false;
       $scope.mostrarBotonEditar = true;
+
       $scope.categoria = new Categoria("", 0);
       $scope.editando = false;
+
+
 
     }
 
@@ -174,13 +180,28 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     $scope.nuevaCategoria = function () {
       $scope.mostrarFormulario = true;
       $scope.mostrarBotonEditar = false;
-      $scope.categoria = new Categoria("", 0);
+      $scope.editando = false;
+      $scope.categoria = new Categoria("", null);
 
     };
 
     $scope.agregarCategoria = function () {
-      categoriasService.add($scope.categoria);
-      update();
+      if ($scope.categoria.nombre) {
+        if (categoriasService.existe($scope.categoria)) {
+          document.getElementById("ID_" + $scope.categoria.nombre).classList.add("error");
+          $timeout(function () {
+            document.getElementById("ID_" + $scope.categoria.nombre).classList.remove("error");
+          }, 700)
+        } else {
+          categoriasService.add($scope.categoria);
+          update();
+        }
+      } else {
+        document.getElementById("nombreCategoria").classList.add("error");
+        $timeout(function () {
+          document.getElementById("nombreCategoria").classList.remove("error");
+        }, 800);
+      }
     };
     function update() {
       $scope.categoria = new Categoria("", 0);
@@ -234,7 +255,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
   })
 
-  .controller('InvitadosCtrl', function ($scope, $location, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, invitadosService, Invitado) {
+  .controller('InvitadosCtrl', function ($scope, $rootScope, $location, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, invitadosService, Invitado) {
     $scope.$parent.showHeader();
     $scope.isExpanded = true;
     $scope.$parent.setExpanded(true);
@@ -243,7 +264,31 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     $scope.showBalance = false;
     $scope.recaudado = 0;
     $scope.pagados = [];
+    $scope.invitados = invitadosService.getAll();
 
+
+    $rootScope.$on("nuevoEvento", function () {
+      $scope.mostrarFormulario = false;
+      $scope.mostrarBotonEditar = true;
+      $scope.invitados = invitadosService.getAll();
+
+    });
+
+    $scope.editando = false;
+    $scope.mostrarFormulario = false;
+    $scope.mostrarBotonEditar = true;
+
+    function init() {
+      $scope.mostrarFormulario = false;
+      $scope.mostrarBotonEditar = true;
+      $scope.invitado = new Invitado("");
+      $scope.editando = false;
+
+    }
+
+    $scope.closeForm = function () {
+      init();
+    };
 
     $scope.getSaldo = function (inv) {
       var total = $scope.calcularSaldo(inv);
@@ -256,7 +301,41 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
         return "A su favor $" + (total * -1);
       }
     };
+    $scope.agregarInvitado = function () {
+      if ($scope.invitado.nombre) {
+        if (!invitadosService.existe($scope.invitado)) {
+          categoriasService.getAll().forEach(function (cat, i, a) {
+            $scope.invitado.agregarCategoria(cat);
+          });
+          if (!$scope.invitado.aFavor) {
+            $scope.invitado.aFavor = 0;
+          }
+          invitadosService.add($scope.invitado);
+          $scope.invitado = new Invitado("", null);
+          $scope.invitados = invitadosService.getAll();
+          $scope.$broadcast("$stateChangeSuccess");
+          $timeout(function () {
+            ionicMaterialMotion.ripple({
+              selector: '.animate-ripple .item '
+            });
 
+          }, 100);
+        } else {
+          document.getElementById("ID_" + $scope.invitado.nombre).classList.add("error");
+          $timeout(function () {
+            document.getElementById("ID_" + $scope.invitado.nombre).classList.remove("error");
+          }, 700)
+        }
+
+      } else {
+        document.getElementById("nombreInvitado").classList.add("error");
+        $timeout(function () {
+          document.getElementById("nombreInvitado").classList.remove("error");
+        }, 700)
+      }
+
+
+    };
     $scope.totalCategorias = function () {
       var total = 0;
 
@@ -288,8 +367,10 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
     };
     $scope.nuevoInvitado = function () {
-      invitadosService.seleccionar(new Invitado(""));
-      $location.path("/app/nuevoInvitado");
+      $scope.mostrarFormulario = true;
+      $scope.mostrarBotonEditar = false;
+      $scope.editando = false;
+      $scope.invitado = new Invitado("");
     };
     $scope.calcularSaldo = function (invitado) {
       var total = 0;
@@ -401,7 +482,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       if (invitado) {
         $scope.invitado = invitado;
       } else {
-        $scope.invitado = new Invitado("");
+        $scope.invitado = new Invitado("", null);
 
       }
       categoriasService.getAll().forEach(function (cat, i, a) {
@@ -438,7 +519,11 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
           $scope.invitado.quitarCategoria(c.categoria);
         }
       }
+      if (!$scope.invitado.aFavor) {
+        $scope.invitado.aFavor = 0;
+      }
       invitadosService.add($scope.invitado);
+      $location.path("/app/invitados");
     };
 
     $scope.agregarNuevoInvitado = function () {
@@ -483,7 +568,6 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     };
 
     $timeout(function () {
-      document.getElementById('fab-nuevoInvitado').classList.toggle('on');
       document.getElementById('fab-nextInvitado').classList.toggle('on');
     }, 100);
 

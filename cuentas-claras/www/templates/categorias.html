@@ -18,7 +18,7 @@
     <ion-item class="item-totals input-form">
       <div class="row">
         <div class="col-75">
-          <div class="item-input">
+          <div class="item-input" id="nombreCategoria">
             <i class="icon icon-left ion-pricetags stable"></i>
             <input placeholder="Nombre" type="text" ng-model="categoria.nombre">
         </div>
@@ -41,7 +41,7 @@
         <div class="button-close-form" ng-click="closeForm()">
           <i class="icon ion-close icon-close"></i>
         </div>
-        <div class="button-close-form" ng-click="borrarCategoria()">
+        <div class="button-close-form" ng-click="borrarCategoria()" ng-show="editando">
           <i class="icon ion-trash-b icon-delete"></i>
         </div>
     </div>
@@ -50,7 +50,7 @@
   <ion-content ng-class="{expanded:mostrarFormulario}" class="has-categorias-subtotales">
     <ion-list class="animate-ripple ">
       <ion-item class="card-item item-invitado" can-swipe="true" ng-repeat="cat in categorias track by cat.nombre">
-        <div ng-click="editarCategoria(cat)" class="card ink ink-dark">
+        <div ng-click="editarCategoria(cat)" class="card ink ink-dark" id="{{'ID_'+cat.nombre}}">
           <div class="item item-text-wrap item-data">
 
             <strong>{{cat.nombre}}</strong>
@@ -72,7 +72,8 @@
   </ion-content>
 
 
-  <img src="img/tutorial 1.png" class="tutorial animate-fade-in" ng-show="getCategorias().length == 0">
+  <img src="img/tutorial 1.png" class="tutorial animate-fade-in"
+       ng-show="getCategorias().length == 0  && mostrarBotonEditar">
 
   <button id="fab-categoria-plus" ng-click="nuevaCategoria()" ng-show="mostrarBotonEditar"
           class="button button-fab button-fab-bottom-right expanded button-green spin"><i

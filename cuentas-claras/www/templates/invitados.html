@@ -1,5 +1,6 @@
 <ion-view view-title="Quiénes somos?">
-  <div class="animate-ripple invitados-subtotales has-header">
+  <div class="animate-ripple invitados-subtotales has-header"
+       ng-class="{contraido:mostrarFormulario,error:showBalance}">
     <ion-item class="item-totals">
       <div class="ink ink-dark">
         <div class="row ">
@@ -34,13 +35,44 @@
 
     </ion-item>
   </div>
-  <ion-content ng-class="{expanded:isExpanded, error:!showBalance}" class="has-subtotales animate-ripple">
+  <div class="form-input animate-expand " ng-show="mostrarFormulario">
+    <ion-item class="item-totals input-form">
+      <div class="row">
+        <div class="col-75">
+          <div class="item-input" id="nombreInvitado">
+            <i class="icon icon-left ion-person stable"></i>
+            <input placeholder="Nombre" type="text" ng-model="invitado.nombre">
+          </div>
+          <div class="item-input">
+            <i class="icon icon-left ion-social-usd stable"></i>
+            <input placeholder="Ya puso plata?" type="number" ng-model="invitado.aFavor" select-on-click>
+          </div>
+        </div>
+        <div class="col-20 button-col" ng-show="editando == false">
+          <button class="ink" ng-click="agregarInvitado()">
+            <i class="icon ion-android-add-circle icon-right"></i>
+          </button>
+        </div>
+        <div class="col-20 button-col" ng-show="editando == true">
+          <button class="ink" ng-click="agregarInvitado();closeForm()">
+            <i class="icon ion-checkmark-circled icon-right"></i>
+          </button>
+        </div>
+
+        <div class="button-close-form" ng-click="closeForm()">
+          <i class="icon ion-close icon-close"></i>
+        </div>
+        <div class="button-close-form" ng-click="borrarInvitado()" ng-show="editando">
+          <i class="icon ion-trash-b icon-delete"></i>
+        </div>
+      </div>
+    </ion-item>
+  </div>
+  <ion-content ng-class="{expanded:mostrarFormulario, error:!showBalance}" class="has-subtotales animate-ripple">
 
     <ion-list>
-
-
-      <ion-item class="item-invitado" ng-repeat="inv in getInvitados() track by inv.nombre">
-        <div class="card ink" >
+      <ion-item class="item-invitado" ng-repeat="inv in invitados track by inv.nombre">
+        <div class="card ink" id="{{'ID_'+inv.nombre}}">
           <div class="row ">
             <div class="col col-20">
               <button class="button button-fab button-fab-small" ng-show="calcularSaldo(inv) >0 "
@@ -69,9 +101,12 @@
 
   </ion-content>
   <toast></toast>
-  <img src="img/tutorial2.png" class="tutorial animate-fade-in" ng-show="getInvitados().length == 0">
+  <img src="img/tutorial2.png" class="tutorial animate-fade-in"
+       ng-show="getInvitados().length == 0 && mostrarBotonEditar">
 
-  <button id="fab-invitado-plus" ng-click="nuevoInvitado()"
+  <button id="fab-invitado-plus" ng-click="nuevoInvitado()" ng-show="mostrarBotonEditar"
           class="button button-fab button-fab-bottom-right expanded button-green spin"><i
     class="icon ion-plus-round"></i></button>
+
+
 </ion-view>

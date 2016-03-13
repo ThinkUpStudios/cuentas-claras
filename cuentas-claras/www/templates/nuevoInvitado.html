@@ -1,26 +1,17 @@
 <ion-view view-title="Nuevo Invitado">
   <ion-content >
-      <div class="form-card">
-            <ion-md-input ng-model="invitado.nombre" name="nombre" placeholder="Nombre"
-                          highlight-color="balanced"
-                          type="text"></ion-md-input>
-
-            <ion-md-input ng-model="invitado.aFavor" name="aFavor" placeholder="Dinero a favor"
-                          highlight-color="balanced"
-                          type="number"></ion-md-input>
-
-      </div>
+    <div class="invitado-header">
+      {{invitado.nombre}}
+    </div>
     <ion-list >
-      <ion-checkbox class="" ng-repeat="cat in categoriasSeleccionadas" ng-model="cat.seleccionado">{{cat.categoria.nombre}}</ion-checkbox>
+      <ion-toggle class="" ng-repeat="cat in categoriasSeleccionadas" ng-model="cat.seleccionado">
+        {{cat.categoria.nombre}}
+      </ion-toggle>
     </ion-list>
 
   </ion-content>
   <div class="hide-on-keyboard-open">
-    <button id="fab-nuevoInvitado" ng-click="agregarNuevoInvitado()"
-            class="button button-fab button-fab-bottom-left expanded button-green spin"><i
-      class="icon ion-plus-round"></i>
-    </button>
-    <button id="fab-nextInvitado" ng-click="crearInvitadoYVolver()"
+    <button id="fab-nextInvitado" ng-click="guardarInvitado()"
             class="button button-fab button-fab-bottom-right expanded button-violeta spin"><i
       class="icon ion-checkmark-round"></i>
     </button>

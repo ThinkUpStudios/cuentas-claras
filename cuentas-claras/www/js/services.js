@@ -19,28 +19,32 @@ var app = angular.module('starter.services', [])
   }])
 
 
-  .factory('invitadosService', ['$localstorage', '$rootScope','Invitado', 'Categoria', function ($localstorage, $rootScope, Invitado, Categoria ) {
+  .factory('invitadosService', ['$localstorage', '$rootScope', 'Invitado', 'Categoria', 'categoriasService', function ($localstorage, $rootScope, Invitado, Categoria, categoriasService) {
     var invitadosContent = {
       invitados: [],
-      invitadoSeleccionado: new Invitado("")
-    };
+      invitadoSeleccionado: new Invitado("", null)
+    }
     var data = $localstorage.getObject("invitadosContent");
     if (!data.invitados) {
       $localstorage.setObject("invitadosContent", invitadosContent);
     } else {
-
+      var inv = null;
       data.invitados.forEach(function (e, i, a) {
-        e.__proto__ = Invitado.prototype;
+        inv = new Invitado(e.nombre, e.aFavor);
         e.categorias.forEach(function (ee, ii, aa) {
-          ee.__proto__ = Categoria.prototype;
-        })
-        invitadosContent.invitados.push(e);
+          inv.agregarCategoria(categoriasService.get(ee));
+        });
+        invitadosContent.invitados.push(inv);
       });
-      invitadosContent.invitadoSeleccionado = data.invitadoSeleccionado;
-      invitadosContent.invitadoSeleccionado.__proto__ = Invitado.prototype;
+      invitadosContent.invitados.forEach(function (e, i, a) {
+        if (e.nombre == data.invitadoSeleccionado.nombre) {
+          invitadosContent.invitadoSeleccionado = e;
+        }
+      });
+
 
     }
-    $rootScope.$on("nuevoEvento", function(){
+    $rootScope.$on("nuevoEvento", function () {
       invitadosContent = {
         invitados: [],
         invitadoSeleccionado: new Invitado("")
@@ -48,9 +52,14 @@ var app = angular.module('starter.services', [])
       $localstorage.setObject("invitadosContent", invitadosContent);
     });
     return {
+      existe: function (inv) {
+        return invitadosContent.invitados.filter(function (e, i, a) {
+            return e.nombre == inv.nombre
+          })[0] != undefined;
+      },
       add: function (Invitado) {
 
-        if (invitadosContent && !this.get(Invitado)) {
+        if (invitadosContent && !this.existe(Invitado)) {
           invitadosContent.invitados.push(Invitado);
           this.save();
         }
@@ -90,17 +99,13 @@ var app = angular.module('starter.services', [])
         return total;
       },
       get: function (invitado) {
-
-        this.getAll().forEach(function (e, i, a) {
-          if (e.nombre == invitado.nombre) {
-            return e;
-          }
-        });
-        return null;
+        return invitadosContent.invitados.filter(function (e, i, a) {
+          return e.nombre == Invitado.nombre
+        })[0];
       }
     };
   }])
-  .factory('categoriasService', ['$localstorage','$rootScope', 'Categoria', function ($localstorage, $rootScope, Categoria ) {
+  .factory('categoriasService', ['$localstorage', '$rootScope', 'Categoria', function ($localstorage, $rootScope, Categoria) {
 
     var categoriasContent = {
       categorias: [],
@@ -112,13 +117,13 @@ var app = angular.module('starter.services', [])
       $localstorage.setObject("catContent", categoriasContent);
     } else {
       data.categorias.forEach(function (e, i, a) {
-        e.__proto__ = Categoria.prototype;
-        categoriasContent.categorias.push(e);
-      })
-      categoriasContent.categoriaSeleccionada = data.categoriaSeleccionada;
-      categoriasContent.categoriaSeleccionada.__proto__ = Categoria.prototype;
+        categoriasContent.categorias.push(new Categoria(e.nombre, e.precioUnitario));
+      });
+      categoriasContent.categoriaSeleccionada =
+        new Categoria(data.categoriaSeleccionada.nombre, data.categoriaSeleccionada.precioUnitario);
+
     }
-    $rootScope.$on("nuevoEvento", function(){
+    $rootScope.$on("nuevoEvento", function () {
       categoriasContent = {
         categorias: [],
         categoriaSeleccionada: new Categoria("", 0)
@@ -126,8 +131,13 @@ var app = angular.module('starter.services', [])
       $localstorage.setObject("catContent", categoriasContent);
     });
     return {
+      existe: function (Categoria) {
+        return categoriasContent.categorias.filter(function (e, i, a) {
+            return e.nombre == Categoria.nombre
+          })[0] != undefined;
+      },
       add: function (Categoria) {
-        if (!this.get(Categoria)) {
+        if (categoriasContent && !this.existe(Categoria)) {
           categoriasContent.categorias.push(Categoria);
           this.save();
         }
@@ -157,12 +167,9 @@ var app = angular.module('starter.services', [])
         $localstorage.setObject("catContent", categoriasContent);
       },
       get: function (Categoria) {
-        for (var i = 0; i < categoriasContent.categorias.length; i++) {
-          if (categoriasContent.categorias[i].nombre == Categoria.nombre) {
-            return categoriasContent.categorias[i];
-          }
-        }
-        return null;
+        return categoriasContent.categorias.filter(function (e, i, a) {
+          return e.nombre == Categoria.nombre
+        })[0];
       }
     };
   }]);
