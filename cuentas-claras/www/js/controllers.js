@@ -386,11 +386,16 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     $scope.pagar = function (invitado) {
       if (!$scope.yaPago(invitado)) {
         $scope.pagados.push(invitado);
-        $scope.recaudado += parseFloat($scope.calcularSaldo(invitado));
       } else {
         $scope.pagados.splice($scope.pagados.indexOf(invitado), 1);
-        $scope.recaudado -= parseFloat($scope.calcularSaldo(invitado));
+
       }
+      $scope.recaudado = 0;
+      $scope.pagados.forEach(function (e, i, a) {
+        $scope.recaudado += parseFloat($scope.calcularSaldo(e));
+
+      });
+      $scope.recaudado = parseFloat($scope.recaudado).toFixed(2);
     };
     $scope.getInvitados = function () {
       return invitadosService.getAll();
