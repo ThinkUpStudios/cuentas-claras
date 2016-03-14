@@ -230,6 +230,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
             $scope.categoria.precioUnitario = $scope.categoriaEditada.precioUnitario;
             $scope.categoria.nombre = $scope.categoriaEditada.nombre;
             categoriasService.add($scope.categoria);
+            invitadosService.agregarCategoria($scope.categoria);
             update();
           }
         }

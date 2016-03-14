@@ -82,7 +82,13 @@ var app = angular.module('starter.services', [])
       save: function () {
         $localstorage.setObject("invitadosContent", invitadosContent);
       },
+      agregarCategoria: function(cat){
+        this.getAll().forEach(function(e,i,a){
+          e.agregarCategoria(cat);
+        });
+        this.save();
 
+      },
       contarRegistradosEnCategoria: function (cat) {
         var count = 0;
         this.getAll().forEach(function (e, i, a) {
