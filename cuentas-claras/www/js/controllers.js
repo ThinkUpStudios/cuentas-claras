@@ -512,7 +512,6 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
   .controller('NuevoInvitadoCtrl', function ($scope, $location, ngToast, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, Invitado, invitadosService, $ionicPopup) {
     $scope.isExpanded = true;
     $scope.categoriasSeleccionadas = [];
-    $scope.invitadoService = invitadosService;
 
     function init() {
       $scope.categoriasSeleccionadas = [];

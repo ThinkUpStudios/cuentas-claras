@@ -117,7 +117,7 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic-material', 'ng
       .state('nuevoInvitado', {
         url: '/nuevoInvitado',
         templateUrl: 'templates/nuevoInvitado.html',
-        controller: 'NuevoInvitadoCtrl'
+        cache: false
 
       })
     ;
