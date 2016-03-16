@@ -1,5 +1,5 @@
 <ion-view view-title="Qué compramos?">
-  <div class="categorias-subtotales has-header animate-ripple">
+  <div class="animate-ripple invitados-subtotales has-header" ng-class="{'has-header has-tabs-top':platform.isAndroid(), 'has-header':!platform.isAndroid()}">
     <ion-item class="item-totals">
       <div class="ink ink-dark">
         <div class="row">
@@ -14,17 +14,17 @@
     </ion-item>
 
   </div>
-  <div class="form-input animate-expand " ng-show="mostrarFormulario">
+  <div class="form-input animate-expand " ng-show="mostrarFormulario" ng-class="{'platform-ios':!platform.isAndroid()}">
     <ion-item class="item-totals input-form">
       <div class="row">
         <div class="col-75">
           <div class="item-input" id="nombreCategoria">
             <i class="icon icon-left ion-pricetags stable"></i>
-            <input placeholder="Nombre" type="text" ng-model="categoriaEditada.nombre">
+            <input placeholder="Qué compramos?" type="text" ng-model="categoriaEditada.nombre">
           </div>
           <div class="item-input">
             <i class="icon icon-left ion-social-usd stable"></i>
-            <input placeholder="Precio" type="number" ng-model="categoriaEditada.precioUnitario" select-on-click>
+            <input placeholder="Cuánto salió?" type="number" ng-model="categoriaEditada.precioUnitario" select-on-click>
           </div>
         </div>
         <div class="col-20 button-col" ng-show="editando == false">

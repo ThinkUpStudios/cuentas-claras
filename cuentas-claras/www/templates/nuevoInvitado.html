@@ -1,8 +1,5 @@
-<ion-view view-title="Nuevo Invitado">
-  <div class="animate-ripple invitados-subtotales has-header invitado-header" style="z-index:6">
-    <div class="nombre">
-      <span>{{invitado.nombre}}</span>
-    </div>
+<ion-view view-title="{{invitadoService.getSeleccionado().nombre}}">
+  <div class="animate-ripple invitados-subtotales has-header invitado-header" style="z-index:6" >
     <div class="row item-totals">
       <div class="col col-20" style="text-align: left;"><span>Puso $</span></div>
       <div class="col col-70 item-input">
@@ -15,7 +12,7 @@
       <div class="col col-10"></div>
     </div>
   </div>
-  <ion-content style="padding-top: 10em">
+  <ion-content style="padding-top: 4rem">
     <ion-list style="z-index:2">
       <ion-item class="item-categoria" ng-repeat="cat in categoriasSeleccionadas">
         <div class="card">

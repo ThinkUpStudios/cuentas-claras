@@ -1,6 +1,6 @@
 <ion-view view-title="Quiénes somos?">
   <div class="animate-ripple invitados-subtotales has-header"
-       ng-class="{contraido:mostrarFormulario,error:showBalance}">
+       ng-class="{error:showBalance, 'has-header has-tabs-top':platform.isAndroid(), 'has-header':!platform.isAndroid()}">
     <ion-item class="item-totals">
       <div class="ink ink-dark">
         <div class="row ">
@@ -13,18 +13,7 @@
         </div>
       </div>
     </ion-item>
-    <ion-item class="item-totals">
-      <div class="ink ink-dark">
-        <div class="row ">
-          <div class="col">
-            Ya me pagaron
-          </div>
-          <div class="text-right col">
-            <i class="icon ion-social-usd "></i> {{recaudado}}
-          </div>
-        </div>
-      </div>
-    </ion-item>
+
     <ion-item class="item-totals animate-ripple" ng-show="showBalance">
       <div class="ink calm-900-bg ink-dark text-center item-text-wrap error">
         <span>{{balance}}</span>
@@ -35,7 +24,7 @@
 
     </ion-item>
   </div>
-  <div class="form-input animate-expand " ng-show="mostrarFormulario">
+  <div class="form-input animate-expand " ng-show="mostrarFormulario" ng-class="{'error':showBalance}">
     <ion-item class="item-totals input-form">
       <div class="row">
         <div class="col-75">
@@ -68,17 +57,12 @@
       </div>
     </ion-item>
   </div>
-  <ion-content ng-class="{expanded:mostrarFormulario, error:!showBalance}" class="has-subtotales animate-ripple">
+  <ion-content ng-class="{expanded:mostrarFormulario, error:!showBalance}" class="has-subtotales animate-ripple" >
 
     <ion-list>
       <ion-item class="item-invitado" ng-repeat="inv in invitados track by inv.nombre">
         <div class="card ink" id="{{'INV_'+inv.nombre}}">
           <div class="row ">
-            <div class="col col-20">
-              <button class="button button-fab button-fab-small" ng-show="calcularSaldo(inv) >0 "
-                      ng-click="pagar(inv)" ng-class="{'button-ya-pago': yaPago(inv)}"><i
-                class="icon ion-checkmark"></i></button>
-            </div>
             <div class="item item-text-wrap col item-data" ng-click="editarInvitado(inv)">
 
               <strong>{{inv.nombre}}</strong>
@@ -105,6 +89,7 @@
        ng-show="getInvitados().length == 0 && mostrarBotonEditar">
 
   <button id="fab-invitado-plus" ng-click="nuevoInvitado()" ng-show="mostrarBotonEditar"
+          ng-class="{'platform-ios':!platform.isAndroid()}"
           class="button button-fab button-fab-bottom-right expanded button-green spin"><i
     class="icon ion-plus-round"></i></button>
 

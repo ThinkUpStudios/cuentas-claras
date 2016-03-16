@@ -17,7 +17,38 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
   })
   .controller('AppCtrl', function ($scope, $ionicModal, $ionicPopover, $ionicPopup, $timeout, Categoria, $rootScope, $location, $ionicNavBarDelegate) {
     // Form data for the login modal
-    $scope.loginData = {};
+    $scope.nuevoEvento = function () {
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Nuevo Evento',
+        template: 'Se perderá todo lo cargado. Desea continuar?',
+        cancelText: 'No',
+        okText: 'Si'
+      });
+
+      confirmPopup.then(function (res) {
+        if (res) {
+          $rootScope.$broadcast("nuevoEvento");
+          $location.path("/tab/categorias");
+        }
+      });
+
+
+
+    };
+    $scope.getMenuSide = function () {
+      if (ionic.Platform.isIOS()) {
+        $ionicNavBarDelegate.showBackButton(false);
+        return "right";
+      } else {
+        $ionicNavBarDelegate.showBackButton(true);
+        return "left";
+      }
+    };
+    $scope.goto = function (path) {
+      $location.path(path);
+    };
+    $scope.platform = ionic.Platform;
+ /*   $scope.loginData = {};
     $scope.isExpanded = false;
     $scope.hasHeaderFabLeft = false;
     $scope.hasHeaderFabRight = false;
@@ -29,15 +60,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       });
     }
 
-    $scope.getMenuSide = function () {
-      if (ionic.Platform.isIOS()) {
-        $ionicNavBarDelegate.showBackButton(false);
-        return "right";
-      } else {
-        $ionicNavBarDelegate.showBackButton(true);
-        return "left";
-      }
-    };
+
     ////////////////////////////////////////
     // Layout Methods
     ////////////////////////////////////////
@@ -62,28 +85,9 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     $scope.setExpanded = function (bool) {
       $scope.isExpanded = bool;
     };
-    $scope.nuevoEvento = function () {
-      var confirmPopup = $ionicPopup.confirm({
-        title: 'Nuevo Evento',
-        template: 'Se perderá todo lo cargado. Desea continuar?',
-        cancelText: 'No',
-        okText: 'Si'
-      });
-
-      confirmPopup.then(function (res) {
-        if (res) {
-          $rootScope.$broadcast("nuevoEvento");
-          $location.path("/app/categorias");
-        }
-      });
 
 
 
-    };
-
-    $scope.goto = function (path) {
-      $location.path(path);
-    };
     $scope.setHeaderFab = function (location) {
       var hasHeaderFabLeft = false;
       var hasHeaderFabRight = false;
@@ -126,17 +130,18 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       if (fabs.length && fabs.length > 1) {
         fabs[0].remove();
       }
-    };
+    };*/
   })
   .controller('CategoriasCtrl', function ($rootScope, $scope, $location, $ionicPopup, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, $document, invitadosService, Categoria) {
-    $scope.$parent.showHeader();
+  //  $scope.$parent.showHeader();
     $scope.isExpanded = true;
     $scope.categoria = new Categoria("", null);
-    $scope.$parent.setExpanded(true);
+   // $scope.$parent.setExpanded(true);
     $scope.editando = false;
     $scope.mostrarFormulario = false;
     $scope.mostrarBotonEditar = true;
-    $scope.$parent.setHeaderFab('right');
+
+   // $scope.$parent.setHeaderFab('right');
     $scope.categoriaEditada = new Categoria("", null);
 
     $rootScope.$on("nuevoEvento", function () {
@@ -287,10 +292,9 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
   })
 
   .controller('InvitadosCtrl', function ($scope, $rootScope, $location, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, invitadosService, Invitado) {
-    $scope.$parent.showHeader();
+
     $scope.isExpanded = true;
-    $scope.$parent.setExpanded(true);
-    $scope.$parent.setHeaderFab('right');
+
     $scope.balance = "Cuentas Claras!";
     $scope.showBalance = false;
     $scope.recaudado = 0;
@@ -424,7 +428,8 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       invitadosService.seleccionar(invitado);
       $scope.mostrarBotonEditar = true;
       $scope.mostrarFormulario = false;
-      $location.path("/app/nuevoInvitado");
+
+      $location.path("/nuevoInvitado");
     };
 
     $scope.$on('$stateChangeSuccess', function () {
@@ -505,13 +510,9 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
   })
 
   .controller('NuevoInvitadoCtrl', function ($scope, $location, ngToast, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, Invitado, invitadosService, $ionicPopup) {
-    $scope.$parent.showHeader();
-
     $scope.isExpanded = true;
-    $scope.$parent.setExpanded(true);
-    $scope.$parent.setHeaderFab('right');
     $scope.categoriasSeleccionadas = [];
-
+    $scope.invitadoService = invitadosService;
 
     function init() {
       $scope.categoriasSeleccionadas = [];
@@ -530,7 +531,6 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     };
 
     init();
-
     $scope.getCategorias = function () {
       return categoriasService.getAll();
     };
@@ -553,7 +553,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
       confirmPopup.then(function (res) {
         if (res) {
           invitadosService.remove($scope.invitado);
-          $location.path("/app/invitados")
+          $location.path("/tab/invitados")
 
         }
       });
@@ -573,7 +573,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
         $scope.invitado.aFavor = 0;
       }
       invitadosService.add($scope.invitado);
-      $location.path("/app/invitados");
+      $location.path("/tab/invitados");
     };
 
     $scope.agregarNuevoInvitado = function () {
@@ -613,7 +613,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
         });
       } else {
         this.guardarInvitado();
-        $location.path("/app/invitados");
+        $location.path("/tab/invitados");
       }
     };
 

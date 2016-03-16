@@ -11,7 +11,7 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic-material', 'ng
 
   })
 
-  .run(function ($ionicPlatform, invitadosService,categoriasService, $rootScope) {
+  .run(function ($ionicPlatform, invitadosService, categoriasService, $rootScope) {
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -24,8 +24,8 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic-material', 'ng
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
-      document.addEventListener("deviceready", function(event){
-        document.addEventListener("pause", function(event){
+      document.addEventListener("deviceready", function (event) {
+        document.addEventListener("pause", function (event) {
           invitadosService.save();
           categoriasService.save();
           console.log('PAUSA!!!');
@@ -75,57 +75,55 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic-material', 'ng
       templateUrl: 'templates/sideMenu.html',
       controller: 'AppCtrl'
     })
-      .state('app.detalleCategoria', {
-        url: '/detalleCategoria',
-        views: {
-          'menuContent': {
-            templateUrl: 'templates/detalleCategoria.html',
-            controller: 'DetalleCategoriaCtrl'
-          }
-        }
-      })
-      .state('app.nuevaCategoria', {
-        url: '/nuevaCategoria',
-        views: {
-          'menuContent': {
-            templateUrl: 'templates/nuevaCategoria.html',
-            controller: 'NuevaCategoriaCtrl'
-          }
 
-        }
+      .state('tab', {
+        url: "/tab",
+        abstract: true,
+        templateUrl: "templates/tabs.html",
+        controller: 'AppCtrl'
+
       })
-      .state('app.invitados', {
+
+      .state('tab.invitados', {
         url: '/invitados',
         views: {
-          'menuContent': {
+          'invitados-tab': {
             templateUrl: 'templates/invitados.html',
             controller: 'InvitadosCtrl'
           }
 
         }
       })
-      .state('app.nuevoInvitado', {
-        url: '/nuevoInvitado',
-        views: {
-          'menuContent': {
-            templateUrl: 'templates/nuevoInvitado.html',
-            controller: 'NuevoInvitadoCtrl'
-          }
-
-        }
-      })
-      .state('app.categorias', {
+      .state('tab.categorias', {
         url: '/categorias',
         views: {
-          'menuContent': {
+          'categorias-tab': {
             templateUrl: 'templates/categorias.html',
             controller: 'CategoriasCtrl'
           }
         }
-      });
+      })
+      .state('tab.nuevaCategoria', {
+        url: '/nuevaCategoria',
+        views: {
+          'categorias-tab': {
+            templateUrl: 'templates/nuevaCategoria.html',
+            controller: 'NuevaCategoriaCtrl'
+          }
+
+        }
+      })
+
+      .state('nuevoInvitado', {
+        url: '/nuevoInvitado',
+        templateUrl: 'templates/nuevoInvitado.html',
+        controller: 'NuevoInvitadoCtrl'
+
+      })
+    ;
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app/categorias');
+    $urlRouterProvider.otherwise('/tab/categorias');
 
   });
 
