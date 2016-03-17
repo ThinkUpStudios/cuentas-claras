@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.cuentasclaras986994" version="0.0.1" xmlns="http://www.w3.org/ns/widgets">
-  <name>cuentas-claras</name>
+<widget id="ar.com.thinkupstudios.cuentas-claras" version="0.1.0" xmlns="http://www.w3.org/ns/widgets">
+  <name>Cuentas Claras</name>
   <description>
-    An Ionic Framework and Cordova project.
+    División de gastos entre invitados de un evento
   </description>
-  <author email="you@example.com" href="http://example.com.com/">
-    Your Name Here
+  <author email="studiosthinkup@gmail.com" href="">
+    Thinkup Studios
   </author>
   <content src="index.html"/>
   <access origin="*"/>
