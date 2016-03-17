@@ -144,6 +144,13 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
    // $scope.$parent.setHeaderFab('right');
     $scope.categoriaEditada = new Categoria("", null);
 
+    $scope.goBack = function(){
+      //$location.path("/invitados")
+    };
+    $scope.goForward = function(){
+      $location.path("/tab/invitados")
+    };
+
     $rootScope.$on("nuevoEvento", function () {
       $scope.mostrarFormulario = false;
       $scope.mostrarBotonEditar = true;
@@ -192,12 +199,11 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     };
 
     $scope.editarCategoria = function (cat) {
-      $scope.categoriaEditada = new Categoria(cat.nombre, cat.precioUnitario);
-      init();
-      $scope.editando = true;
-      $scope.mostrarFormulario = true;
-      $scope.mostrarBotonEditar = false;
-      $scope.categoria = cat;
+      categoriasService.seleccionar(cat);
+      $scope.mostrarBotonEditar = true;
+      $scope.mostrarFormulario = false;
+      $location.path("/editarCategoria");
+
     };
     $scope.nuevaCategoria = function () {
       $scope.mostrarFormulario = true;
@@ -301,7 +307,9 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
     $scope.pagados = [];
     $scope.invitados = invitadosService.getAll();
 
-
+    $scope.goBack = function(){
+      $location.path("/tab/categorias")
+    };
     $rootScope.$on("nuevoEvento", function () {
       $scope.mostrarFormulario = false;
       $scope.mostrarBotonEditar = true;
@@ -544,7 +552,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
     $scope.borrarInvitado = function () {
       var confirmPopup = $ionicPopup.confirm({
-        title: 'Borrar Invitado?',
+        title: 'Borrar invitado?',
         cancelText: 'No',
         okText: 'Si'
       });
@@ -631,24 +639,61 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
   })
 
 
-  .controller('NuevaCategoriaCtrl', function ($scope, $location, ngToast, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, Categoria) {
-    $scope.$parent.showHeader();
+  .controller('NuevaCategoriaCtrl', function ($scope, $location, $ionicPopup,ngToast, ionicMaterialInk, $timeout, ionicMaterialMotion, categoriasService, invitadosService, Categoria) {
+
     $scope.isExpanded = true;
-    $scope.$parent.setExpanded(true);
+    $scope.invitadosConsumidores =[];
+    function init() {
+      $scope.invitadosConsumidores = [];
+      $scope.categoria = categoriasService.getSeleccionada();
 
-    var categoria = categoriasService.getSeleccionada();
-    if (categoria) {
-      $scope.data = categoria;
-    } else {
-      $scope.data = new Categoria("", null);
-    }
+      var c;
 
+      invitadosService.getAll().forEach(function (inv, i, a) {
+         $scope.invitadosConsumidores.push({invitado: inv, seleccionado: inv.tieneCategoria($scope.categoria)});
+      });
+
+    };
+
+    init();
 
     $timeout(function () {
-      document.getElementById('fab-nuevo').classList.toggle('on');
-      document.getElementById('fab-next').classList.toggle('on');
-    }, 100);
+      document.getElementById('fab-nextInvitado').classList.toggle('on');
+      document.getElementById('fab-borrarInvitado').classList.toggle('on');
 
+    }, 100);
+    $scope.guardarCategoria = function () {
+      var i;
+      for (var inv in $scope.invitadosConsumidores) {
+        i = $scope.invitadosConsumidores[inv];
+        if (i.seleccionado) {
+          i.invitado.agregarCategoria($scope.categoria);
+        } else {
+          i.invitado.quitarCategoria($scope.categoria);
+        }
+      }
+      if (!$scope.categoria.precioUnitario) {
+        $scope.categoria.precioUnitario = 0;
+      }
+      categoriasService.add($scope.categoria);
+      $location.path("/tab/categprias");
+    };
+    $scope.borrarCategoria = function () {
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Borrar la categoría?',
+        cancelText: 'No',
+        okText: 'Si'
+      });
+
+      confirmPopup.then(function (res) {
+        if (res) {
+          categoriasService.remove($scope.categoria);
+          $location.path("/tab/categorias")
+
+        }
+      });
+
+    };
 
   })
 

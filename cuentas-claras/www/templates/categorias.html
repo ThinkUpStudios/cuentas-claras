@@ -1,5 +1,5 @@
-<ion-view view-title="Qué compramos?">
-  <div class="animate-ripple invitados-subtotales has-header" ng-class="{'has-header has-tabs-top':platform.isAndroid(), 'has-header':!platform.isAndroid()}">
+<ion-view class="fade-out" title="Qué compramos?">
+  <div class="invitados-subtotales has-header" ng-class="{'has-header has-tabs-top':platform.isAndroid(), 'has-header':!platform.isAndroid()}">
     <ion-item class="item-totals">
       <div class="ink ink-dark">
         <div class="row">
@@ -48,7 +48,7 @@
       </div>
     </ion-item>
   </div>
-  <ion-content ng-class="{expanded:mostrarFormulario}" class="has-categorias-subtotales">
+  <ion-content ng-class="{expanded:mostrarFormulario}" class="has-categorias-subtotales"  on-swipe-left="goForward()">
     <ion-list class="animate-ripple ">
       <ion-item class="card-item item-invitado" can-swipe="true" ng-repeat="cat in categorias track by cat.nombre">
         <div ng-click="editarCategoria(cat)" class="card ink ink-dark" id="{{'CAT_'+cat.nombre}}">
@@ -79,5 +79,6 @@
   <button id="fab-categoria-plus" ng-click="nuevaCategoria()" ng-show="mostrarBotonEditar"
           class="button button-fab button-fab-bottom-right expanded button-green spin"><i
     class="icon ion-plus-round"></i></button>
+
 
 </ion-view>

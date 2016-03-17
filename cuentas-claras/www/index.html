@@ -33,7 +33,7 @@
 </head>
 <body ng-app="starter">
 <ion-side-menus enable-menu-with-back-views="true" ng-controller="AppCtrl">
-  <ion-side-menu-content >
+  <ion-side-menu-content drag-content="false">
     <ion-nav-bar class="bar-royal"
                  ng-class="{ 'has-header-fab-left': hasHeaderFabLeft, 'has-header-fab-right': hasHeaderFabRight}"
                  align-title="left">
@@ -44,8 +44,8 @@
         </button>
       </ion-nav-buttons>
     </ion-nav-bar>
-    <ion-nav-view name="fabContent"></ion-nav-view>
-    <ion-nav-view ng-class="{expanded: isExpanded}"></ion-nav-view>
+    <ion-nav-view name="fabContent" on-swipe="none" ></ion-nav-view>
+    <ion-nav-view ng-class="{expanded: isExpanded}" class="with-background" animation="slide-left-right"></ion-nav-view>
   </ion-side-menu-content>
   <ion-side-menu side="{{getMenuSide()}}">
     <ion-header-bar class="bar-header-nav">

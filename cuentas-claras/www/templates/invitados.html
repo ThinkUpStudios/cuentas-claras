@@ -1,5 +1,5 @@
-<ion-view view-title="Quiénes somos?">
-  <div class="animate-ripple invitados-subtotales has-header"
+<ion-view class="fade-out" title="Quiénes somos?">
+  <div class="invitados-subtotales has-header"
        ng-class="{error:showBalance, 'has-header has-tabs-top':platform.isAndroid(), 'has-header':!platform.isAndroid()}">
     <ion-item class="item-totals">
       <div class="ink ink-dark">
@@ -17,11 +17,7 @@
     <ion-item class="item-totals animate-ripple" ng-show="showBalance">
       <div class="ink calm-900-bg ink-dark text-center item-text-wrap error">
         <span>{{balance}}</span>
-
-
       </div>
-
-
     </ion-item>
   </div>
   <div class="form-input animate-expand " ng-show="mostrarFormulario" ng-class="{'error':showBalance}">
@@ -57,7 +53,7 @@
       </div>
     </ion-item>
   </div>
-  <ion-content ng-class="{expanded:mostrarFormulario, error:!showBalance}" class="has-subtotales animate-ripple" >
+  <ion-content ng-class="{expanded:mostrarFormulario, error:!showBalance}" on-swipe-right="goBack()" class="has-subtotales animate-ripple" >
 
     <ion-list>
       <ion-item class="item-invitado" ng-repeat="inv in invitados track by inv.nombre">
@@ -92,6 +88,7 @@
           ng-class="{'platform-ios':!platform.isAndroid()}"
           class="button button-fab button-fab-bottom-right expanded button-green spin"><i
     class="icon ion-plus-round"></i></button>
+
 
 
 </ion-view>

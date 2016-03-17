@@ -120,6 +120,12 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic-material', 'ng
         cache: false
 
       })
+      .state('editarCategoria', {
+        url: '/editarCategoria',
+        templateUrl: 'templates/editarCategoria.html',
+        cache: false
+
+      })
     ;
 
     // if none of the above states are matched, use this as the fallback
