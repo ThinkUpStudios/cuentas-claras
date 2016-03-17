@@ -1,0 +1,94 @@
+<ion-view class="fade-out" title="Quiénes somos?">
+  <div class="invitados-subtotales has-header"
+       ng-class="{error:showBalance, 'has-header has-tabs-top':platform.isAndroid(), 'has-header':!platform.isAndroid()}">
+    <ion-item class="item-totals">
+      <div class="ink ink-dark">
+        <div class="row ">
+          <div class="col">
+            Total gastado
+          </div>
+          <div class="text-right col">
+            <i class="icon ion-social-usd"></i> {{totalCategorias()}}
+          </div>
+        </div>
+      </div>
+    </ion-item>
+
+    <ion-item class="item-totals animate-ripple" ng-show="showBalance">
+      <div class="ink calm-900-bg ink-dark text-center item-text-wrap error">
+        <span>{{balance}}</span>
+      </div>
+    </ion-item>
+  </div>
+  <div class="form-input animate-expand " ng-show="mostrarFormulario" ng-class="{'error':showBalance}">
+    <ion-item class="item-totals input-form">
+      <div class="row">
+        <div class="col-75">
+          <div class="item-input" id="nombreInvitado">
+            <i class="icon icon-left ion-person stable"></i>
+            <input placeholder="Nombre" type="text" ng-model="invitado.nombre">
+          </div>
+          <div class="item-input">
+            <i class="icon icon-left ion-social-usd stable"></i>
+            <input placeholder="Ya puso plata?" type="number" ng-model="invitado.aFavor" select-on-click>
+          </div>
+        </div>
+        <div class="col-20 button-col" ng-show="editando == false">
+          <button class="ink" ng-click="agregarInvitado()">
+            <i class="icon ion-android-add-circle icon-right"></i>
+          </button>
+        </div>
+        <div class="col-20 button-col" ng-show="editando == true">
+          <button class="ink" ng-click="agregarInvitado();closeForm()">
+            <i class="icon ion-checkmark-circled icon-right"></i>
+          </button>
+        </div>
+
+        <div class="button-close-form" ng-click="closeForm()">
+          <i class="icon ion-close icon-close"></i>
+        </div>
+        <div class="button-close-form" ng-click="borrarInvitado()" ng-show="editando">
+          <i class="icon ion-trash-b icon-delete"></i>
+        </div>
+      </div>
+    </ion-item>
+  </div>
+  <ion-content ng-class="{expanded:mostrarFormulario, error:!showBalance}" on-swipe-right="goBack()" class="has-subtotales animate-ripple" >
+
+    <ion-list>
+      <ion-item class="item-invitado" ng-repeat="inv in invitados track by inv.nombre">
+        <div class="card ink" id="{{'INV_'+inv.nombre}}">
+          <div class="row ">
+            <div class="item item-text-wrap col item-data" ng-click="editarInvitado(inv)">
+
+              <strong>{{inv.nombre}}</strong>
+
+              <div class="card-footer text-right "
+                   ng-class="{'dark':calcularSaldo(inv)==0, 'assertive-900':calcularSaldo(inv)<0, 'balanced-900':calcularSaldo(inv)>0}">
+                {{getSaldo(inv)}}
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </ion-item>
+
+      <ion-item style="min-height: 5em" class="item-clear ">
+
+      </ion-item>
+    </ion-list>
+
+  </ion-content>
+  <toast></toast>
+  <img src="img/tutorial2.png" class="tutorial animate-fade-in"
+       ng-show="getInvitados().length == 0 && mostrarBotonEditar">
+
+  <button id="fab-invitado-plus" ng-click="nuevoInvitado()" ng-show="mostrarBotonEditar"
+          ng-class="{'platform-ios':!platform.isAndroid()}"
+          class="button button-fab button-fab-bottom-right expanded button-green spin"><i
+    class="icon ion-plus-round"></i></button>
+
+
+
+</ion-view>

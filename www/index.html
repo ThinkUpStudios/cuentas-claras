@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <title></title>
+  <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+
+  <link href="lib/ionic-material/dist/ionic.material.min.css" rel="stylesheet">
+  <link href="lib/ion-md-input/css/ion-md-input.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lib/ngToast/dist/ngToast.min.css">
+  <link href="css/style.css" rel="stylesheet">
+
+  <script src="lib/ionic/js/ionic.bundle.js"></script>
+  <script src="lib/ngToast/dist/ngToast.min.js"></script>
+  <script src="lib/ionic-material/dist/ionic.material.min.js"></script>
+  <script src="lib/ion-md-input/js/ion-md-input.min.js"></script>
+
+
+  <!-- cordova script (this will be a 404 during development) -->
+  <script src="cordova.js"></script>
+
+  <!-- your app's js -->
+
+  <script src="js/services.js"></script>
+
+  <script src="js/controllers.js"></script>
+
+  <script src="js/ng-cordova.min.js"></script>
+  <script src="js/app.js"></script>
+  <!-- the admob code -->
+  <script src="js/ads.js"></script>
+</head>
+<body ng-app="starter">
+<ion-side-menus enable-menu-with-back-views="true" ng-controller="AppCtrl">
+  <ion-side-menu-content drag-content="false">
+    <ion-nav-bar class="bar-royal"
+                 ng-class="{ 'has-header-fab-left': hasHeaderFabLeft, 'has-header-fab-right': hasHeaderFabRight}"
+                 align-title="left">
+      <ion-nav-back-button class="no-text" ng-show="ionic.platform.isIOS()">
+      </ion-nav-back-button>
+      <ion-nav-buttons side="{{getMenuSide()}}">
+        <button class="button button-icon button-clear ion-navicon-round" menu-toggle="{{getMenuSide()}}">
+        </button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-nav-view name="fabContent" on-swipe="none" ></ion-nav-view>
+    <ion-nav-view ng-class="{expanded: isExpanded}" class="with-background" animation="slide-left-right"></ion-nav-view>
+  </ion-side-menu-content>
+  <ion-side-menu side="{{getMenuSide()}}">
+    <ion-header-bar class="bar-header-nav">
+      <span class="avatar" style="background: url('img/icon.png'); background-size: cover"></span>
+    </ion-header-bar>
+    <ion-content class="has-header menu-content-nav">
+      <ion-list>
+        <ion-item nav-clear menu-close ng-click="nuevoEvento()" class="item-icon-left">
+          Nuevo Evento
+          <i class="icon ion-calendar"></i>
+        </ion-item>
+        <div class="menu-footer-nav">
+          <ion-item nav-clear menu-close ui-sref="app.categorias" class="item-icon-left">
+            Compartí la aplicación
+            <i class="icon ion-android-share-alt"></i>
+          </ion-item>
+
+          <ion-item nav-clear menu-close ui-sref="app.categorias" class="item-icon-left">
+            Danos tu opinión
+            <i class="icon ion-android-chat"></i>
+          </ion-item>
+        </div>
+      </ion-list>
+
+    </ion-content>
+
+  </ion-side-menu>
+
+</ion-side-menus>
+
+</body>
+</html>
