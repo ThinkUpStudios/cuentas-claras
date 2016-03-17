@@ -1,7 +1,0 @@
-{
-  "name": "demo",
-  "private": "true",
-  "devDependencies": {
-    "ionic": "driftyco/ionic-bower#master"
-  }
-}
