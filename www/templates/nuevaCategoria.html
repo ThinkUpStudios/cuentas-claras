@@ -1,0 +1,31 @@
+<ion-view view-title="Nueva categoría">
+  <ion-content ng-class="">
+
+    <div class="form-card">
+
+      <ion-md-input class="item-clear" ng-model="data.nombre" name="nombre" placeholder="Que compramos?"
+                    highlight-color="balanced"
+                    type="text"></ion-md-input>
+      <ion-md-input class="item-clear" ng-model="data.precioUnitario" name="precio"
+                    placeholder="Cuanto salió?"
+                    highlight-color="energized"
+                    onfocus="this.select();"
+                    select-on-click
+                    type="number"></ion-md-input>
+    </div>
+
+
+  </ion-content>
+  <div class="hide-on-keyboard-open">
+    <button id="fab-nuevo" ng-click="agregarCategoria()"
+            class="button button-fab button-fab-bottom-left expanded button-green spin"><i
+      class="icon ion-plus-round"></i>
+    </button>
+    <button id="fab-next" ng-click="crearCategoria()"
+            class="button button-fab button-fab-bottom-right expanded button-violeta spin"><i
+      class="icon ion-checkmark-round"></i>
+    </button>
+  </div>
+  <toast style="margin-bottom:50%"></toast>
+
+</ion-view>
