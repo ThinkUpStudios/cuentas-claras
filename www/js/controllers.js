@@ -144,11 +144,10 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
    // $scope.$parent.setHeaderFab('right');
     $scope.categoriaEditada = new Categoria("", null);
 
-    $scope.goBack = function(){
-      //$location.path("/invitados")
-    };
     $scope.goForward = function(){
-      $location.path("/tab/invitados")
+
+      $location.path("/tab/invitados");
+
     };
 
     $rootScope.$on("nuevoEvento", function () {
@@ -309,6 +308,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
     $scope.goBack = function(){
       $location.path("/tab/categorias")
+
     };
     $rootScope.$on("nuevoEvento", function () {
       $scope.mostrarFormulario = false;

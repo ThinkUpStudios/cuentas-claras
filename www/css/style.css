@@ -679,10 +679,10 @@ ion-item.item-sub-totals .card strong{
   bottom: initial !important;
 }
 .has-header.expanded{
-  top:4em;
+  top:6rem;
 }
 .bar.bar-header {
-  height: 2.5em;
+  height: 3.0rem;
   bottom: initial !important;
 }
 
