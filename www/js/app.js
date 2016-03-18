@@ -24,6 +24,7 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic-material', 'ng
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
+
       document.addEventListener("deviceready", function (event) {
         document.addEventListener("pause", function (event) {
           invitadosService.save();

@@ -36,10 +36,15 @@
 .rgba-secondary-1-3-bg { background-color:rgba( 72, 75,180,1)  }
 .rgba-secondary-1-4-bg { background-color:rgba( 46, 49,163,1)  }
 
+
+.tabs-blue.has-header{
+  top: 3rem !important;
+}
 .tabs-blue .tab-nav{
   background-color: rgba( 31,101,150,1);
   color:white;
   border:none;
+
 }
 .tabs-blue .tab-nav i{
   color:white;
@@ -384,13 +389,7 @@ div.form-input.error {
   background-color: rgb(245,245,245) !important;
 }
 
-ion-view.fade-out.ng-hide{
-  opacity: 0;
-}
 
-ion-view.fade-out.ng-show{
-  opacity: 1;
-}
 
 ion-view.fade-out {
   background-image: url("../img/background.png");
@@ -398,9 +397,10 @@ ion-view.fade-out {
   background-repeat: repeat;
   background-color: rgb(245,245,245) !important;
   opacity:1;
-  transition: all 0.2s linear ;
+
 
 }
+
 
 .platform-android .popover {
   top: 90px !important;
@@ -562,6 +562,9 @@ i.icon-delete {
 .button-green:hover{
   color:white;
 }
+.button-fab{
+  bottom:2rem !important;
+}
  .button-fab.platform-ios{
   bottom:4rem !important;
 }
@@ -679,7 +682,7 @@ ion-item.item-sub-totals .card strong{
   bottom: initial !important;
 }
 .has-header.expanded{
-  top:6rem;
+  top:4rem;
 }
 .bar.bar-header {
   height: 3.0rem;
