@@ -57,10 +57,9 @@
 }
 
 .animate-fade-in {
-  -webkit-transition: 1s linear all; /* Chrome */
-  transition: 300ms linear all;
   opacity: 0;
   display: block;
+  transform: translate3d(0px, 0px, 0px);
 }
 .ya-pago-bg{
   background-color: rgb(201, 234, 219);
@@ -91,9 +90,9 @@ div.form-input {
    z-index: 3;
    width: 96%;
    top: 9.5rem;
-   max-height: 5em;
+   max-height: 5rem;
    /* right: 65px; */
-   left: 0px;
+   left: 0rem;
    padding-bottom: 5px;
 
  }
@@ -119,7 +118,7 @@ div.form-input.error {
 }
 
 .has-categorias-subtotales.expanded {
-  padding-top: 12.5rem;
+  padding-top: 13.5rem;
 }
 
 .form-input .item-input.error {
@@ -142,12 +141,14 @@ div.form-input.error {
 
 .item-invitado .card strong {
   transition: 0.2s all linear;
+
 }
 .item-totals .item-input {
   padding: 2px;
   border-radius: 4px;
   margin-bottom: 10px;
   transition: 0.2s all linear;
+  transform: translate3d(0px, 0px, 0px);
 }
 
 
@@ -160,20 +161,20 @@ div.form-input.error {
 .has-header.menu-content-nav{
   background-color: rgba( 255,255,255,0.7) !important;
   background-image: none;
-  padding-top: 3em;
+  padding-top: 4rem;
 
 }
 .bar-header-nav .avatar{
-  width: 3em!important;
-  height: 3em!important;
+  width: 4rem!important;
+  height: 4rem!important;
 }
 .menu-content-nav .icon{
   color: rgb(57, 121, 166);
-  font-size: 1.7em;
+  font-size: 2rem;
 }
 
 .bar-header-nav{
-  height: 5em !important;
+  height: 7rem !important;
   background-image: url("../img/menu_panel.png") !important;
   background-repeat: no-repeat;
   background-position: center;
@@ -314,15 +315,15 @@ div.form-input.error {
 
 
 .animate-expand.ng-hide.error {
-  max-height: 0em;
+  max-height: 0rem;
   top: -30px;
 
 }
 
 
 .animate-expand.error {
-  max-height: 5em;
-  top: 6rem;
+  max-height: 7rem;
+  top: 8rem;
 
 }
 
@@ -330,18 +331,18 @@ div.form-input.error {
 .animate-expand.ng-hide-add, .animate-expand.ng-hide-remove {
   transition-property: all;
   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-  transition-duration: 0.6s;
+  transition-duration: 0.2s;
 }
 
 .animate-expand.ng-hide {
-  max-height: 0em;
+  max-height: 0rem;
   top: -40px;
 
 }
 
 
 .animate-expand {
-  max-height: 5em;
+  max-height: 7rem;
   top: 5rem;
 
 }
@@ -397,7 +398,8 @@ ion-view.fade-out {
   background-repeat: repeat;
   background-color: rgb(245,245,245) !important;
   opacity:1;
-  transition: all 0.3s linear ;
+  transition: all 0.2s linear ;
+
 }
 
 .platform-android .popover {
@@ -445,7 +447,7 @@ ion-view.fade-out {
   color: rgba(178,213,238,1);
   background-color: rgba( 57,121,166,1);
   transition: 0.2s all linear;
-  transition-property: all;
+  transform: translate3d(0px, 0px, 0px);
 
 }
 .invitados-subtotales div{
@@ -455,19 +457,19 @@ ion-view.fade-out {
 }
 
 .invitados-subtotales.contraido.error {
-  top: 1em;
+  top: 3rem;
 
 }
 
 .invitados-subtotales.contraido {
-  top: 0em;
+  top: 0rem;
 
 }
 .has-subtotales{
   padding-top: 4rem;
   transition-property: all;
   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-  transition-duration: 0.6s;
+  transition-duration: 0.2s;
 }
 
 .has-subtotales.error{
@@ -490,7 +492,7 @@ div.button-close-form {
 }
 
 div.button-close-form.icon-close {
-  padding-bottom: 4.5em;
+  padding-bottom: 6.5rem;
   padding-top: 0px;
 }
 
@@ -498,7 +500,7 @@ i.icon-close {
   font-size: 0.7em;
   color: rgba(0, 0, 0, 0.3);
   right: 10px;
-  padding-bottom: 5em;
+  padding-bottom: 7rem;
 }
 
 i.icon-delete {
@@ -510,12 +512,12 @@ i.icon-delete {
   padding-top: 2.5rem;
   transition-property: all;
   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-  transition-duration: 0.6s;
+  transition-duration: 0.2s;
 }
 .tutorial{
   position: fixed;
-  bottom: 1em;
-  right: 4em;
+  bottom: 3rem;
+  right: 6rem;
   padding: 10px;
   display: block;
 
@@ -590,14 +592,14 @@ i.icon-delete {
   background-color: indianred;
 }
 ion-item.item-totals{
-  padding: 0.5em;
+  padding: 0.5rem;
   border: none;
 }
 
 ion-item.item-sub-totals{
-  padding-right: 0.5em;
-  padding-top: 0.5em;
-  padding-left: 0.5em;
+  padding-right: 1.5rem;
+  padding-top: 1.5rem;
+  padding-left: 1.5rem;
   padding-bottom: 0;
   margin-bottom: 0;
 
@@ -615,7 +617,7 @@ ion-item.item-sub-totals{
 ion-item.item-sub-totals .card{
   margin-top: 0;
   margin-bottom: 0;
-  line-height: 3em;
+  line-height: 5rem;
 
 }
 
