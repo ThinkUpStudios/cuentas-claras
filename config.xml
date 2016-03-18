@@ -1,10 +1,10 @@
-<?xml version='1.0' encoding='utf-8'?>
-<widget id="ar.com.thinkupstudios.cuentas-claras" version="0.1.0" xmlns="http://www.w3.org/ns/widgets">
-    <name>Haciendo Cuentas</name>
-    <description>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<widget id="ar.com.thinkupstudios.hagamos.cuentas" version="0.1.0" xmlns="http://www.w3.org/ns/widgets">
+  <name>Hagamos Cuentas</name>
+  <description>
     División de gastos entre invitados de un evento
   </description>
-    <author email="studiosthinkup@gmail.com" href="">
+  <author email="studiosthinkup@gmail.com" href="">
     Thinkup Studios
   </author>
     <content src="index.html" />
