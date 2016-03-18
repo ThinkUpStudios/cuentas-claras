@@ -57,10 +57,9 @@
 }
 
 .animate-fade-in {
-  -webkit-transition: 0.3s linear all; /* Chrome */
-  transition: 300ms linear all;
   opacity: 0;
   display: block;
+  transform: translate3d(0px, 0px, 0px);
 }
 .ya-pago-bg{
   background-color: rgb(201, 234, 219);
@@ -142,12 +141,14 @@ div.form-input.error {
 
 .item-invitado .card strong {
   transition: 0.2s all linear;
+
 }
 .item-totals .item-input {
   padding: 2px;
   border-radius: 4px;
   margin-bottom: 10px;
   transition: 0.2s all linear;
+  transform: translate3d(0px, 0px, 0px);
 }
 
 
@@ -330,7 +331,7 @@ div.form-input.error {
 .animate-expand.ng-hide-add, .animate-expand.ng-hide-remove {
   transition-property: all;
   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-  transition-duration: 0.3s;
+  transition-duration: 0.2s;
 }
 
 .animate-expand.ng-hide {
@@ -397,7 +398,8 @@ ion-view.fade-out {
   background-repeat: repeat;
   background-color: rgb(245,245,245) !important;
   opacity:1;
-  transition: all 0.3s linear ;
+  transition: all 0.2s linear ;
+
 }
 
 .platform-android .popover {
@@ -445,7 +447,7 @@ ion-view.fade-out {
   color: rgba(178,213,238,1);
   background-color: rgba( 57,121,166,1);
   transition: 0.2s all linear;
-  transition-property: all;
+  transform: translate3d(0px, 0px, 0px);
 
 }
 .invitados-subtotales div{
@@ -467,7 +469,7 @@ ion-view.fade-out {
   padding-top: 4rem;
   transition-property: all;
   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-  transition-duration: 0.3s;
+  transition-duration: 0.2s;
 }
 
 .has-subtotales.error{
@@ -475,7 +477,7 @@ ion-view.fade-out {
 }
 
 .has-subtotales.expanded {
-  padding-top: 13rem;
+  padding-top: 15rem;
 }
 
 
@@ -510,7 +512,7 @@ i.icon-delete {
   padding-top: 2.5rem;
   transition-property: all;
   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-  transition-duration: 0.3s;
+  transition-duration: 0.2s;
 }
 .tutorial{
   position: fixed;
