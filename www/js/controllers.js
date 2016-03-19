@@ -15,8 +15,20 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
         };
 
     })
-    .controller('AppCtrl', function ($scope, $ionicModal, $ionicPopover, $ionicPopup, $timeout, Categoria, $rootScope, $location, $ionicNavBarDelegate, $rootScope) {
+    .controller('AppCtrl', function ($scope, $ionicModal, $ionicPopover, $ionicPopup, $timeout, Categoria, $location, $ionicNavBarDelegate, $rootScope, $ionicHistory) {
         // Form data for the login modal
+
+        $scope.$on('$ionicView.enter', function () {
+            $timeout(function () {
+                $ionicHistory.clearCache()
+            })
+
+        });
+
+        $scope.clearHistory = function () {
+            $ionicHistory.clearHistory();
+            $ionicHistory.clearCache();
+        };
         $scope.nuevoEvento = function () {
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Nuevo Evento',
@@ -143,12 +155,6 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
         $scope.mostrarBotonEditar = true;
 
 
-        $rootScope.$on('$stateChangeSuccess',
-            function (event, toState, toParams, fromState, fromParams) {
-                if (toState.name === $ionicHistory.currentStateName()) {
-                    $ionicHistory.clearHistory();
-                }
-            });
         // $scope.$parent.setHeaderFab('right');
         $scope.categoriaEditada = new Categoria("", null);
 
@@ -298,12 +304,14 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
         $scope.pagados = [];
         $scope.invitados = invitadosService.getAll();
 
-        $rootScope.$on('$stateChangeSuccess',
-            function (event, toState, toParams, fromState, fromParams) {
-                if (toState.name === $ionicHistory.currentStateName()) {
-                    $ionicHistory.clearHistory();
-                }
+        $scope.$on('$ionicView.enter', function () {
+            $timeout(function () {
+
+                $scope.balance = $scope.calcularBalance();
+                $ionicHistory.clearCache().then($ionicHistory.clearHistory());
+
             });
+        });
 
         $scope.goBack = function () {
             $location.path("/tab/categorias")
@@ -434,18 +442,6 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
         };
 
         $scope.$on('$stateChangeSuccess', function () {
-            $scope.balance = $scope.calcularBalance();
-            $timeout(function () {
-                if ($scope.showBalance) {
-                    if (!document.getElementsByClassName('has-subtotales')[0].classList.contains('error')) {
-                        document.getElementsByClassName('has-subtotales')[0].classList.add('error');
-                    }
-                } else {
-                    document.getElementsByClassName('has-subtotales')[0].classList.remove('error');
-                }
-
-            }, 200);
-
 
         });
 
@@ -488,10 +484,9 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
         // Activate ink for controller
 
 
-
     })
 
-    .controller('NuevoInvitadoCtrl', function ($scope, $location, ngToast, $timeout, categoriasService, Invitado, invitadosService, $ionicPopup, $ionicHistory) {
+    .controller('NuevoInvitadoCtrl', function ($scope, $location, ngToast, $timeout, categoriasService, Invitado, invitadosService, $ionicPopup, $ionicHistory, $state) {
         $scope.isExpanded = true;
         $scope.categoriasSeleccionadas = [];
 
@@ -537,8 +532,15 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
             confirmPopup.then(function (res) {
                 if (res) {
                     invitadosService.remove($scope.invitado);
-                    $location.path("/tab/invitados")
-
+                    $ionicHistory.clearCache().then(
+                        function(){
+                            $ionicHistory.clearHistory();
+                            $ionicHistory.nextViewOptions({
+                                disableBack: true
+                            });
+                            $state.go("tab.invitados")
+                        }
+                    );
                 }
             });
 
@@ -557,7 +559,15 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
                 $scope.invitado.aFavor = 0;
             }
             invitadosService.add($scope.invitado);
-            $location.path("/tab/invitados");
+            $ionicHistory.clearCache().then(
+                function(){
+                    $ionicHistory.clearHistory();
+                    $ionicHistory.nextViewOptions({
+                        disableBack: true
+                    });
+                    $state.go("tab.invitados")
+                }
+            );
         };
 
         $scope.agregarNuevoInvitado = function () {
@@ -597,7 +607,17 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
                 });
             } else {
                 this.guardarInvitado();
-                $location.path("/tab/invitados");
+                $ionicHistory.clearCache().then(
+                    function(){
+                        $ionicHistory.clearHistory();
+                        $ionicHistory.nextViewOptions({
+                            disableBack: true,
+                            historyRoot:true
+                        });
+                        $state.go("tab.invitados")
+                    }
+                );
+
             }
         };
 
@@ -609,16 +629,12 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
 
         // Activate ink for controller
-        $ionicHistory.nextViewOptions({
-            disableBack:true,
-            historyRoot:true
-        })
 
 
     })
 
 
-    .controller('NuevaCategoriaCtrl', function ($scope, $location, $ionicPopup, ngToast, $timeout, categoriasService, invitadosService, Categoria, $ionicHistory) {
+    .controller('NuevaCategoriaCtrl', function ($scope, $location, $ionicPopup, ngToast, $timeout, categoriasService, invitadosService, Categoria, $ionicHistory, $state) {
 
         $scope.isExpanded = true;
         $scope.invitadosConsumidores = [];
@@ -655,14 +671,24 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
                 $scope.categoria.precioUnitario = 0;
             }
             categoriasService.add($scope.categoria);
-            $location.path("/tab/categprias");
+            $ionicHistory.clearCache().then(function(){
+                $ionicHistory.clearHistory();
+                $ionicHistory.nextViewOptions({
+                    disableBack: true,
+                    historyRoot: true
+                });
+                $state.go("tab.categorias")
+            });
         };
 
-        $ionicHistory.nextViewOptions({
-            disableBack:true,
-            historyRoot:true
-        })
-
+        $scope.$on('$ionicView.enter', function () {
+            $timeout(function () {
+                $ionicHistory.nextViewOptions({
+                    disableBack: true,
+                    historyRoot: true
+                });
+            });
+        });
 
         $scope.borrarCategoria = function () {
             var confirmPopup = $ionicPopup.confirm({
@@ -674,7 +700,15 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
             confirmPopup.then(function (res) {
                 if (res) {
                     categoriasService.remove($scope.categoria);
-                    $location.path("/tab/categorias")
+                    $ionicHistory.clearCache().then(function(){
+                        $ionicHistory.clearHistory();
+                        $ionicHistory.nextViewOptions({
+                            disableBack: true,
+                            historyRoot: true
+                        });
+                        $state.go("tab.categorias")
+                    });
+
 
                 }
             });
