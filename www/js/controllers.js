@@ -20,15 +20,12 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
         $scope.$on('$ionicView.enter', function () {
             $timeout(function () {
-                $ionicHistory.clearCache()
+                $ionicHistory.clearHistory();
             })
 
         });
 
-        $scope.clearHistory = function () {
-            $ionicHistory.clearHistory();
-            $ionicHistory.clearCache();
-        };
+
         $scope.nuevoEvento = function () {
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Nuevo Evento',
@@ -308,7 +305,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
             $timeout(function () {
 
                 $scope.balance = $scope.calcularBalance();
-                $ionicHistory.clearCache().then($ionicHistory.clearHistory());
+
 
             });
         });
@@ -441,9 +438,6 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
             $location.path("/nuevoInvitado");
         };
 
-        $scope.$on('$stateChangeSuccess', function () {
-
-        });
 
         $scope.calcularTotal = function () {
             var total = 0;
