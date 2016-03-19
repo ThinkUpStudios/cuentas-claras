@@ -53,7 +53,7 @@
       </div>
     </ion-item>
   </div>
-  <ion-content ng-class="{expanded:mostrarFormulario, error:!showBalance}" on-drag-right="goBack()" class="has-subtotales" >
+  <ion-content ng-class="{expanded:mostrarFormulario, error:showBalance}" on-drag-right="goBack()" class="has-subtotales" >
 
     <ion-list>
       <ion-item class="item-invitado" ng-repeat="inv in invitados track by inv.nombre">
