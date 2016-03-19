@@ -14,7 +14,7 @@
     </ion-item>
 
   </div>
-  <div class="form-input animate-expand " ng-show="mostrarFormulario" ng-class="{'platform-ios':!platform.isAndroid()}">
+  <div class="form-input" ng-show="mostrarFormulario" ng-class="{'platform-ios':!platform.isAndroid()}">
     <ion-item class="item-totals input-form">
       <div class="row">
         <div class="col-75">
@@ -48,8 +48,8 @@
       </div>
     </ion-item>
   </div>
-  <ion-content ng-class="{expanded:mostrarFormulario}" class="has-categorias-subtotales"  on-swipe-left="goForward()">
-    <ion-list class="animate-ripple ">
+  <ion-content ng-class="{expanded:mostrarFormulario}" class="has-categorias-subtotales"  on-drag-left="goForward()">
+    <ion-list >
       <ion-item class="card-item item-invitado" can-swipe="true" ng-repeat="cat in categorias track by cat.nombre">
         <div ng-click="editarCategoria(cat)" class="card ink ink-dark" id="{{'CAT_'+cat.nombre}}">
           <div class="item item-text-wrap item-data">
@@ -73,7 +73,7 @@
   </ion-content>
 
 
-  <img src="img/tutorial 1.png" class="tutorial animate-fade-in"
+  <img src="img/tutorial 1.png" class="tutorial"
        ng-show="getCategorias().length == 0  && mostrarBotonEditar">
 
   <button id="fab-categoria-plus" ng-click="nuevaCategoria()" ng-show="mostrarBotonEditar"

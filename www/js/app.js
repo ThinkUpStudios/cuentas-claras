@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic-material', 'ngToast', 'starter.controllers', 'starter.services', 'ionMdInput'])
+var app = angular.module('starter', ['ionic', 'ngCordova', 'ngToast', 'starter.controllers', 'starter.services'])
 
   .run(function ($ionicPlatform, $state, $timeout, invitadosService, categoriasService) {
 
@@ -29,7 +29,6 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic-material', 'ng
         document.addEventListener("pause", function (event) {
           invitadosService.save();
           categoriasService.save();
-          console.log('PAUSA!!!');
         });
 
       }, false);
@@ -37,6 +36,7 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic-material', 'ng
 
     });
   })
+
   .directive('selectOnClick', function () {
     return {
       restrict: 'A',
@@ -179,4 +179,21 @@ app.factory('Invitado', function () {
 
   };
   return (Invitado);
+});
+
+app.directive('focusMe', function($timeout) {
+  return {
+    scope: { trigger: '=focusMe' },
+    link: function(scope, element) {
+      scope.$watch('trigger', function(value) {
+        if(value === true) {
+          //console.log('trigger',value);
+          //$timeout(function() {
+          element[0].focus();
+          scope.trigger = false;
+          //});
+        }
+      });
+    }
+  };
 });

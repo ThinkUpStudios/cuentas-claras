@@ -60,7 +60,7 @@ var app = angular.module('starter.services', [])
       add: function (Invitado) {
 
         if (invitadosContent && !this.existe(Invitado)) {
-          invitadosContent.invitados.push(Invitado);
+          invitadosContent.invitados.unshift(Invitado);
           this.save();
         }
       },
@@ -151,7 +151,7 @@ var app = angular.module('starter.services', [])
       },
       add: function (Categoria) {
         if (categoriasContent && !this.existe(Categoria)) {
-          categoriasContent.categorias.push(Categoria);
+          categoriasContent.categorias.unshift(Categoria);
           this.save();
         }
       },
@@ -188,3 +188,10 @@ var app = angular.module('starter.services', [])
   }]);
 
 
+app.factory('focus', function ($rootScope, $timeout) {
+  return function(name) {
+    $timeout(function (){
+      $rootScope.$broadcast('focusOn', name);
+    });
+  }
+});

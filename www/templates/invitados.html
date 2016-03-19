@@ -14,19 +14,19 @@
       </div>
     </ion-item>
 
-    <ion-item class="item-totals animate-ripple" ng-show="showBalance">
+    <ion-item class="item-totals" ng-show="showBalance">
       <div class="ink calm-900-bg ink-dark text-center item-text-wrap error">
         <span>{{balance}}</span>
       </div>
     </ion-item>
   </div>
-  <div class="form-input animate-expand " ng-show="mostrarFormulario" ng-class="{'error':showBalance}">
+  <div class="form-input" ng-show="mostrarFormulario" ng-class="{'error':showBalance}">
     <ion-item class="item-totals input-form">
       <div class="row">
         <div class="col-75">
           <div class="item-input" id="nombreInvitado">
             <i class="icon icon-left ion-person stable"></i>
-            <input placeholder="Nombre" type="text" ng-model="invitado.nombre">
+            <input  focus-me="focusInput" placeholder="Nombre" type="text" ng-model="invitado.nombre">
           </div>
           <div class="item-input">
             <i class="icon icon-left ion-social-usd stable"></i>
@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="col-20 button-col" ng-show="editando == false">
-          <button class="ink" ng-click="agregarInvitado()">
+          <button class="ink" ng-click="agregarInvitado();focusInput=true">
             <i class="icon ion-android-add-circle icon-right"></i>
           </button>
         </div>
@@ -53,7 +53,7 @@
       </div>
     </ion-item>
   </div>
-  <ion-content ng-class="{expanded:mostrarFormulario, error:!showBalance}" on-swipe-right="goBack()" class="has-subtotales animate-ripple" >
+  <ion-content ng-class="{expanded:mostrarFormulario, error:!showBalance}" on-drag-right="goBack()" class="has-subtotales" >
 
     <ion-list>
       <ion-item class="item-invitado" ng-repeat="inv in invitados track by inv.nombre">
@@ -81,7 +81,7 @@
 
   </ion-content>
   <toast></toast>
-  <img src="img/tutorial2.png" class="tutorial animate-fade-in"
+  <img src="img/tutorial2.png" class="tutorial"
        ng-show="getInvitados().length == 0 && mostrarBotonEditar">
 
   <button id="fab-invitado-plus" ng-click="nuevoInvitado()" ng-show="mostrarBotonEditar"
