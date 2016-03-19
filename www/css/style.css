@@ -64,7 +64,6 @@
 .animate-fade-in {
   opacity: 0;
   display: block;
-  transform: translate3d(0px, 0px, 0px);
 }
 .ya-pago-bg{
   background-color: rgb(201, 234, 219);
@@ -144,16 +143,11 @@ div.form-input.error {
   color: white;
 }
 
-.item-invitado .card strong {
-  transition: 0.2s all linear;
 
-}
 .item-totals .item-input {
   padding: 2px;
   border-radius: 4px;
   margin-bottom: 10px;
-  transition: 0.2s all linear;
-  transform: translate3d(0px, 0px, 0px);
 }
 
 
@@ -200,7 +194,7 @@ div.form-input.error {
   background-color: rgba(255, 255, 255, 0.80);
 }
 
-.invitado-header {
+  .invitado-header {
   text-align: center;
   background-color: rgba(57, 121, 166, 1);
   box-shadow: 0px 5px 10px 0px rgb(130, 130, 130);
@@ -226,7 +220,6 @@ div.form-input.error {
 }
 
 .invitado-header .item-totals input::after {
-  content: "$";
   color: black;
   font-size: 1em;
 }
@@ -312,11 +305,6 @@ div.form-input.error {
   opacity: 1;
 }
 
-.button-fab.spin.ng-hide-add, .button-fab.spin.ng-hide-remove {
-  transition-property: all;
-  transition-timing-function: linear;
-  transition-duration: 0.2s;
-}
 
 
 .animate-expand.ng-hide.error {
@@ -333,11 +321,7 @@ div.form-input.error {
 }
 
 
-.animate-expand.ng-hide-add, .animate-expand.ng-hide-remove {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-  transition-duration: 0.2s;
-}
+
 
 .animate-expand.ng-hide {
   max-height: 0rem;
@@ -446,8 +430,6 @@ ion-view.fade-out {
   position: absolute;
   color: rgba(178,213,238,1);
   background-color: rgba( 57,121,166,1);
-  transition: 0.2s all linear;
-  transform: translate3d(0px, 0px, 0px);
 
 }
 .invitados-subtotales div{
@@ -465,11 +447,8 @@ ion-view.fade-out {
   top: 0rem;
 
 }
-.has-subtotales{
+.has-subtotales {
   padding-top: 4rem;
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-  transition-duration: 0.2s;
 }
 
 .has-subtotales.error{
@@ -510,9 +489,7 @@ i.icon-delete {
 }
 .has-categorias-subtotales{
   padding-top: 2.5rem;
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-  transition-duration: 0.2s;
+
 }
 .tutorial{
   position: fixed;
@@ -578,9 +555,6 @@ i.icon-delete {
 }
 
 .button-fab.spin {
-  transition-duration: 0.4s;
-  transition-property: all;
-  transition-timing-function: linear;
 }
 .button-violeta:hover{
   color:white;
@@ -597,8 +571,13 @@ i.icon-delete {
 ion-item.item-totals{
   padding: 0.5rem;
   border: none;
-}
 
+
+}
+.item{
+  background: transparent;
+  border:none;
+}
 ion-item.item-sub-totals{
   padding-right: 1.5rem;
   padding-top: 1.5rem;
@@ -721,7 +700,6 @@ ion-item.item-sub-totals .card strong{
 .button-edit button {
   background: none;
   border: none;
-  transition: 300ms linear all;
 }
 
 .button-edit button i {
