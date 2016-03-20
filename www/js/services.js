@@ -75,6 +75,14 @@ var app = angular.module('starter.services', [])
       getAll: function () {
         return invitadosContent.invitados;
       },
+      quitarCategoria: function(cat){
+        invitadosContent.invitados.forEach(function(inv,i,a){
+          if(inv.tieneCategoria(cat))inv.quitarCategoria(cat);
+        });
+        if(invitadosContent.invitadoSeleccionado.tieneCategoria(cat)){
+          invitadosContent.invitadoSeleccionado.quitarCategoria(cat);
+        }
+      },
       remove: function (invitado) {
         this.getAll().splice(this.getAll().indexOf(invitado), 1);
         this.save();
