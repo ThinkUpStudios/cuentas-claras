@@ -2,7 +2,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
 
     .run(function ($rootScope, $cordovaSocialSharing, $ionicPopover) {
         $ionicPopover.fromTemplateUrl('templates/menu.html', {
-            scope: $rootScope,
+            scope: $rootScope
         }).then(function (popover) {
             $rootScope.popover = popover;
         });
@@ -360,7 +360,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
                     invitadosService.add($scope.invitado);
                     $scope.invitado = new Invitado("", null);
                     $scope.invitados = invitadosService.getAll();
-                    $scope.$broadcast("$stateChangeSuccess");
+                    $scope.balance = $scope.calcularBalance();
                 } else {
                     document.getElementById("INV_" + $scope.invitado.nombre).classList.add("error");
                     $timeout(function () {
@@ -694,6 +694,7 @@ angular.module('starter.controllers', ['ionic', 'ionMdInput'])
             confirmPopup.then(function (res) {
                 if (res) {
                     categoriasService.remove($scope.categoria);
+                    invitadosService.quitarCategoria($scope.categoria);
                     $ionicHistory.clearCache().then(function(){
                         $ionicHistory.clearHistory();
                         $ionicHistory.nextViewOptions({
